@@ -12,10 +12,9 @@ VAR
   arch_clientes:t_archivo_clientes;
   arch_polizas:t_archivo_polizas;
 // ARBOL_DNI, ARBOL_NOM:T_PUNT;
-  OPCION: 0..4;
-  SALIR:BOOLEAN;
+  OPCION:CHAR;
+
 BEGIN
-  SALIR:=FALSE;
   abrir_crear(arch_clientes);
 //GENERAR ARBOLES
 repeat
@@ -32,17 +31,17 @@ repeat
   WRITELN('0- SALIR ');
   GOTOXY(40,20);
   WRITELN ('INGRESE OPCION: ');
-  READLN(OPCION);
+ OPCION:=READKEY;
 
     CASE OPCION OF
-    1: menu_clientes;
-    {2: POLIZAS (ARCH_CLIENTES, ARCH_POLIZAS, ARBOL_DNI );
-    3: LISTADOS (ARCH_CLIENTES, ARCH_POLIZAS, ARBOL_NOM);
-    4: ESTADÍSTICAS (ARCH_CLIENTES,ARCH_POLIZAS);
+    '1': menu_clientes;
+    {'2': POLIZAS (ARCH_CLIENTES, ARCH_POLIZAS, ARBOL_DNI );
+    '3': LISTADOS (ARCH_CLIENTES, ARCH_POLIZAS, ARBOL_NOM);
+    '4': ESTADÍSTICAS (ARCH_CLIENTES,ARCH_POLIZAS);
     ELSE
       WRITELN('ERROR, OPCION INVALIDA');}
     END;
-until OPCION = 0;
+until OPCION = '0';
 end;
 procedure menu_clientes;
 var
