@@ -1,14 +1,11 @@
 unit validaciones;
-
 {$mode ObjFPC}{$H+}
 
 interface
+ uses sysutils;
  FUNCTION ValidarDNI(dni:string): BOOLEAN;
- FUNCTION ValidarFecha(fecha:string;anioActual:INTEGER): BOOLEAN;
  PROCEDURE Validar_T_dato_int(var dato: integer);
  PROCEDURE Validar_T_dato_real(var dato: real);
- PROCEDURE Validar_T_dato_string(var dato: string);
-
 implementation
 
 
@@ -30,7 +27,7 @@ implementation
        esValido:=FALSE
        Else
        begin
-      if (StrToInt(dni) < 1000000) or (StrToInt(dni)>100000000 then
+      if (StrToInt(dni) < 1000000) or (StrToInt(dni)>100000000) then
         esValido := FALSE
         else
         esValido := TRUE;
@@ -52,16 +49,6 @@ implementation
      end;
 
     PROCEDURE Validar_T_dato_real(var dato: real);
-    begin
-     while ioresult<>0 do
-       begin
-       WRITELN('TIPO DE DATO INVALIDO, INGRESE NUEVAMENTE: ');
-       {$I-}
-        readln(dato);
-       {$I+}
-       end;
-     end;
-    procedure validar_T_dato_string(var dato: STRING);
     begin
      while ioresult<>0 do
        begin
