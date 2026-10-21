@@ -8,6 +8,7 @@
       <Unit>
         <Filename Value="proyecto_final.lpr"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <CursorPos X="5" Y="5"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
@@ -16,16 +17,30 @@
         <Filename Value="unit1.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="MENU"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="2"/>
         <CursorPos X="89" Y="26"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
       </Unit>
+      <Unit>
+        <Filename Value="menu.pas"/>
+        <UnitName Value="MENU"/>
+        <EditorIndex Value="1"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit>
     </Units>
-    <JumpHistory>
+    <JumpHistory HistoryIndex="2">
       <Position>
         <Filename Value="unit1.pas"/>
+      </Position>
+      <Position>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="26" Column="89"/>
+      </Position>
+      <Position>
+        <Filename Value="menu.pas"/>
+        <Caret Line="5"/>
       </Position>
     </JumpHistory>
     <RunParams>
