@@ -16,7 +16,7 @@ type
     email : string[30];
     estado : boolean;
   end;
-  t_archivo_cliente = file of t_reg_clientes;
+  t_archivo_clientes = file of t_reg_clientes;
 implementation
 
 end.

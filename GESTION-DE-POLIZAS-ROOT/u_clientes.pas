@@ -1,11 +1,12 @@
 unit u_clientes;
 interface
-procedure abrir_crear (var a:t_archivo_cliente);
+uses
+    archivo_clientes;
+const
+  ruta = 'C:\Users\fedes\OneDrive\Documentos\GitHub\Proyecto-Final-AyED\GESTION-DE-POLIZAS-ROOT\arch_clientes.DAT';
+procedure abrir_crear (var a:t_archivo_clientes);
 procedure leer_dato (var a:t_archivo_clientes ; pos:cardinal ; dato:t_reg_clientes);
 procedure guardar_dato (var a:t_archivo_clientes ; pos:cardinal ; dato:t_reg_clientes);
-uses
-    Classes, SysUtils, archivo_clientes;
-
 implementation
 procedure abrir_crear (var a:t_archivo_clientes);
 begin
@@ -47,7 +48,7 @@ begin
       write('Ingrese apellido: ');
       readln(apellido);
       write('Ingrese nombre: ');
-      readln(nombre);
+      readln(nombres);
       write('Ingrese direccion ');
       readln(direccion);
       writeln('Fecha nacimiento: ');
@@ -56,10 +57,13 @@ begin
       write('Mes: ');
       readln(fecha_nacimiento.mes);
       write('Año: ');
-      readln(fecha_nacimietno.ano);
+      readln(fecha_nacimiento.ano);
       write('Ingrese celular: ');
       readln(celular);
       write('Ingrese direccion de e-mail ');
       readln(email);
     end;
 end;
+begin
+
+end.
