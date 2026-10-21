@@ -3,7 +3,7 @@ interface
 uses
     archivo_clientes;
 const
-  ruta = 'C:\Users\fedes\OneDrive\Documentos\GitHub\Proyecto-Final-AyED\GESTION-DE-POLIZAS-ROOT\arch_clientes.DAT';
+  ruta = 'arch_clientes.DAT';
 procedure abrir_crear (var a:t_archivo_clientes);
 procedure leer_dato (var a:t_archivo_clientes ; pos:cardinal ; dato:t_reg_clientes);
 procedure guardar_dato (var a:t_archivo_clientes ; pos:cardinal ; dato:t_reg_clientes);
