@@ -57,17 +57,5 @@ begin
       writeln('DNI INVALIDO. VUELVA A INGRESAR');
   until es_valido = true;
 end;
-
-
-
-
-
-
-
-
-begin
-  writeln('2342');
-end;
-
 END.
 
