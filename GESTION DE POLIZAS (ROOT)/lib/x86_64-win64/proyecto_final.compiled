@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Compiler Value="C:\lazarus\fpc\3.2.2\bin\x86_64-win64\fpc.exe" Date="1556502373"/>
+  <Params Value="-MObjFPC -Scghi -O1 -g -gl -l -vewnhibq &quot;-FiC:\Users\THUNDEROBOT\OneDrive\Documentos\GitHub\Proyecto-Final-AyED\GESTION DE POLIZAS (ROOT)\lib\x86_64-win64&quot; &quot;-FuC:\Users\THUNDEROBOT\OneDrive\Documentos\GitHub\Proyecto-Final-AyED\GESTION DE POLIZAS (ROOT)\&quot; &quot;-FUC:\Users\THUNDEROBOT\OneDrive\Documentos\GitHub\Proyecto-Final-AyED\GESTION DE POLIZAS (ROOT)\lib\x86_64-win64\&quot; &quot;-FEC:\Users\THUNDEROBOT\OneDrive\Documentos\GitHub\Proyecto-Final-AyED\GESTION DE POLIZAS (ROOT)\&quot; &quot;-oC:\Users\THUNDEROBOT\OneDrive\Documentos\GitHub\Proyecto-Final-AyED\GESTION DE POLIZAS (ROOT)\proyecto_final.exe&quot; proyecto_final.lpr"/>
+  <Complete Value="False"/>
+</CONFIG>
