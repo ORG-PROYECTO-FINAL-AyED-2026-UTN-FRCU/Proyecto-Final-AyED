@@ -1,0 +1,20 @@
+unit CLIENTES;
+
+
+
+interface
+
+uses
+ ARCHIVO_CLIENTES,CRT;
+
+PROCEDURE CLIENTES (VAR ARCH_CLIENTES:t_reg_clientes);
+
+implementation
+PROCEDURE CLIENTES (VAR ARCH_CLIENTES:t_reg_clientes);
+BEGIN
+  //SEEK(ARCH_CLIENTES,POS);
+  //READ(ARCH_CLIENTES,REG)
+end;
+
+end.
+
