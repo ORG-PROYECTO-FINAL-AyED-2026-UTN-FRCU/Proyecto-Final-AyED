@@ -1,7 +1,7 @@
 unit menu;
 interface
   uses
-    archivo_clientes,archivo_polizas, U_CLIENTES,//,ARCHIVO_POLIZAS, ARBOL, VALIDACION, ESTADÍSTICAS
+    archivo_clientes,archivo_polizas, U_CLIENTES,validaciones,//,ARCHIVO_POLIZAS, ARBOL, ESTADÍSTICAS
     CRT,SYSUTILS;
     //LISTADOS; //LLAMADA A TODAS LAS UNIT NECESARIAS
     procedure menu_principal;
@@ -47,8 +47,15 @@ end;
 procedure menu_clientes;
 var
   arch_clientes:t_archivo_clientes;
+  dni:string;
+  es_valido : boolean;
 begin
-
-
+  repeat
+    write('DNI: ');
+    readln(dni);
+    es_valido:= ValidarDNI(dni);
+    if es_valido = false then
+      writeln('DNI INVALIDO. VUELVA A INGRESAR');
+  until es_valido = true;
 end;
 END.
