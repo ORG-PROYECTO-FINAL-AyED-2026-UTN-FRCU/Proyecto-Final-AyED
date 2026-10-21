@@ -1,20 +1,22 @@
 unit menu;
 interface
-uses
-archivo_clientes,archivo_polizas, U_CLIENTES,//,ARCHIVO_POLIZAS, ARBOL, VALIDACION, ESTADÍSTICAS
-CRT,SYSUTILS;
-//LISTADOS; //LLAMADA A TODAS LAS UNIT NECESARIAS
+  uses
+    archivo_clientes,archivo_polizas, U_CLIENTES,//,ARCHIVO_POLIZAS, ARBOL, VALIDACION, ESTADÍSTICAS
+    CRT,SYSUTILS;
+    //LISTADOS; //LLAMADA A TODAS LAS UNIT NECESARIAS
+    procedure menu_principal;
+    procedure menu_clientes;
 IMPLEMENTATION
-PROCEDURE MENU_PRINCIPAL;
+PROCEDURE menu_principal;
 VAR
-  ARCH_CLIENTES:T_ARCHIVO_CLIENTES;
-  ARCH_POLIZAS:T_ARCHIVO_POLIZAS;
+  arch_clientes:t_archivo_clientes;
+  arch_polizas:t_archivo_polizas;
 // ARBOL_DNI, ARBOL_NOM:T_PUNT;
   OPCION: 0..4;
   SALIR:BOOLEAN;
 BEGIN
-SALIR:=FALSE;
-abrir_crear(arch_clientes);
+  SALIR:=FALSE;
+  abrir_crear(arch_clientes);
 //GENERAR ARBOLES
 repeat
   CLRSCR;
@@ -42,5 +44,11 @@ repeat
     END; }
 until OPCION = 0;
 end;
+procedure menu_clientes;
+var
+  arch_clientes:t_archivo_clientes;
+begin
 
+
+end;
 END.
