@@ -2,7 +2,7 @@ unit validaciones;
 {$mode ObjFPC}{$H+}
 
 interface
- uses sysutils;
+ uses crt,sysutils,archivo_clientes;
  FUNCTION ValidarDNI(dni:string): BOOLEAN;
  PROCEDURE Validar_T_dato_int(var dato: integer);
  PROCEDURE Validar_T_dato_real(var dato: real);

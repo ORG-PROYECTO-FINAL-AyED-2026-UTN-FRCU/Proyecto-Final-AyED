@@ -43,6 +43,27 @@ repeat
     END;
 until OPCION = '0';
 end;
+procedure menu_Cliente_no_encontrado;
+var
+  arch_clientes:t_archivo_clientes;
+  VC:boolean;
+  respuesta:string;
+begin
+  vc:=false;
+  while vc=false do
+  begin
+    writeln('0:SALIR');
+    writeln('1:DAR DE ALTA');
+    readln(respuesta);
+    if respuesta='0' then
+      vc:=true
+      else
+        if respuesta ='1' then
+          vc:=true
+          else
+            writeln('Respuesta incorrecta reingrese ingrese');
+  end;
+end;
 procedure menu_clientes;
 var
   arch_clientes:t_archivo_clientes;
@@ -56,6 +77,9 @@ begin
     if es_valido = false then
       writeln('DNI INVALIDO. VUELVA A INGRESAR');
   until es_valido = true;
+  menu_Cliente_no_encontrado;
 end;
+
+
 END.
 
