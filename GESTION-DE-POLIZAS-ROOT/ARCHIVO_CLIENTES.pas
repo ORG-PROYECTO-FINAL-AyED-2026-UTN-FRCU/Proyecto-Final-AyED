@@ -18,14 +18,20 @@ type
     estado : boolean;
   end;
 <<<<<<< HEAD
+<<<<<<< HEAD
   t_archivo_polizas = file of t_reg_polizas;
 
 IMPLEMENTATION
 end.
 =======
+=======
+>>>>>>> f693a676dfa4bce5d095b564e4523f0d438eef7c
   t_archivo_cliente = file of t_reg_clientes;
   IMPLEMENTATION
 
   END.
+<<<<<<< HEAD
+>>>>>>> f693a676dfa4bce5d095b564e4523f0d438eef7c
+=======
 >>>>>>> f693a676dfa4bce5d095b564e4523f0d438eef7c
 
