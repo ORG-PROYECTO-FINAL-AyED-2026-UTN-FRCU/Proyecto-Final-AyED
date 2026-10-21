@@ -32,7 +32,7 @@
       <Unit>
         <Filename Value="unit1.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="Unit1"/>
+        <UnitName Value="MENU"/>
       </Unit>
     </Units>
   </ProjectOptions>
