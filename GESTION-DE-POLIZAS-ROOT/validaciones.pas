@@ -6,8 +6,63 @@ interface
  FUNCTION ValidarDNI(dni:string): BOOLEAN;
  PROCEDURE Validar_T_dato_int(var dato: integer);
  PROCEDURE Validar_T_dato_real(var dato: real);
+ Procedure ValidarRangoFecha (var reg:Reg_fecha);
 implementation
-
+      //Validar Rango Fecha
+     Procedure ValidarRangoFecha (var reg:Reg_fecha);
+      var
+        diaCont,mesCont,anoCont:integer;
+        vc:0..1;
+        begin
+          vc:=0;
+          repeat
+            writeln('Ingrese dia: ');
+            readln(diaCont);
+            if (DiaCont<=31) and (diaCont>=1) then
+              begin
+              vc:=1;
+              REG.dia:=diacont;
+              end
+            Else
+            begin
+              Writeln('Dia no valido');
+              readkey;
+            end;
+            clrscr;
+          until vc=1;
+          vc:=0;
+          Repeat
+            writeln('Ingrese mes: ');
+            readln(mesCont);
+            if (MesCont<=12) and (MesCont>=1) then
+              begin
+               vc:=1;
+               REG.Mes:=Mescont;
+              end
+            Else
+              begin
+                Writeln('Mes no valido');
+                readkey;
+              end;
+            clrscr;
+          Until vc=1;
+          vc:=0;
+          Repeat
+            writeln('Ingrese ano: ');
+            readln(anoCont);
+            If (anoCont>=2020) and (anoCont<=2049) then
+            begin
+              vc:=1;
+              REG.Mes:=Mescont;
+            end
+            Else
+            begin
+              Writeln('Ano no valido');
+              readkey;
+            end;
+            clrscr;
+          Until Vc=1;
+      end;
 
      //validacion DNI
      FUNCTION ValidarDNI(dni:string): BOOLEAN;
