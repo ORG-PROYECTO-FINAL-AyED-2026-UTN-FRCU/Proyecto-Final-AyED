@@ -22,9 +22,6 @@ interface
     estado : boolean;
   end;
   t_archivo_polizas = file of t_reg_polizas;
-uses
-    Classes, SysUtils;
-
 implementation
 
 end.

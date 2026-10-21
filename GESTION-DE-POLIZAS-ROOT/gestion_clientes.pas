@@ -30,7 +30,13 @@ procedure mostrar_registro (r:t_reg_clientes); //llama primero el leer_dato y ds
 begin
   with r do
     begin
-      writeln('');
+      writeln('DNI: ', dni);
+      writeln('Apellido: ',apellido);
+      writeln('Nombres: ', nombres);
+      writeln('Direccion: ', direccion);
+      writeln('Fecha nacimiento: ',fecha_nacimiento.dia, '/',fecha_nacimiento.mes, '/', fecha_nacimiento.ano);
+      writeln('Celular: ', celular);
+      writeln('Direccion e-mail: ', email);
     end;
 end;
 procedure carga_registro (var r:t_reg_clientes ; dni_1:string);
