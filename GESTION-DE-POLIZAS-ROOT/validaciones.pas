@@ -1,4 +1,4 @@
-unit FnVarias;
+unit validaciones;
 
 {$mode ObjFPC}{$H+}
 
