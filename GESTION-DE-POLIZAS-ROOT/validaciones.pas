@@ -5,7 +5,9 @@ unit validaciones;
 interface
  FUNCTION ValidarDNI(dni:string): BOOLEAN;
  FUNCTION ValidarFecha(fecha:string;anioActual:INTEGER): BOOLEAN;
-
+ PROCEDURE Validar_T_dato_int(var dato: integer);
+ PROCEDURE Validar_T_dato_real(var dato: real);
+ PROCEDURE Validar_T_dato_string(var dato: string);
 
 implementation
 
@@ -36,6 +38,37 @@ implementation
        validarDNI:=esValido;
     end;
 
+    PROCEDURE Validar_T_dato_int(var dato: integer);
+    begin
+     while ioresult<>0 do
+       begin
+       WRITELN('TIPO DE DATO INVALIDO, INGRESE NUEVAMENTE: ');
+       {$I-}
+        readln(dato);
+       {$I+}
+       end;
+     end;
+
+    PROCEDURE Validar_T_dato_real(var dato: real);
+    begin
+     while ioresult<>0 do
+       begin
+       WRITELN('TIPO DE DATO INVALIDO, INGRESE NUEVAMENTE: ');
+       {$I-}
+        readln(dato);
+       {$I+}
+       end;
+     end;
+    procedure validar_T_dato_string(var dato: STRING);
+    begin
+     while ioresult<>0 do
+       begin
+       WRITELN('TIPO DE DATO INVALIDO, INGRESE NUEVAMENTE: ');
+       {$I-}
+        readln(dato);
+       {$I+}
+       end;
+     end;
 
 end.
 
