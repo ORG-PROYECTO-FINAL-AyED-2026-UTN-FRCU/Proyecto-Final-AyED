@@ -16,3 +16,6 @@ backup/
 # Archivos de sesión y opciones locales del IDE (¡Muy importante para evitar que se pisen las configuraciones!)
 *.lps
 *.ow
+
+#ignorar gestion_clientes
+gestion_clientes.pas
