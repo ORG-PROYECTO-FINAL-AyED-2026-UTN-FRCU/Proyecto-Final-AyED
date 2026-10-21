@@ -2,9 +2,17 @@
 lib/
 backup/
 
-# Archivos de compilación y sesión locales
-*.compiled
-*.lps
+# Archivos ejecutables generados al compilar (Windows y Linux/Mac)
+*.exe
+*.elf
+*.bin
+
+# Archivos de compilación de unidades e intermedios
 *.o
 *.ppu
-*.exe
+*.compiled
+*.or
+
+# Archivos de sesión y opciones locales del IDE (¡Muy importante para evitar que se pisen las configuraciones!)
+*.lps
+*.ow
