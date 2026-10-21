@@ -1,0 +1,10 @@
+# Directorios de compilación y respaldos de Lazarus
+lib/
+backup/
+
+# Archivos de compilación y sesión locales
+*.compiled
+*.lps
+*.o
+*.ppu
+*.exe
