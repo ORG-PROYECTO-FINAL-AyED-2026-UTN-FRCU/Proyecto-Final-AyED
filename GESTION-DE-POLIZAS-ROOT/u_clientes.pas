@@ -64,6 +64,27 @@ begin
       readln(email);
     end;
 end;
+procedure busqueda_dni (var a:t_archivo_clientes ; buscado : string; var pos:cardinal);
+var
+  i: cardinal;
+  encontrado: boolean;
+  leido:t_reg_clientes;
+begin
+  encontrado:= false;
+  i:=0;
+  while (i <= filesize(a)) and not encontrado do
+    begin
+      leer_dato(a,i,leido);
+      if leido.dni = buscado then
+        encontrado:=true
+      else
+        i:= i+1;
+    end;
+  if encontrado then
+    pos:=i
+  else
+    pos:=0;
+end;
 begin
 
 end.
