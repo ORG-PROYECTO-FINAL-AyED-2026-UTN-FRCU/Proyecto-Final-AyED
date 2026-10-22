@@ -120,12 +120,5 @@ end;
 
         validar_celular:=esValido;
     end;
-
-
-    //procedimiento de while para pedir infinitamente un dato hasta que cumpla una validacion parametrizada
-    procedure ingrese_nuevamente(var arch: t_arch_clientes; validacion:boolean;
-
-
-
 end.
 
