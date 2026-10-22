@@ -71,7 +71,7 @@ begin
       readln(fecha_nacimiento.mes);
       write('Año: ');
       readln(fecha_nacimiento.ano);
-      ValidarRangoFecha(t_reg_clientes.fecha_nacimiento);
+      ValidarRangoFecha(r.fecha_nacimiento);
       write('Ingrese celular: +COD.PAIS ');
       readln(celular);
       validar_celular(celular);
@@ -79,7 +79,6 @@ begin
       readln(email);
       estado:=True;
     end;
-end;
 end;
 procedure busqueda_dni (var a:t_archivo_clientes ; buscado : string; var pos:cardinal);
 var
