@@ -5,16 +5,28 @@ interface
  uses crt,sysutils,archivo_clientes;
  FUNCTION ValidarDNI(dni:string): BOOLEAN;
  PROCEDURE Validar_T_dato_word(var dato: word);
- PROCEDURE Validar_T_dato_real(var dato: real);
  FUNCTION Validar_rango_fecha(var reg: reg_fecha; opc:byte):boolean;
  Function Validar_String(dato: string):boolean;
- Function validar_celular( dato: string):boolean;
+ procedure validar_apynom(dato:string);
+ Function validar_formato_celular( dato: string):boolean;
+ Function validar_celular( dato: string);
+ procedure validar_fecha_completo(var reg:reg_fecha; opc;BYTE);
 implementation
+
+ procedure validar_apynom(dato:string);
+ begin
+      repeat
+            if not validar_string(dato) then
+              writeln('ERROR, Debe ser una cadena, ingrese nuevamente: ');
+            readln(dato);
+      until Validar_String(dato);
+ end;
       //VALIDACIONES INDEPENDIENTES DE RANGO DE FECHA, DIA Y MES, QUE CUMPLAN RANGOS ESTIPULADOS
 //ESTAS VALIDACIONES NO INVOLUCRAN ANTI-CRASH POR DATO INGRESADO DE TIPO INVALIDO, EJEMPLO SI SE INGRESA UN STRING.
 FUNCTION Validar_rango_fecha(var reg: reg_fecha; opc:byte):boolean;
 var valido:boolean;
 begin
+     readln(reg);
  valido:=true;
  case opc of
      //DIA
@@ -34,6 +46,17 @@ begin
      end;
  end;
  Validar_rango_fecha:=valido;
+end;
+
+procedure validar_fecha_completo(var reg:reg_fecha; opc;BYTE);
+begin
+     repeat
+     if not(validar_rango_fecha(reg,opc)) then
+        writeln('ERROR: Rango invalido, reingrese: ')
+     Else if not(validar_t_dato_word(reg))
+     writeln('ERROR: Tipo de dato invalido. Reingrese: ');
+     readln(reg);
+     until validar_rango_fecha(reg, opc) and validar_t_dato_word(reg);
 end;
 
      //validacion DNI
@@ -66,25 +89,15 @@ end;
      //squi evitamos que se cierre el programa por errores de tipos de datos usando los controles I/O
     PROCEDURE Validar_T_dato_word(var dato: word);
     begin
-     while ioresult<>0 do
-       begin
+     repeat
+      if IORESULT<>0 THEN
        WRITELN('TIPO DE DATO INVALIDO, INGRESE NUEVAMENTE: ');
        {$I-}
         readln(dato);
        {$I+}
-       end;
+       until IOresult=0;
      end;
 
-    PROCEDURE Validar_T_dato_real(var dato: real);
-    begin
-     while ioresult<>0 do
-       begin
-       WRITELN('TIPO DE DATO INVALIDO, INGRESE NUEVAMENTE: ');
-       {$I-}
-        readln(dato);
-       {$I+}
-       end;
-     end;
     //valida que una cadena sea efectivamente una cadena
     function Validar_String(dato: string):boolean;
     var i:word;
@@ -92,12 +105,12 @@ end;
     begin
      control:=true;
          for i:=1 to length(dato) do
-         if not(upcase(dato[i]) in ['A'..'Z']) then
+         if not(upcase(dato[i]) in ['A'..'Z']) or (length(dato)<3) then
             control:=false;
          validar_string:=control;
     end;
     //validar que un numero de celular cumpla formato y sean todos digitos numericos
-    Function validar_celular(dato: string):boolean;
+    Function validar_formato_celular(dato: string):boolean;
     var i:byte;
         esNumero:boolean;
         esvalido:boolean;
@@ -110,12 +123,21 @@ end;
         end;
 
 
-      if (dato[1]<> '+') or Not(esnumero) or (length(dato)<3) then
+      if  Not(esnumero) or (length(dato)<3) then
         esValido := FALSE
       else
         esValido := TRUE;
 
-        validar_celular:=esValido;
+        validar_formato_celular:=esValido;
+    end;
+
+    procedure validar_celular( dato: string);
+    begin
+     repeat
+      if not(validar_formato_celular(dato)) then
+        writeln('celular invalido ingrese nuevamente: ');
+      readln(dato);
+      until validar_formato_celular(dato);
     end;
 end.
 
