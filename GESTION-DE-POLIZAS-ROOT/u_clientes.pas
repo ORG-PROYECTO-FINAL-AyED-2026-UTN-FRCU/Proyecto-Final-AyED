@@ -56,6 +56,10 @@ begin
       writeln('Fecha nacimiento: ',fecha_nacimiento.dia, '/',fecha_nacimiento.mes, '/', fecha_nacimiento.ano);
       writeln('Celular: ', celular);
       writeln('Direccion e-mail: ', email);
+      if estado = true then
+        writeln('Estado: ACTIVO')
+      else
+        writeln('Estado: INACTIVO');
     end;
 end;
 procedure carga_registro (var r:t_reg_clientes ; dni_1:string);

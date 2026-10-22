@@ -150,6 +150,7 @@ begin
               registro_clientes.estado:=False
             else
               registro_clientes.estado:=True;
+            guardar_registro(arch_clientes,pos,registro_clientes);
            end;
       '3': begin
              vc:=true;
