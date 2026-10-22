@@ -5,8 +5,51 @@ interface
     CRT,SYSUTILS;
     //LISTADOS; //LLAMADA A TODAS LAS UNIT NECESARIAS
     procedure menu_principal;
-    procedure menu_clientes;
 IMPLEMENTATION
+procedure menu_Cliente_no_encontrado(var arch_clientes:t_archivo_clientes;dni1:string);
+var
+  registro_clientes:t_reg_clientes;
+  VC:boolean;
+  respuesta:string;
+  pos:integer;
+begin
+  vc:=false;
+  while vc=false do
+  begin
+    writeln('0:SALIR');
+    writeln('1:DAR DE ALTA');
+    readln(respuesta);
+    if respuesta='0' then
+      vc:=true
+      else
+        if respuesta ='1' then
+          begin
+            vc:=true;
+            pos:=filesize(arch_clientes);
+            carga_registro(registro_clientes,dni1);
+            guardar_dato(arch_clientes,pos,registro_clientes);
+          end
+        else
+            writeln('Respuesta incorrecta reingrese ingrese');
+  end;
+end;
+procedure menu_clientes (var arch_clientes:t_archivo_clientes);
+var
+  dni:string;
+  es_valido : boolean;
+  pos:cardinal;
+begin
+  repeat
+    write('DNI: ');
+    readln(dni);
+    es_valido:= ValidarDNI(dni);
+    if es_valido = false then
+      writeln('DNI INVALIDO. VUELVA A INGRESAR');
+  until es_valido = true;
+  busqueda_dni(arch_clientes,dni,pos);
+  if pos = 0 then
+    menu_Cliente_no_encontrado(arch_clientes,dni)
+end;
 PROCEDURE menu_principal;
 VAR
   arch_clientes:t_archivo_clientes;
@@ -34,7 +77,7 @@ repeat
  OPCION:=READKEY;
 
     CASE OPCION OF
-    '1': menu_clientes;
+    '1': menu_clientes(arch_clientes);
     {'2': POLIZAS (ARCH_CLIENTES, ARCH_POLIZAS, ARBOL_DNI );
     '3': LISTADOS (ARCH_CLIENTES, ARCH_POLIZAS, ARBOL_NOM);
     '4': ESTADÍSTICAS (ARCH_CLIENTES,ARCH_POLIZAS);    }
@@ -43,43 +86,5 @@ repeat
     END;
 until OPCION = '0';
 end;
-procedure menu_Cliente_no_encontrado;
-var
-  arch_clientes:t_archivo_clientes;
-  VC:boolean;
-  respuesta:string;
-begin
-  vc:=false;
-  while vc=false do
-  begin
-    writeln('0:SALIR');
-    writeln('1:DAR DE ALTA');
-    readln(respuesta);
-    if respuesta='0' then
-      vc:=true
-      else
-        if respuesta ='1' then
-          vc:=true
-          else
-            writeln('Respuesta incorrecta reingrese ingrese');
-  end;
-end;
-procedure menu_clientes;
-var
-  arch_clientes:t_archivo_clientes;
-  dni:string;
-  es_valido : boolean;
-begin
-  repeat
-    write('DNI: ');
-    readln(dni);
-    es_valido:= ValidarDNI(dni);
-    if es_valido = false then
-      writeln('DNI INVALIDO. VUELVA A INGRESAR');
-  until es_valido = true;
-  menu_Cliente_no_encontrado;
-end;
-
-
 END.
 

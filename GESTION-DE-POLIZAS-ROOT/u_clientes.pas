@@ -5,8 +5,11 @@ uses
 const
   ruta = 'arch_clientes.DAT';
 procedure abrir_crear (var a:t_archivo_clientes);
-procedure leer_dato (var a:t_archivo_clientes ; pos:cardinal ; dato:t_reg_clientes);
+procedure leer_dato (var a:t_archivo_clientes ; pos:cardinal ; var dato:t_reg_clientes);
 procedure guardar_dato (var a:t_archivo_clientes ; pos:cardinal ; dato:t_reg_clientes);
+procedure mostrar_registro (r:t_reg_clientes);
+procedure carga_registro (var r:t_reg_clientes ; dni_1:string);
+procedure busqueda_dni (var a:t_archivo_clientes ; buscado : string; var pos:cardinal);
 implementation
 procedure abrir_crear (var a:t_archivo_clientes);
 begin
@@ -17,7 +20,7 @@ begin
   if IOResult <> 0 then
     ReWrite(a);
 end;
-procedure leer_dato (var a:t_archivo_clientes ; pos:cardinal ; dato:t_reg_clientes);
+procedure leer_dato (var a:t_archivo_clientes ; pos:cardinal ; var dato:t_reg_clientes);
 begin
   seek(a,pos);
   read(a,dato);
