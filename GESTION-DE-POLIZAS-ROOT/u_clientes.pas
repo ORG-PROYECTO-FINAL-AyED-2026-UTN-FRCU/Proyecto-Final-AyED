@@ -101,7 +101,7 @@ var
 begin
   encontrado:= false;
   i:=0;
-  while (i <= filesize(a)) and not encontrado do
+  while (i < filesize(a)) and not encontrado do
     begin
       leer_dato(a,i,leido);
       if leido.dni = buscado then
@@ -112,7 +112,7 @@ begin
   if encontrado then
     pos:=i
   else
-    pos:=0;
+    pos:=-1;
 end;
 begin
 
