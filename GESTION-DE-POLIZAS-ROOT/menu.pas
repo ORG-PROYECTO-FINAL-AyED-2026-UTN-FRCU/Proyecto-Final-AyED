@@ -135,21 +135,26 @@ begin
   vc:=false;
   while vc=false do
     begin
-      writeln('0: Dar de baja');
-      writeln('1: Modificar');
-      writeln('2: volver');
+      writeln('0: volver');
+      if registro_clientes.estado = true then
+        writeln('1: Dar de baja')
+      else
+        writeln('1: Dar de alta');
+      writeln('2: Modificar');
       respuesta:=readkey;
       case respuesta of
-      '0':
-        begin
-          vc:=True;
-          registro_clientes.estado:=False;
-        end;
+      '0': vc:=True;
       '1': begin
+            vc:=True;
+            if registro_clientes.estado = true then
+              registro_clientes.estado:=False
+            else
+              registro_clientes.estado:=True;
+           end;
+      '3': begin
              vc:=true;
              modificar_datos(arch_clientes,campo,pos);
            end;
-      '2': vc:=true;
       else
         writeln('opcion invalida ingrese nuevamente.');
       end;

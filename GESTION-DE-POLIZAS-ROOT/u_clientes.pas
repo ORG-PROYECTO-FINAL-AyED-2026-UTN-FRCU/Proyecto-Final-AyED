@@ -11,7 +11,6 @@ procedure modificar_registro (var registro:t_reg_clientes; campo:string; dato_mo
 procedure mostrar_registro (r:t_reg_clientes);
 procedure carga_registro (var r:t_reg_clientes ; dni_1:string);
 procedure busqueda_dni (var a:t_archivo_clientes ; buscado : string; var pos:longint);
-procedure dar_baja (var a:t_archivo_clientes ;  pos : cardinal);
 implementation
 procedure abrir_crear (var a:t_archivo_clientes);
 begin
@@ -149,14 +148,6 @@ begin
     pos:=i
   else
     pos:=-1;
-end;
-procedure dar_baja (var a:t_archivo_clientes ;  pos : cardinal);
-var
-  reg:t_reg_clientes;
-begin
-  leer_dato(a,pos,reg);
-  reg.estado:=False;
-  guardar_registro(a,pos,reg);
 end;
 begin
 
