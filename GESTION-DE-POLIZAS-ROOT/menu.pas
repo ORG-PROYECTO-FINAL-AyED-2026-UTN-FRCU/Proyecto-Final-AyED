@@ -33,6 +33,18 @@ begin
             writeln('Respuesta incorrecta reingrese ingrese');
   end;
 end;
+procedure modificar_datos(var arch_clientes:t_archivo_clientes ; dni1:string ; var pos:cardinal);
+var
+  res:string;
+begin
+  repeat
+    write('Ingrese el campo que quiere modificar ');
+    readln(res);
+    if not (res in ['dni','apellido','nombres','direccion','fecha_nacimiento','celular','email']) then
+      writeln('CAMPO INVALIDO; VUELVA A INGRESAR');
+  until res in ['dni','apellido','nombres','direccion','fecha_nacimiento','celular','email'];
+
+end;
 procedure menu_cliente_encontrado (var arch_clientes:t_archivo_clientes ; dni1:string; var pos:cardinal);
 var
   registro_clientes : t_reg_clientes;
@@ -51,7 +63,8 @@ begin
       {case respuesta of
       '1':
         begin
-
+          vc:=True;
+          registro_clientes.estado:=False;
         end;
       '2':
       '3': vc:=true;
