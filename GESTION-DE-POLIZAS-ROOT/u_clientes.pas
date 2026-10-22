@@ -10,7 +10,7 @@ procedure guardar_registro (var a:t_archivo_clientes ; pos:cardinal ; registro:t
 procedure modificar_registro (var registro:t_reg_clientes; campo:string; dato_modificado:string);
 procedure mostrar_registro (r:t_reg_clientes);
 procedure carga_registro (var r:t_reg_clientes ; dni_1:string);
-procedure busqueda_dni (var a:t_archivo_clientes ; buscado : string; var pos:cardinal);
+procedure busqueda_dni (var a:t_archivo_clientes ; buscado : string; var pos:longint);
 implementation
 procedure abrir_crear (var a:t_archivo_clientes);
 begin
@@ -93,7 +93,7 @@ begin
       estado:=True;
     end;
 end;
-procedure busqueda_dni (var a:t_archivo_clientes ; buscado : string; var pos:cardinal);
+procedure busqueda_dni (var a:t_archivo_clientes ; buscado : string; var pos:longint);
 var
   i: cardinal;
   encontrado: boolean;

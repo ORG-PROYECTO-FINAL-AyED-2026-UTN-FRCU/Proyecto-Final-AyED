@@ -57,7 +57,7 @@ begin
     end;
   until valido;
 end;
-procedure modificar_datos (var arch_clientes:t_archivo_clientes ; campo:string ; var pos:cardinal);
+procedure modificar_datos (var arch_clientes:t_archivo_clientes ; campo:string ; var pos:longint);
 var
   registro_clientes : t_reg_clientes;
   dato_modificado:string;
@@ -73,7 +73,7 @@ begin
       guardar_registro(arch_clientes,pos,registro_clientes);
     end;
 end;
-procedure menu_cliente_encontrado (var arch_clientes:t_archivo_clientes ; dni1:string; var pos:cardinal);
+procedure menu_cliente_encontrado (var arch_clientes:t_archivo_clientes ; dni1:string; var pos:longint);
 var
   registro_clientes : t_reg_clientes;
   VC:boolean;
@@ -109,7 +109,7 @@ procedure menu_clientes (var arch_clientes:t_archivo_clientes);
 var
   dni:string;
   es_valido : boolean;
-  pos:cardinal;
+  pos:longint;
 begin
   repeat
     write('DNI: ');
@@ -118,9 +118,8 @@ begin
     if es_valido = false then
       writeln('DNI INVALIDO. VUELVA A INGRESAR');
   until es_valido = true;
-  abrir_crear(arch_clientes);
   busqueda_dni(arch_clientes,dni,pos);
-  if pos = 0 then
+  if pos = -1 then
     menu_Cliente_no_encontrado(arch_clientes,dni)
   else
     menu_cliente_encontrado(arch_clientes,dni,pos);
