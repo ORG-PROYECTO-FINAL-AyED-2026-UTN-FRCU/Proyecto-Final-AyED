@@ -110,7 +110,7 @@ end;
         end;
 
 
-      if (dato[1]<> '+') or Not(esnumero) or (length(dato)<2) then
+      if (dato[1]<> '+') or Not(esnumero) or (length(dato)<3) then
         esValido := FALSE
       else
         esValido := TRUE;
