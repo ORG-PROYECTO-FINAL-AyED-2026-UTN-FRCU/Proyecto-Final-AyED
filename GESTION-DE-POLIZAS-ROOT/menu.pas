@@ -27,23 +27,51 @@ begin
             vc:=true;
             pos:=filesize(arch_clientes);
             carga_registro(registro_clientes,dni1);
-            guardar_dato(arch_clientes,pos,registro_clientes);
+            guardar_registro(arch_clientes,pos,registro_clientes);
           end
         else
             writeln('Respuesta incorrecta reingrese ingrese');
   end;
 end;
-procedure modificar_datos(var arch_clientes:t_archivo_clientes ; dni1:string ; var pos:cardinal);
+procedure campo_valido(var campo:string);
 var
-  res:string;
+  valido:boolean;
 begin
+  valido:=False;
   repeat
     write('Ingrese el campo que quiere modificar ');
-    readln(res);
-    if not (res in ['dni','apellido','nombres','direccion','fecha_nacimiento','celular','email']) then
+    readln(campo);
+    case lowercase(campo) of
+    'apellido': valido:=True;
+    'nombres':   valido:=True;
+    'direccion':  valido:=True;
+    'fecha nacimiento':
+      begin
+        valido:=True;
+        campo:='fecha_nacimiento';
+      end;
+    'celular': valido:=True;
+    'email': valido:=True;
+    else
       writeln('CAMPO INVALIDO; VUELVA A INGRESAR');
-  until res in ['dni','apellido','nombres','direccion','fecha_nacimiento','celular','email'];
-
+    end;
+  until valido;
+end;
+procedure modificar_datos (var arch_clientes:t_archivo_clientes ; campo:string ; var pos:cardinal);
+var
+  registro_clientes : t_reg_clientes;
+  dato_modificado:string;
+  reg_modificado:reg_fecha;
+begin
+  campo_valido(campo);
+  leer_dato(arch_clientes,pos,registro_clientes);
+  if campo <> 'fecha_nacimiento' then
+    begin
+      write('Ingrese el nuevo ',campo , ' ');
+      readln(dato_modificado);
+      modificar_registro(registro_clientes,campo,dato_modificado);
+      guardar_registro(arch_clientes,pos,registro_clientes);
+    end;
 end;
 procedure menu_cliente_encontrado (var arch_clientes:t_archivo_clientes ; dni1:string; var pos:cardinal);
 var

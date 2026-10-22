@@ -6,7 +6,8 @@ const
   ruta = 'arch_clientes.DAT';
 procedure abrir_crear (var a:t_archivo_clientes);
 procedure leer_dato (var a:t_archivo_clientes ; pos:cardinal ; var dato:t_reg_clientes);
-procedure guardar_dato (var a:t_archivo_clientes ; pos:cardinal ; dato:t_reg_clientes);
+procedure guardar_registro (var a:t_archivo_clientes ; pos:cardinal ; registro:t_reg_clientes);
+procedure modificar_registro (var registro:t_reg_clientes; campo:string; dato_modificado:string);
 procedure mostrar_registro (r:t_reg_clientes);
 procedure carga_registro (var r:t_reg_clientes ; dni_1:string);
 procedure busqueda_dni (var a:t_archivo_clientes ; buscado : string; var pos:cardinal);
@@ -25,10 +26,23 @@ begin
   seek(a,pos);
   read(a,dato);
 end;
-procedure guardar_dato (var a:t_archivo_clientes ; pos:cardinal ; dato:t_reg_clientes);
+procedure guardar_registro (var a:t_archivo_clientes ; pos:cardinal ; registro:t_reg_clientes);
 begin
   seek(a,pos);
-  write(a,dato);
+  write(a,registro);
+end;
+procedure modificar_registro (var registro:t_reg_clientes; campo:string; dato_modificado:string);
+begin
+  with registro do
+    begin
+      case campo of
+      'dni': dni:=dato_modificado;
+      'apellido': apellido:=dato_modificado;
+      'direccion': direccion:=dato_modificado;
+      'celular': celular:=dato_modificado;
+      'email': email:=dato_modificado
+      end;
+    end;
 end;
 procedure mostrar_registro (r:t_reg_clientes); //llama primero el leer_dato y dsp el mostrar
 begin
