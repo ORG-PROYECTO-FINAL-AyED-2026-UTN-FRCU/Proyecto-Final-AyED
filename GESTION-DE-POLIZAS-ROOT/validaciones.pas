@@ -4,7 +4,7 @@ unit validaciones;
 interface
  uses crt,sysutils,archivo_clientes;
  FUNCTION ValidarDNI(dni:string): BOOLEAN;
- PROCEDURE Validar_T_dato_int(var dato: integer);
+ PROCEDURE Validar_T_dato_word(var dato: word);
  PROCEDURE Validar_T_dato_real(var dato: real);
  FUNCTION Validar_rango_fecha(var reg: reg_fecha; opc:byte):boolean;
  Function Validar_String(dato: string):boolean;
@@ -29,7 +29,7 @@ begin
      end;
      //ANIO
      3:begin
-     if (reg.ano >2049) then
+     if (reg.ano >2049) OR (reg.ano <1900) then
      valido:=false;
      end;
  end;
@@ -64,7 +64,7 @@ end;
 
 
      //squi evitamos que se cierre el programa por errores de tipos de datos usando los controles I/O
-    PROCEDURE Validar_T_dato_int(var dato: integer);
+    PROCEDURE Validar_T_dato_word(var dato: word);
     begin
      while ioresult<>0 do
        begin
@@ -103,15 +103,14 @@ end;
         esvalido:boolean;
     begin
      EsNumero:=TRUE;
-     for i:=1 to length(dato) do
+     for i:=2 to length(dato) do
         begin
-        IF NOT (dato[i] IN ['0'..'9']) THEN
+        IF (NOT (dato[i] IN ['0'..'9']))  THEN
         esNumero:=FALSE;
-        esvalido:=false;
         end;
 
 
-      if dato[1]<> '+' then
+      if (dato[1]<> '+') or Not(esnumero) or (length(dato)<2) then
         esValido := FALSE
       else
         esValido := TRUE;

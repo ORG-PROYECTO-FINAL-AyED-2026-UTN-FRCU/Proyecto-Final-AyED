@@ -2,8 +2,8 @@ unit ARCHIVO_CLIENTES;
 interface
 type
   reg_fecha = record
-    dia: byte;
-    mes: byte;
+    dia: word;
+    mes: word;
     ano: word;
   end;
   t_reg_clientes = record

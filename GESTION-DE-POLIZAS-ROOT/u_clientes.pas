@@ -84,29 +84,32 @@ begin
       {$I-}
       readln(fecha_nacimiento.dia);
       {$I+}
-       Validar_T_dato_int(fecha_nacimiento.dia);
+       Validar_T_dato_word(fecha_nacimiento.dia);
      while not( Validar_rango_fecha(fecha_nacimiento,1)) do
      begin
-          writeln('Dia invalido, no esta dentro del rango, ingrese de nuevo:  '); readln(fecha_nacimiento.dia);
+          writeln('Dia invalido, no esta dentro del rango, ingrese de nuevo:  ');
+          {$I-}
+          readln(fecha_nacimiento.dia);
+          {$I+}
      end;
       write('Mes: ');
        {$I-}
       readln(fecha_nacimiento.mes);
       {$I+}
-      Validar_T_dato_int(fecha_nacimiento.mes);
+      Validar_T_dato_word(fecha_nacimiento.mes);
      while not( Validar_rango_fecha(fecha_nacimiento,2)) do
      begin
           writeln('Mes invalido, no esta dentro del rango, ingrese de nuevo:  ');
      {$I-}
       readln(fecha_nacimiento.mes);
       {$I+}
-      Validar_T_dato_int(fecha_nacimiento.mes);
+      Validar_T_dato_word(fecha_nacimiento.mes);
      end;
       write('Año: ');
        {$I-}
       readln(fecha_nacimiento.ano);
       {$I+}
-      Validar_T_dato_int(fecha_nacimiento.ano);
+      Validar_T_dato_word(fecha_nacimiento.ano);
      while not( Validar_rango_fecha(fecha_nacimiento,3)) do
      begin
           writeln('ANIO invalido, no esta dentro del rango, ingrese de nuevo:  ');

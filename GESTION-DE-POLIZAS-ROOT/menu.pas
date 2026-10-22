@@ -88,7 +88,7 @@ begin
       {$I-}
       readln(fecha_modificada.dia);
       {$I+}
-       Validar_T_dato_int(fecha_modificada.dia);
+       Validar_T_dato_word(fecha_modificada.dia);
      while not( Validar_rango_fecha(fecha_modificada,1)) do
      begin
           writeln('Dia invalido, no esta dentro del rango, ingrese de nuevo:  '); readln(fecha_modificada.dia);
@@ -97,20 +97,20 @@ begin
        {$I-}
       readln(fecha_modificada.mes);
       {$I+}
-      Validar_T_dato_int(fecha_modificada.mes);
+      Validar_T_dato_word(fecha_modificada.mes);
      while not( Validar_rango_fecha(fecha_modificada,2)) do
      begin
           writeln('Mes invalido, no esta dentro del rango, ingrese de nuevo:  ');
      {$I-}
       readln(fecha_modificada.mes);
       {$I+}
-      Validar_T_dato_int(fecha_modificada.mes);
+      Validar_T_dato_word(fecha_modificada.mes);
      end;
       write('Año: ');
        {$I-}
       readln(fecha_modificada.ano);
       {$I+}
-      Validar_T_dato_int(fecha_modificada.ano);
+      Validar_T_dato_word(fecha_modificada.ano);
      while not( Validar_rango_fecha(fecha_modificada,3)) do
      begin
           writeln('ANIO invalido, no esta dentro del rango, ingrese de nuevo:  ');
