@@ -154,6 +154,10 @@ repeat
     ELSE
       WRITELN('ERROR, OPCION INVALIDA');
     END;
+     if opcion<>'0' then
+      begin
+        writeln('PRESIONE UNA TECLA PARA MOSTRAR NUEVAMENTE EL MENU'); READKEY;
+      end;
 until OPCION = '0';
 end;
 END.
