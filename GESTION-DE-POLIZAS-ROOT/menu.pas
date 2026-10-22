@@ -39,39 +39,89 @@ var
 begin
   valido:=False;
   repeat
-    write('Ingrese el campo que quiere modificar ');
+    writeln('Ingrese el campo que quiere modificar ');
+    writeln('1:Apellido');
+    writeln('2:Nombres');
+    writeln('3:Direccion');
+    writeln('4:Fecha de nacimiento');
+    writeln('5:Celular');
+    writeln('6:Email');
+    writeln('0:Salir');
     readln(campo);
     case lowercase(campo) of
-    'apellido': valido:=True;
-    'nombres':   valido:=True;
-    'direccion':  valido:=True;
-    'fecha nacimiento':
+    '1': valido:=True;
+    '2':  valido:=True;
+    '3':  valido:=True;
+    '4':
       begin
         valido:=True;
-        campo:='fecha_nacimiento';
       end;
-    'celular': valido:=True;
-    'email': valido:=True;
+    '5': valido:=True;
+    '6': valido:=True;
+    '0': valido:=true;
     else
       writeln('CAMPO INVALIDO; VUELVA A INGRESAR');
     end;
-  until valido;
+  until (valido);
 end;
 procedure modificar_datos (var arch_clientes:t_archivo_clientes ; campo:string ; var pos:longint);
 var
   registro_clientes : t_reg_clientes;
   dato_modificado:string;
+  fecha_modificada:reg_fecha;
   reg_modificado:reg_fecha;
 begin
   campo_valido(campo);
   leer_dato(arch_clientes,pos,registro_clientes);
-  if campo <> 'fecha_nacimiento' then
+  if (campo <> '4') and (campo<>'0') then
     begin
-      write('Ingrese el nuevo ',campo , ' ');
+      write('Ingrese el nuevo dato ');
       readln(dato_modificado);
-      modificar_registro(registro_clientes,campo,dato_modificado);
+      modificar_registro(registro_clientes,campo,dato_modificado,fecha_modificada);
+      guardar_registro(arch_clientes,pos,registro_clientes);
+    end
+  else
+  if campo<>'0' then
+    begin
+      writeln('Ingrese la nueva fecha de nacimiento');
+     write('Dia: ');
+      {$I-}
+      readln(fecha_modificada.dia);
+      {$I+}
+       Validar_T_dato_int(fecha_modificada.dia);
+     while not( Validar_rango_fecha(fecha_modificada,1)) do
+     begin
+          writeln('Dia invalido, no esta dentro del rango, ingrese de nuevo:  '); readln(fecha_modificada.dia);
+     end;
+      write('Mes: ');
+       {$I-}
+      readln(fecha_modificada.mes);
+      {$I+}
+      Validar_T_dato_int(fecha_modificada.mes);
+     while not( Validar_rango_fecha(fecha_modificada,2)) do
+     begin
+          writeln('Mes invalido, no esta dentro del rango, ingrese de nuevo:  ');
+     {$I-}
+      readln(fecha_modificada.mes);
+      {$I+}
+      Validar_T_dato_int(fecha_modificada.mes);
+     end;
+      write('Año: ');
+       {$I-}
+      readln(fecha_modificada.ano);
+      {$I+}
+      Validar_T_dato_int(fecha_modificada.ano);
+     while not( Validar_rango_fecha(fecha_modificada,3)) do
+     begin
+          writeln('ANIO invalido, no esta dentro del rango, ingrese de nuevo:  ');
+          {$I-}
+          readln(fecha_modificada.ano);
+          {$I+}
+     end;
+     modificar_registro(registro_clientes,campo,dato_modificado,fecha_modificada);
       guardar_registro(arch_clientes,pos,registro_clientes);
     end;
+
 end;
 procedure menu_cliente_encontrado (var arch_clientes:t_archivo_clientes ; dni1:string; var pos:longint);
 var

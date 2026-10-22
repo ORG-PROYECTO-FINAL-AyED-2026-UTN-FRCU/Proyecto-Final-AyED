@@ -7,7 +7,7 @@ const
 procedure abrir_crear (var a:t_archivo_clientes);
 procedure leer_dato (var a:t_archivo_clientes ; pos:cardinal ; var dato:t_reg_clientes);
 procedure guardar_registro (var a:t_archivo_clientes ; pos:cardinal ; registro:t_reg_clientes);
-procedure modificar_registro (var registro:t_reg_clientes; campo:string; dato_modificado:string);
+procedure modificar_registro (var registro:t_reg_clientes; campo:string; dato_modificado:string;fecha_modificada:reg_fecha);
 procedure mostrar_registro (r:t_reg_clientes);
 procedure carga_registro (var r:t_reg_clientes ; dni_1:string);
 procedure busqueda_dni (var a:t_archivo_clientes ; buscado : string; var pos:longint);
@@ -31,16 +31,17 @@ begin
   seek(a,pos);
   write(a,registro);
 end;
-procedure modificar_registro (var registro:t_reg_clientes; campo:string; dato_modificado:string);
+procedure modificar_registro (var registro:t_reg_clientes; campo:string; dato_modificado:string;fecha_modificada:reg_fecha);
 begin
   with registro do
     begin
       case campo of
-      'dni': dni:=dato_modificado;
-      'apellido': apellido:=dato_modificado;
-      'direccion': direccion:=dato_modificado;
-      'celular': celular:=dato_modificado;
-      'email': email:=dato_modificado
+      '1': apellido:=dato_modificado;
+      '2': nombres:=dato_modificado;
+      '3': direccion:=dato_modificado;
+      '4':fecha_nacimiento:=fecha_modificada;
+      '5': celular:=dato_modificado;
+      '6': email:=dato_modificado;
       end;
     end;
 end;
