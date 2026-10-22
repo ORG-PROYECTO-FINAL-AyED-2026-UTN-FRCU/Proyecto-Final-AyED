@@ -6,39 +6,35 @@ interface
  FUNCTION ValidarDNI(dni:string): BOOLEAN;
  PROCEDURE Validar_T_dato_int(var dato: integer);
  PROCEDURE Validar_T_dato_real(var dato: real);
- FUNCTION Validar_rango_dia(var reg: reg_fecha):boolean;//fueron separadas las validaciones de fecha
- FUNCTION Validar_rango_MES(var reg: reg_fecha):boolean;
- FUNCTION Validar_rango_ANO(var reg: reg_fecha):boolean;
+ FUNCTION Validar_rango_fecha(var reg: reg_fecha; opc:byte):boolean;
  Function Validar_String(dato: string):boolean;
  Function validar_celular( dato: string):boolean;
 implementation
       //VALIDACIONES INDEPENDIENTES DE RANGO DE FECHA, DIA Y MES, QUE CUMPLAN RANGOS ESTIPULADOS
 //ESTAS VALIDACIONES NO INVOLUCRAN ANTI-CRASH POR DATO INGRESADO DE TIPO INVALIDO, EJEMPLO SI SE INGRESA UN STRING.
-FUNCTION Validar_rango_dia(var reg: reg_fecha):boolean;
+FUNCTION Validar_rango_fecha(var reg: reg_fecha; opc:byte):boolean;
 var valido:boolean;
 begin
+ case opc of
+     //DIA
+     1:begin
      if (reg.dia<1) or (reg.dia >31) then
      valido:=false;
-
      validar_dia:=valido;
-
-end;
-FUNCTION Validar_rango_mes(var reg: reg_fecha):boolean;
-var valido:boolean;
-begin
+     end;
+     //MES
+     2:begin
      if (reg.mes<1) or (reg.mes >12) then
      valido:=false;
-
      validar_dia:=valido;
-
-end;
-FUNCTION Validar_rango_ano(var reg: reg_fecha):boolean;
-var valido:boolean;
-begin
+     end;
+     //ANIO
+     3:begin
      if (reg.ano<2020) or (reg.ano >2049) then
      valido:=false;
-
      validar_dia:=valido;
+     end;
+ end;
 
 end;
 
@@ -124,5 +120,12 @@ end;
 
         validar_celular:=esValido;
     end;
+
+
+    //procedimiento de while para pedir infinitamente un dato hasta que cumpla una validacion parametrizada
+    procedure ingrese_nuevamente(var arch: t_arch_clientes; validacion:boolean;
+
+
+
 end.
 

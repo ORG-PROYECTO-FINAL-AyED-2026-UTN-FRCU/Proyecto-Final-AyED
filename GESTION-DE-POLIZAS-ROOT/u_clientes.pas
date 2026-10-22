@@ -80,11 +80,32 @@ begin
       readln(direccion);
       writeln('Fecha nacimiento: ');
       write('Dia: ');
+      {$I-}
       readln(fecha_nacimiento.dia);
+      {$I+}
+       Validar_T_dato_int(fecha_nacimiento.dia);
+     while not( Validar_rango_fecha(fecha_nacimiento.dia,1)) do
+     begin
+          writeln('Dia invalido, no esta dentro del rango, ingrese de nuevo:  '); readln(fecha_nacimiento.dia);
+     end;
       write('Mes: ');
+       {$I-}
       readln(fecha_nacimiento.mes);
+      {$I+}
+      Validar_T_dato_int(fecha_nacimiento.mes);
+     while not( Validar_rango_fecha(fecha_nacimiento.mes,2)) do
+     begin
+          writeln('Mes invalido, no esta dentro del rango, ingrese de nuevo:  '); readln(fecha_nacimiento.mes);
+     end;
       write('Año: ');
+       {$I-}
       readln(fecha_nacimiento.ano);
+      {$I+}
+      Validar_T_dato_int(fecha_nacimiento.ano);
+     while not( Validar_rango_fecha(fecha_nacimiento.ano,3)) do
+     begin
+          writeln('ANIO invalido, no esta dentro del rango, ingrese de nuevo:  '); readln(fecha_nacimiento.ano);
+     end;
       write('Ingrese celular: +COD.PAIS ');
       readln(celular);
       while not(validar_celular(celular)) do
@@ -94,8 +115,10 @@ begin
       write('Ingrese direccion de e-mail ');
       readln(email);
       estado:=True;
+     end;
     end;
-end;
+
+
 procedure busqueda_dni (var a:t_archivo_clientes ; buscado : string; var pos:longint);
 var
   i: cardinal;
