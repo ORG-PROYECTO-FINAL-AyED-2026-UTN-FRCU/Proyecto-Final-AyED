@@ -6,65 +6,41 @@ interface
  FUNCTION ValidarDNI(dni:string): BOOLEAN;
  PROCEDURE Validar_T_dato_int(var dato: integer);
  PROCEDURE Validar_T_dato_real(var dato: real);
- Procedure ValidarRangoFecha (var reg:Reg_fecha);
+ FUNCTION Validar_rango_dia(var reg: reg_fecha):boolean;//fueron separadas las validaciones de fecha
+ FUNCTION Validar_rango_MES(var reg: reg_fecha):boolean;
+ FUNCTION Validar_rango_ANO(var reg: reg_fecha):boolean;
  Function Validar_String(dato: string):boolean;
  Function validar_celular( dato: string):boolean;
 implementation
-      //Validar Rango Fecha
-     Procedure ValidarRangoFecha (var reg:Reg_fecha);
-      var
-        diaCont,mesCont,anoCont:integer;
-        vc:0..1;
-        begin
-          vc:=0;
-          repeat
-            writeln('Ingrese dia: ');
-            readln(diaCont);
-            if (DiaCont<=31) and (diaCont>=1) then
-              begin
-              vc:=1;
-              REG.dia:=diacont;
-              end
-            Else
-            begin
-              Writeln('Dia no valido');
-              readkey;
-            end;
-            clrscr;
-          until vc=1;
-          vc:=0;
-          Repeat
-            writeln('Ingrese mes: ');
-            readln(mesCont);
-            if (MesCont<=12) and (MesCont>=1) then
-              begin
-               vc:=1;
-               REG.Mes:=Mescont;
-              end
-            Else
-              begin
-                Writeln('Mes no valido');
-                readkey;
-              end;
-            clrscr;
-          Until vc=1;
-          vc:=0;
-          Repeat
-            writeln('Ingrese anio: ');
-            readln(anoCont);
-            If (anoCont>=2020) and (anoCont<=2049) then
-            begin
-              vc:=1;
-              REG.Mes:=Mescont;
-            end
-            Else
-            begin
-              Writeln('Ano no valido');
-              readkey;
-            end;
-            clrscr;
-          Until Vc=1;
-      end;
+      //VALIDACIONES INDEPENDIENTES DE RANGO DE FECHA, DIA Y MES, QUE CUMPLAN RANGOS ESTIPULADOS
+//ESTAS VALIDACIONES NO INVOLUCRAN ANTI-CRASH POR DATO INGRESADO DE TIPO INVALIDO, EJEMPLO SI SE INGRESA UN STRING.
+FUNCTION Validar_rango_dia(var reg: reg_fecha):boolean;
+var valido:boolean;
+begin
+     if (reg.dia<1) or (reg.dia >31) then
+     valido:=false;
+
+     validar_dia:=valido;
+
+end;
+FUNCTION Validar_rango_mes(var reg: reg_fecha):boolean;
+var valido:boolean;
+begin
+     if (reg.mes<1) or (reg.mes >12) then
+     valido:=false;
+
+     validar_dia:=valido;
+
+end;
+FUNCTION Validar_rango_ano(var reg: reg_fecha):boolean;
+var valido:boolean;
+begin
+     if (reg.ano<2020) or (reg.ano >2049) then
+     valido:=false;
+
+     validar_dia:=valido;
+
+end;
 
      //validacion DNI
      FUNCTION ValidarDNI(dni:string): BOOLEAN;

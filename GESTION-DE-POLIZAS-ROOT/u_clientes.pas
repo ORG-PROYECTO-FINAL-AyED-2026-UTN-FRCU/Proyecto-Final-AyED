@@ -69,15 +69,15 @@ begin
            writeln('apellido invalido, ingrese nuevamente: ');
            readln(apellido);
       end;
-      write('Ingrese nombre: ');
+      writeln('Ingrese nombre: ');
       readln(nombres);
       while not(validar_string(nombres)) do
       begin
            writeln('nombre invalido, ingrese nuevamente: ');
+           readln(nombres);
       end;
       write('Ingrese direccion ');
       readln(direccion);
-      validar_string(direccion);
       writeln('Fecha nacimiento: ');
       write('Dia: ');
       readln(fecha_nacimiento.dia);
@@ -87,7 +87,10 @@ begin
       readln(fecha_nacimiento.ano);
       write('Ingrese celular: +COD.PAIS ');
       readln(celular);
-      validar_celular(celular);
+      while not(validar_celular(celular)) do
+      begin
+        writeln('Celular incorrecto, no cumple formato +<CODPAIS><NUMEROS> INGRESE NUEVAMENTE: '); Readln(celular);
+      end;
       write('Ingrese direccion de e-mail ');
       readln(email);
       estado:=True;
