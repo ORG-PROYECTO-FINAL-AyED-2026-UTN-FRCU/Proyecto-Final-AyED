@@ -9,7 +9,7 @@ interface
  Function Validar_String(dato: string):boolean;
  procedure validar_apynom(dato:string);
  Function validar_formato_celular( dato: string):boolean;
- Function validar_celular( dato: string);
+ Function validar_celular( dato: string):boolean;
  procedure validar_fecha_completo(var reg:reg_fecha; opc;BYTE);
 implementation
 
