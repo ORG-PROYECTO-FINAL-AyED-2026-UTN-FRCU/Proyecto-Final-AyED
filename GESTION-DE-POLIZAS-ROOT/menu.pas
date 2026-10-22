@@ -10,7 +10,7 @@ procedure menu_Cliente_no_encontrado(var arch_clientes:t_archivo_clientes;dni1:s
 var
   registro_clientes:t_reg_clientes;
   VC:boolean;
-  respuesta:string;
+  respuesta:char;
   pos:integer;
 begin
   vc:=false;
@@ -18,7 +18,7 @@ begin
   begin
     writeln('0:SALIR');
     writeln('1:DAR DE ALTA');
-    readln(respuesta);
+    respuesta:=readkey;
     if respuesta='0' then
       vc:=true
       else
@@ -32,6 +32,26 @@ begin
         else
             writeln('Respuesta incorrecta reingrese ingrese');
   end;
+end;
+procedure menu_cliente_encontrado (var arch_clientes:t_archivo_clientes ; dni1:string; var pos:cardinal);
+var
+  registro_clientes : t_reg_clientes;
+  VC:boolean;
+  respuesta:char;
+begin
+  leer_dato(arch_clientes,pos,registro_clientes);
+  mostrar_registro(registro_clientes);
+  vc:=false;
+  while vc=false do
+    begin
+      writeln('0: Dar de baja');
+      writeln('1: Modificar');
+      writeln('2: volver');
+      respuesta:=readkey;
+      {case respuesta of
+      '1':
+      end;}
+    end;
 end;
 procedure menu_clientes (var arch_clientes:t_archivo_clientes);
 var
@@ -49,6 +69,8 @@ begin
   busqueda_dni(arch_clientes,dni,pos);
   if pos = 0 then
     menu_Cliente_no_encontrado(arch_clientes,dni)
+  else
+    menu_cliente_encontrado(arch_clientes,dni,pos);
 end;
 PROCEDURE menu_principal;
 VAR
