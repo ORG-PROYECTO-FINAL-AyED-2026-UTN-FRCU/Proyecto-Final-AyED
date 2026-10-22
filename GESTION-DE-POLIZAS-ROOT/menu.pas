@@ -152,7 +152,7 @@ begin
               registro_clientes.estado:=True;
             guardar_registro(arch_clientes,pos,registro_clientes);
            end;
-      '3': begin
+      '2': begin
              vc:=true;
              modificar_datos(arch_clientes,campo,pos);
            end;
