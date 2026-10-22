@@ -50,10 +50,19 @@ begin
       dni:=dni_1;
       write('Ingrese apellido: ');
       readln(apellido);
+      while not(validar_string(apellido)) do
+      begin
+           writeln('apellido invalido, ingrese nuevamente: ');
+      end;
       write('Ingrese nombre: ');
       readln(nombres);
+      while not(validar_string(nombres)) do
+      begin
+           writeln('nombre invalido, ingrese nuevamente: ');
+      end;
       write('Ingrese direccion ');
       readln(direccion);
+      validar_string(direccion);
       writeln('Fecha nacimiento: ');
       write('Dia: ');
       readln(fecha_nacimiento.dia);
@@ -61,11 +70,14 @@ begin
       readln(fecha_nacimiento.mes);
       write('Año: ');
       readln(fecha_nacimiento.ano);
-      write('Ingrese celular: ');
+      ValidarRangoFecha(t_reg_clientes.fecha_nacimiento);
+      write('Ingrese celular: +COD.PAIS ');
       readln(celular);
+      validar_celular(celular);
       write('Ingrese direccion de e-mail ');
       readln(email);
     end;
+end;
 end;
 procedure busqueda_dni (var a:t_archivo_clientes ; buscado : string; var pos:cardinal);
 var
