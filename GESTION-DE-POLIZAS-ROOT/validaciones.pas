@@ -7,7 +7,7 @@ interface
  PROCEDURE Validar_T_dato_int(var dato: integer);
  PROCEDURE Validar_T_dato_real(var dato: real);
  Procedure ValidarRangoFecha (var reg:Reg_fecha);
- Function Validar_String(var dato: string):boolean;
+ Function Validar_String(dato: string):boolean;
  Function validar_celular( dato: string):boolean;
 implementation
       //Validar Rango Fecha
@@ -116,7 +116,7 @@ implementation
        end;
      end;
     //valida que una cadena sea efectivamente una cadena
-    function Validar_String(var dato: string):boolean;
+    function Validar_String(dato: string):boolean;
     var i:word;
     control:boolean;
     begin
