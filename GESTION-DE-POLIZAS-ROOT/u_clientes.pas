@@ -85,7 +85,6 @@ begin
       readln(fecha_nacimiento.mes);
       write('Año: ');
       readln(fecha_nacimiento.ano);
-      ValidarRangoFecha(r.fecha_nacimiento);
       write('Ingrese celular: +COD.PAIS ');
       readln(celular);
       validar_celular(celular);

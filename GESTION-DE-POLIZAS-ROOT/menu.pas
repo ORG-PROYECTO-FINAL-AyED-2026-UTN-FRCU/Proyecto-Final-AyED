@@ -78,6 +78,7 @@ var
   registro_clientes : t_reg_clientes;
   VC:boolean;
   respuesta:char;
+  campo:string;
 begin
   leer_dato(arch_clientes,pos,registro_clientes);
   mostrar_registro(registro_clientes);
@@ -88,17 +89,20 @@ begin
       writeln('1: Modificar');
       writeln('2: volver');
       respuesta:=readkey;
-      {case respuesta of
-      '1':
+      case respuesta of
+      '0':
         begin
           vc:=True;
           registro_clientes.estado:=False;
         end;
-      '2':
-      '3': vc:=true;
+      '1': begin
+             vc:=true;
+             modificar_datos(arch_clientes,campo,pos);
+           end;
+      '2': vc:=true;
       else
         writeln('Respuesta incorrecta reingrese ingrese');
-      end;}
+      end;
     end;
 end;
 procedure menu_clientes (var arch_clientes:t_archivo_clientes);
@@ -114,6 +118,7 @@ begin
     if es_valido = false then
       writeln('DNI INVALIDO. VUELVA A INGRESAR');
   until es_valido = true;
+  abrir_crear(arch_clientes);
   busqueda_dni(arch_clientes,dni,pos);
   if pos = 0 then
     menu_Cliente_no_encontrado(arch_clientes,dni)

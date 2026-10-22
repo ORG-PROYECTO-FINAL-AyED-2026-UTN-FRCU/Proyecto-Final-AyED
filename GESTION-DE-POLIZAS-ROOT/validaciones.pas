@@ -121,7 +121,7 @@ implementation
     control:boolean;
     begin
      control:=true;
-         for i:=1 to sizeof(dato) do
+         for i:=1 to length(dato) do
          if not(upcase(dato[i]) in ['A'..'Z']) then
             control:=false;
          validar_string:=control;
