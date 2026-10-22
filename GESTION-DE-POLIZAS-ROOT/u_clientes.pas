@@ -68,65 +68,20 @@ begin
     begin
       dni:=dni_1;
       write('Ingrese apellido: ');
-      readln(apellido);
-      while not(validar_string(apellido)) do
-      begin
-           writeln('apellido invalido, ingrese nuevamente: ');
-           readln(apellido);
-      end;
+      validar_apynom(apellido);
       writeln('Ingrese nombre: ');
-      readln(nombres);
-      while not(validar_string(nombres)) do
-      begin
-           writeln('nombre invalido, ingrese nuevamente: ');
-           readln(nombres);
-      end;
+     validar_apynom(nombres);
       write('Ingrese direccion ');
       readln(direccion);
       writeln('Fecha nacimiento: ');
       write('Dia: ');
-      {$I-}
-      readln(fecha_nacimiento.dia);
-      {$I+}
-       Validar_T_dato_word(fecha_nacimiento.dia);
-     while not( Validar_rango_fecha(fecha_nacimiento,1)) do
-     begin
-          writeln('Dia invalido, no esta dentro del rango, ingrese de nuevo:  ');
-          {$I-}
-          readln(fecha_nacimiento.dia);
-          {$I+}
-     end;
+      validar_fecha_completo(fecha_nacimiento,1);
       write('Mes: ');
-       {$I-}
-      readln(fecha_nacimiento.mes);
-      {$I+}
-      Validar_T_dato_word(fecha_nacimiento.mes);
-     while not( Validar_rango_fecha(fecha_nacimiento,2)) do
-     begin
-          writeln('Mes invalido, no esta dentro del rango, ingrese de nuevo:  ');
-     {$I-}
-      readln(fecha_nacimiento.mes);
-      {$I+}
-      Validar_T_dato_word(fecha_nacimiento.mes);
-     end;
+      validar_fecha_completo(fecha_nacimiento,2);
       write('Año: ');
-       {$I-}
-      readln(fecha_nacimiento.ano);
-      {$I+}
-      Validar_T_dato_word(fecha_nacimiento.ano);
-     while not( Validar_rango_fecha(fecha_nacimiento,3)) do
-     begin
-          writeln('ANIO invalido, no esta dentro del rango, ingrese de nuevo:  ');
-          {$I-}
-          readln(fecha_nacimiento.ano);
-          {$I+}
-     end;
+       validar_fecha_completo(fecha_nacimiento,3);
       write('Ingrese celular: +COD.PAIS ');
-      readln(celular);
-      while not(validar_celular(celular)) do
-      begin
-        writeln('Celular incorrecto, no cumple formato +<CODPAIS><NUMEROS> INGRESE NUEVAMENTE: '); Readln(celular);
-      end;
+     validar_celular(celular);
       write('Ingrese direccion de e-mail ');
       readln(email);
       estado:=True;

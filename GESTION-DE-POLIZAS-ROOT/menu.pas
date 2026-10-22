@@ -84,40 +84,12 @@ begin
   if campo<>'0' then
     begin
       writeln('Ingrese la nueva fecha de nacimiento');
-     write('Dia: ');
-      {$I-}
-      readln(fecha_modificada.dia);
-      {$I+}
-       Validar_T_dato_word(fecha_modificada.dia);
-     while not( Validar_rango_fecha(fecha_modificada,1)) do
-     begin
-          writeln('Dia invalido, no esta dentro del rango, ingrese de nuevo:  '); readln(fecha_modificada.dia);
-     end;
+    write('Dia: ');
+      validar_fecha_completo(fecha_modificada,1);
       write('Mes: ');
-       {$I-}
-      readln(fecha_modificada.mes);
-      {$I+}
-      Validar_T_dato_word(fecha_modificada.mes);
-     while not( Validar_rango_fecha(fecha_modificada,2)) do
-     begin
-          writeln('Mes invalido, no esta dentro del rango, ingrese de nuevo:  ');
-     {$I-}
-      readln(fecha_modificada.mes);
-      {$I+}
-      Validar_T_dato_word(fecha_modificada.mes);
-     end;
+      validar_fecha_completo(fecha_modificada,2);
       write('Año: ');
-       {$I-}
-      readln(fecha_modificada.ano);
-      {$I+}
-      Validar_T_dato_word(fecha_modificada.ano);
-     while not( Validar_rango_fecha(fecha_modificada,3)) do
-     begin
-          writeln('ANIO invalido, no esta dentro del rango, ingrese de nuevo:  ');
-          {$I-}
-          readln(fecha_modificada.ano);
-          {$I+}
-     end;
+       validar_fecha_completo(fecha_modificada,3);
      modificar_registro(registro_clientes,campo,dato_modificado,fecha_modificada);
       guardar_registro(arch_clientes,pos,registro_clientes);
     end;
