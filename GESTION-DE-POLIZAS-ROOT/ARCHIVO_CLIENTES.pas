@@ -2,9 +2,9 @@ unit ARCHIVO_CLIENTES;
 interface
 type
   reg_fecha = record
-    dia: integer;
-    mes: integer;
-    ano: integer;
+    dia: byte;
+    mes: byte;
+    ano: word;
   end;
   t_reg_clientes = record
     dni:string[9];

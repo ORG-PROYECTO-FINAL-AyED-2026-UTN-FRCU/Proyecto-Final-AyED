@@ -29,7 +29,7 @@ begin
      end;
      //ANIO
      3:begin
-     if (reg.ano<2020) or (reg.ano >2049) then
+     if (reg.ano >2049) then
      valido:=false;
      end;
  end;

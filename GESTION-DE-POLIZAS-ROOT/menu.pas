@@ -151,7 +151,7 @@ begin
            end;
       '2': vc:=true;
       else
-        writeln('Respuesta incorrecta reingrese ingrese');
+        writeln('opcion invalida ingrese nuevamente.');
       end;
     end;
 end;
