@@ -50,6 +50,13 @@ begin
       respuesta:=readkey;
       {case respuesta of
       '1':
+        begin
+
+        end;
+      '2':
+      '3': vc:=true;
+      else
+        writeln('Respuesta incorrecta reingrese ingrese');
       end;}
     end;
 end;

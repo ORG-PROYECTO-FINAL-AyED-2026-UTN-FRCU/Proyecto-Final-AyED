@@ -8,7 +8,7 @@ interface
  PROCEDURE Validar_T_dato_real(var dato: real);
  Procedure ValidarRangoFecha (var reg:Reg_fecha);
  Function Validar_String(var dato: string):boolean;
- Function validar_celular(var dato: string):boolean;
+ Function validar_celular( dato: string):boolean;
 implementation
       //Validar Rango Fecha
      Procedure ValidarRangoFecha (var reg:Reg_fecha);
@@ -120,36 +120,33 @@ implementation
     var i:word;
     control:boolean;
     begin
-     control:true;
+     control:=true;
          for i:=1 to sizeof(dato) do
-         if not(uppercase(dato[i]) in [A..Z]) then
+         if not(upcase(dato[i]) in ['A'..'Z']) then
             control:=false;
          validar_string:=control;
     end;
     //validar que un numero de celular cumpla formato y sean todos digitos numericos
-    Function validar_celular(var dato: string):boolean;
+    Function validar_celular(dato: string):boolean;
     var i:byte;
         esNumero:boolean;
         esvalido:boolean;
     begin
      EsNumero:=TRUE;
-          for i:=1 to length(dato) do
+     for i:=1 to length(dato) do
         begin
         IF NOT (dato[i] IN ['0'..'9']) THEN
         esNumero:=FALSE;
         esvalido:=false;
-
         end;
 
 
       if dato[1]<> '+' then
         esValido := FALSE
-        else
+      else
         esValido := TRUE;
 
-        validarDNI:=esValido;
+        validar_celular:=esValido;
     end;
-    end;
-
 end.
 

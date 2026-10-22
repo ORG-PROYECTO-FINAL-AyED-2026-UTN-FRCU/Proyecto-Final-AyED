@@ -1,7 +1,7 @@
 unit u_clientes;
 interface
 uses
-    archivo_clientes;
+    archivo_clientes,validaciones;
 const
   ruta = 'arch_clientes.DAT';
 procedure abrir_crear (var a:t_archivo_clientes);
@@ -53,6 +53,7 @@ begin
       while not(validar_string(apellido)) do
       begin
            writeln('apellido invalido, ingrese nuevamente: ');
+           readln(apellido);
       end;
       write('Ingrese nombre: ');
       readln(nombres);
@@ -76,6 +77,7 @@ begin
       validar_celular(celular);
       write('Ingrese direccion de e-mail ');
       readln(email);
+      estado:=True;
     end;
 end;
 end;
