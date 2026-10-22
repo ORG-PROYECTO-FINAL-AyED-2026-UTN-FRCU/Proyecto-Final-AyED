@@ -15,27 +15,25 @@ implementation
 FUNCTION Validar_rango_fecha(var reg: reg_fecha; opc:byte):boolean;
 var valido:boolean;
 begin
+ valido:=true;
  case opc of
      //DIA
      1:begin
      if (reg.dia<1) or (reg.dia >31) then
      valido:=false;
-     validar_dia:=valido;
      end;
      //MES
      2:begin
      if (reg.mes<1) or (reg.mes >12) then
      valido:=false;
-     validar_dia:=valido;
      end;
      //ANIO
      3:begin
      if (reg.ano<2020) or (reg.ano >2049) then
      valido:=false;
-     validar_dia:=valido;
      end;
  end;
-
+ Validar_rango_fecha:=valido;
 end;
 
      //validacion DNI
