@@ -1,11 +1,11 @@
 unit menu;
 interface
   uses
-    archivo_clientes,archivo_polizas, U_CLIENTES,validaciones,//,ARCHIVO_POLIZAS, ARBOL, ESTADÍSTICAS
-    CRT,SYSUTILS;
+    archivo_clientes,archivo_polizas, u_clientes,validaciones,//,ARCHIVO_POLIZAS, ARBOL, ESTADÍSTICAS
+    crt,sysutils;
     //LISTADOS; //LLAMADA A TODAS LAS UNIT NECESARIAS
     procedure menu_principal;
-IMPLEMENTATION
+implementation
 procedure menu_Cliente_no_encontrado(var arch_clientes:t_archivo_clientes;dni1:string);
 var
   registro_clientes:t_reg_clientes;
@@ -240,47 +240,48 @@ begin
       else
         menu_cliente_encontrado(arch_clientes,dni,pos);
 end;
-PROCEDURE menu_principal;
-VAR
+procedure menu_principal;
+var
   arch_clientes:t_archivo_clientes;
   arch_polizas:t_archivo_polizas;
 // ARBOL_DNI, ARBOL_NOM:T_PUNT;
-  OPCION:CHAR;
+  opcion:char;
 
-BEGIN
+begin
   abrir_crear(arch_clientes);
 //GENERAR ARBOLES
 repeat
-  CLRSCR;
-  GOTOXY(40,10);
-  WRITELN('1- GESTION DE CLIENTES ');
-  GOTOXY(40,12);
-  WRITELN('2- GESTION DE POLIZAS ');
-  GOTOXY(40,14);
-  WRITELN('3- LISTADOS ');
-  GOTOXY(40,16);
-  WRITELN('4- ESTADISTICAS ');
-  GOTOXY(40,18);
-  WRITELN('0- SALIR ');
-  GOTOXY(40,20);
-  WRITELN ('INGRESE OPCION: ');
- OPCION:=READKEY;
+  clrscr;
+  gotoxy(40,10);
+  writeln('1- GESTION DE CLIENTES ');
+  gotoxy(40,12);
+  writeln('2- GESTION DE POLIZAS ');
+  gotoxy(40,14);
+  writeln('3- LISTADOS ');
+  gotoxy(40,16);
+  writeln('4- ESTADISTICAS ');
+  gotoxy(40,18);
+  writeln('0- SALIR ');
+  gotoxy(40,20);
+  writeln('INGRESE OPCION: ');
+  gotoxy(56,20);
+  opcion:=readkey;
 
-    CASE OPCION OF
+    case opcion of
     '1': menu_clientes(arch_clientes);
     {'2': POLIZAS (ARCH_CLIENTES, ARCH_POLIZAS, ARBOL_DNI );
     '3': LISTADOS (ARCH_CLIENTES, ARCH_POLIZAS, ARBOL_NOM);
     '4': ESTADÍSTICAS (ARCH_CLIENTES,ARCH_POLIZAS);    }
-    ELSE
-      WRITELN('ERROR, OPCION INVALIDA');
-    END;
+    else
+      writeln('ERROR, OPCION INVALIDA');
+    end;
      if opcion<>'0' then
       begin
         clrscr;
         gotoxy(40,10);
         writeln('PRESIONE UNA TECLA PARA MOSTRAR NUEVAMENTE EL MENU'); READKEY;
       end;
-until OPCION = '0';
+until opcion = '0';
 end;
-END.
+end.
 
