@@ -16,7 +16,10 @@ begin
   vc:=false;
   while vc=false do
   begin
+    clrscr;
+    gotoxy(40,10);
     writeln('0:SALIR');
+    gotoxy(40,11);
     writeln('1:DAR DE ALTA');
     respuesta:=readkey;
     if respuesta='0' then
@@ -30,7 +33,14 @@ begin
             guardar_registro(arch_clientes,pos,registro_clientes);
           end
         else
-            writeln('Respuesta incorrecta reingrese ingrese');
+          begin
+            clrscr;
+            TextBackground(red);
+            gotoxy(34,10);
+            writeln('RESPUESTA INCORRECTA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+            readkey();
+            NormVideo;
+          end;
   end;
 end;
 procedure campo_valido(var campo:string);
@@ -136,6 +146,7 @@ begin
 end;
 procedure menu_clientes (var arch_clientes:t_archivo_clientes);
 var
+  res:char;
   dni:string;
   es_valido : boolean;
   pos:longint;
@@ -143,24 +154,34 @@ begin
   repeat
     clrscr;
     gotoxy(40,10);
-    write('DNI: ');
-    readln(dni);
-    es_valido:= ValidarDNI(dni);
-    if es_valido = false then
+    writeln('0: VOLVER');
+    gotoxy(40,11);
+    writeln('1: DNI');
+    res:=readkey;
+    if res <> '0' then
       begin
         clrscr;
         gotoxy(40,10);
-        TextBackground(red);
-        writeln('DNI INVALIDO. PULSE UNA TECLA PARA VOLVER A INGRESAR');
-        readkey();
-        NormVideo;
+        writeln('DNI: ');
+        readln(dni);
+        es_valido:= ValidarDNI(dni);
+        if es_valido = false then
+          begin
+            clrscr;
+            gotoxy(40,10);
+            TextBackground(red);
+            writeln('DNI INVALIDO. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+            readkey();
+            NormVideo;
+          end;
       end;
-  until es_valido = true;
+  until (es_valido = true) or (res = '0');
   busqueda_dni(arch_clientes,dni,pos);
-  if pos = -1 then
-    menu_Cliente_no_encontrado(arch_clientes,dni)
-  else
-    menu_cliente_encontrado(arch_clientes,dni,pos);
+  if es_valido = True then
+      if pos = -1 then
+        menu_Cliente_no_encontrado(arch_clientes,dni)
+      else
+        menu_cliente_encontrado(arch_clientes,dni,pos);
 end;
 PROCEDURE menu_principal;
 VAR
@@ -198,6 +219,8 @@ repeat
     END;
      if opcion<>'0' then
       begin
+        clrscr;
+        gotoxy(40,10);
         writeln('PRESIONE UNA TECLA PARA MOSTRAR NUEVAMENTE EL MENU'); READKEY;
       end;
 until OPCION = '0';
