@@ -158,7 +158,7 @@ begin
     gotoxy(40,11);
     writeln('1: DNI');
     res:=readkey;
-    if res <> '0' then
+    if res = '1' then
       begin
         clrscr;
         gotoxy(40,10);
@@ -174,7 +174,17 @@ begin
             readkey();
             NormVideo;
           end;
-      end;
+      end
+    else
+      if res <> '0' then
+        begin
+          clrscr;
+          gotoxy(36,10);
+          writeln('OPCION INVALIDA. PRESIONE UNA TECLA PARA VOLVER A INGRESAR');
+          readkey();
+          clrscr;
+        end;
+
   until (es_valido = true) or (res = '0');
   busqueda_dni(arch_clientes,dni,pos);
   if es_valido = True then
