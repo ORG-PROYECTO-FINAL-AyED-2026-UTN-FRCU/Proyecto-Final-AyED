@@ -73,6 +73,8 @@ begin
       '1':validar_apynom(dato_modificado);
       '2':validar_apynom(dato_modificado);
       '5':validar_celular(dato_modificado);
+      else
+        readln(dato_Modificado);
       end;    // PD: SANTI RAMEAU.
 
       modificar_registro(registro_clientes,campo,dato_modificado,fecha_modificada);
