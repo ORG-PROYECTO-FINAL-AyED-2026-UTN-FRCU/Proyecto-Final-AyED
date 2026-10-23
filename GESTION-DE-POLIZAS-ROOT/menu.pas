@@ -59,7 +59,7 @@ end;
 procedure modificar_datos (var arch_clientes:t_archivo_clientes ; campo:string ; var pos:longint);
 var
   registro_clientes : t_reg_clientes;
-  dato_modificado:string;
+  dato_modificado:shortstring;
   fecha_modificada:reg_fecha;
   reg_modificado:reg_fecha;
 begin
@@ -67,8 +67,14 @@ begin
   leer_dato(arch_clientes,pos,registro_clientes);
   if (campo <> '4') and (campo<>'0') then
     begin
+      //VALIDA Y LEE DATO DATO_MODIFICADO
       write('Ingrese el nuevo dato ');
-      readln(dato_modificado);
+      case campo of
+      '1':validar_apynom(dato_modificado);
+      '2':validar_apynom(dato_modificado);
+      '5':validar_celular(dato_modificado);
+      end;    // PD: SANTI RAMEAU.
+
       modificar_registro(registro_clientes,campo,dato_modificado,fecha_modificada);
       guardar_registro(arch_clientes,pos,registro_clientes);
     end
