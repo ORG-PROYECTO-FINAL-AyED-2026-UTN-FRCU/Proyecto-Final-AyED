@@ -1,7 +1,7 @@
 unit u_clientes;
 interface
 uses
-    archivo_clientes,validaciones;
+    archivo_clientes,validaciones,crt;
 const
   ruta = 'arch_clientes.DAT';
 procedure abrir_crear (var a:t_archivo_clientes);
@@ -49,13 +49,21 @@ procedure mostrar_registro (r:t_reg_clientes); //llama primero el leer_dato y ds
 begin
   with r do
     begin
+      gotoxy(40,10);
       writeln('DNI: ', dni);
+      gotoxy(40,11);
       writeln('Apellido: ',apellido);
+      gotoxy(40,12);
       writeln('Nombres: ', nombres);
+      gotoxy(40,13);
       writeln('Direccion: ', direccion);
+      gotoxy(40,14);
       writeln('Fecha nacimiento: ',fecha_nacimiento.dia, '/',fecha_nacimiento.mes, '/', fecha_nacimiento.ano);
+      gotoxy(40,15);
       writeln('Celular: ', celular);
+      gotoxy(40,16);
       writeln('Direccion e-mail: ', email);
+      gotoxy(40,17);
       if estado = true then
         writeln('Estado: ACTIVO')
       else

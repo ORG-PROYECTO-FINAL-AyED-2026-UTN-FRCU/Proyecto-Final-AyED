@@ -113,20 +113,33 @@ var
   campo:string;
 begin
   campo:='';
+  clrscr;
   leer_dato(arch_clientes,pos,registro_clientes);
   mostrar_registro(registro_clientes);
   vc:=false;
   while vc=false do
     begin
-      writeln('0: volver');
+      textbackground(Blue);
+      gotoxy(40,20);
+      write('PULSE UNA TECLA PARA CONTINUAR');
+      readkey();
+      normVideo;
+      clrscr;
+      gotoxy(40,10);
+      writeln('0: VOLVER');
+      gotoxy(40,11);
       if registro_clientes.estado = true then
-        writeln('1: Dar de baja')
+        writeln('1: DAR DE BAJA')
       else
-        writeln('1: Dar de alta');
-      writeln('2: Modificar');
+        writeln('1: DAR DE ALTA');
+      gotoxy(40,12);
+      writeln('2: MODIFICAR');
       respuesta:=readkey;
       case respuesta of
-      '0': vc:=True;
+      '0': begin
+             vc:=True;
+             clrscr;
+           end;
       '1': begin
             vc:=True;
             if registro_clientes.estado = true then
@@ -134,13 +147,22 @@ begin
             else
               registro_clientes.estado:=True;
             guardar_registro(arch_clientes,pos,registro_clientes);
+            clrscr;
            end;
       '2': begin
              vc:=true;
              modificar_datos(arch_clientes,campo,pos);
+             clrscr;
            end;
       else
-        writeln('opcion invalida ingrese nuevamente.');
+        begin
+          gotoxy(40,10);
+          textbackground(red);
+          writeln('OPCION INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR.');
+          normVideo;
+          readkey();
+          clrscr;
+        end;
       end;
     end;
 end;
