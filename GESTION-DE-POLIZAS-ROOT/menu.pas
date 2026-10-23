@@ -102,6 +102,7 @@ var
   respuesta:char;
   campo:string;
 begin
+  campo:='';
   leer_dato(arch_clientes,pos,registro_clientes);
   mostrar_registro(registro_clientes);
   vc:=false;
@@ -140,11 +141,20 @@ var
   pos:longint;
 begin
   repeat
+    clrscr;
+    gotoxy(40,10);
     write('DNI: ');
     readln(dni);
     es_valido:= ValidarDNI(dni);
     if es_valido = false then
-      writeln('DNI INVALIDO. VUELVA A INGRESAR');
+      begin
+        clrscr;
+        gotoxy(40,10);
+        TextBackground(red);
+        writeln('DNI INVALIDO. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+        readkey();
+        NormVideo;
+      end;
   until es_valido = true;
   busqueda_dni(arch_clientes,dni,pos);
   if pos = -1 then

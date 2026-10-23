@@ -69,8 +69,8 @@ begin
       dni:=dni_1;
       write('Ingrese apellido: ');
       validar_apynom(apellido);
-      writeln('Ingrese nombre: ');
-     validar_apynom(nombres);
+      write('Ingrese nombre: ');
+      validar_apynom(nombres);
       write('Ingrese direccion ');
       readln(direccion);
       writeln('Fecha nacimiento: ');
@@ -79,9 +79,9 @@ begin
       write('Mes: ');
       validar_fecha_completo(fecha_nacimiento,2);
       write('Año: ');
-       validar_fecha_completo(fecha_nacimiento,3);
+      validar_fecha_completo(fecha_nacimiento,3);
       write('Ingrese celular:  ');
-     validar_celular(celular);
+      validar_celular(celular);
       write('Ingrese direccion de e-mail ');
       readln(email);
       estado:=True;
