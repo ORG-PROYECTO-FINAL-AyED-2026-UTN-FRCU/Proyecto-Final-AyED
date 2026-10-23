@@ -49,18 +49,10 @@ begin
     writeln('0:Salir');
     readln(campo);
     case lowercase(campo) of
-    '1': valido:=True;
-    '2':  valido:=True;
-    '3':  valido:=True;
-    '4':
-      begin
-        valido:=True;
-      end;
-    '5': valido:=True;
-    '6': valido:=True;
-    '0': valido:=true;
+    '1', '2', '3', '4', '5', '6', '0': valido:=True;
+
     else
-      writeln('CAMPO INVALIDO; VUELVA A INGRESAR');
+      writeln('CAMPO INVALIDO; VUELVA A INGRESAR. ');
     end;
   until (valido);
 end;

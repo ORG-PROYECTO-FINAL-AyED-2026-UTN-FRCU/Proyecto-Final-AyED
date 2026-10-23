@@ -19,7 +19,7 @@
                 readln(dato);
                  if not validar_string(dato) then
                 writeln('ERROR, Debe ser una cadena, ingrese nuevamente: ');
-        until Validar_String(dato) and (length(dato)>-1);
+        until Validar_String(dato);
    end;
         //VALIDACIONES  DE RANGO DE FECHA, DIA Y MES, QUE CUMPLAN RANGOS ESTIPULADOS
   //ESTAS VALIDACIONES NO INVOLUCRAN ANTI-CRASH POR DATO INGRESADO DE TIPO INVALIDO, EJEMPLO SI SE INGRESA UN STRING.
