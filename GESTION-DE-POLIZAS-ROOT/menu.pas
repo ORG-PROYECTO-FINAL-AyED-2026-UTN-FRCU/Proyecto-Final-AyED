@@ -181,12 +181,13 @@ begin
            end;
       else
         begin
-          gotoxy(40,10);
-          textbackground(red);
+           clrscr;
+           gotoxy(40,10);
+           textbackground(red);
           writeln('OPCION INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR.');
-          normVideo;
           readkey();
-          clrscr;
+          normVideo;
+          CLRSCR;
         end;
       end;
     end;
@@ -227,8 +228,10 @@ begin
         begin
           clrscr;
           gotoxy(36,10);
+          TextBackground(red);
           writeln('OPCION INVALIDA. PRESIONE UNA TECLA PARA VOLVER A INGRESAR');
           readkey();
+          NormVideo;
           clrscr;
         end;
 

@@ -9,7 +9,7 @@ interface
   function Validar_String(dato: string):boolean;
   procedure validar_apynom(var dato:shortstring);
   function validar_formato_celular( dato: string):boolean;
-  procedure validar_celular(dato: string);
+  procedure validar_celular(var dato: shortstring);
   procedure validar_fecha_completo(var reg:reg_fecha; opc:BYTE);
 implementation
 
@@ -18,7 +18,13 @@ begin
     repeat
       readln(dato);
       if not validar_string(dato) then
+        begin
+       gotoxy(40,22); write('                                               ');
+       gotoxy(40,22);
+       textbackground(red);
         writeln('ERROR, Debe ser una cadena, ingrese nuevamente: ');
+        normvideo;
+        end;
     until Validar_String(dato);
 end;
 //VALIDACIONES  DE RANGO DE FECHA, DIA Y MES, QUE CUMPLAN RANGOS ESTIPULADOS
@@ -36,12 +42,20 @@ begin
 
     if codigo <> 0 then
       begin
+       gotoxy(40,22);write('                                               ');
+       gotoxy(40,22);
+       textbackground(red);
         writeln('TIPO DE DATO INVALIDO. Ingrese nuevamente: ');
+        normvideo;
       end
     else
       if (dato < min) or (dato > max) then
         begin
+       gotoxy(40,22);    write('                                               ');
+       gotoxy(40,22);
+       textbackground(red);
           writeln('ERROR: Rango invalido, reingrese: ');
+          normvideo;
         end
       else
         begin
@@ -58,7 +72,13 @@ begin
      readln(dato);
     {$I+}
      if IORESULT<>0 THEN
+       begin
+       gotoxy(40,22);write('                                               ');
+       gotoxy(40,22);
+       textbackground(red);
     writeln('TIPO DE DATO INVALIDO. ');
+    normvideo;
+       end;
   until IOresult=0;
 end; //squi evitamos que se cierre el programa por errores de tipos de datos usando los controles I/O
 procedure validar_fecha_completo(var reg: reg_fecha; opc: BYTE);
@@ -151,12 +171,19 @@ begin
   validar_formato_celular:=esValido;
 end;
 
-procedure validar_celular( dato: string);
+procedure validar_celular(var dato: shortstring);
 begin
   repeat
     readln(dato);
     if not(validar_formato_celular(dato)) then
+      BEGIN
+           gotoxy(40,22);   write('                                               ');
+           gotoxy(40,22);
+           textbackground(red);
       writeln('celular invalido ingrese nuevamente: ');
+      NormVideo;
+      gotoxy(56, wherey - 1); // Ajusta la X según dónde esté tu etiqueta "Ingrese apellido:"
+      end;
   until validar_formato_celular(dato);
 end;
   end.

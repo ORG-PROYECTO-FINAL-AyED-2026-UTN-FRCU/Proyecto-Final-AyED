@@ -100,6 +100,7 @@ begin
       validar_celular(celular);
       gotoxy(40,19);
       write('Ingrese direccion de e-mail ');
+      email:='';
       readln(email);
       estado:=True;
      end;
