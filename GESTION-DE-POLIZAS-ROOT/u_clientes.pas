@@ -76,7 +76,7 @@ begin
     begin
       dni:=dni_1;
       gotoxy(40,11);
-      write('Ingrese apellido: ');;
+      write('Ingrese apellido: ');
       validar_apynom(apellido);
       gotoxy(40,12);
       write('Ingrese nombre: ');

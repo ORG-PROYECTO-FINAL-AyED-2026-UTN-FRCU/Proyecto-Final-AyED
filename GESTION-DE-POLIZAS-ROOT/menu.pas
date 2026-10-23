@@ -50,20 +50,36 @@ var
 begin
   valido:=False;
   repeat
+    gotoxy(40,10);
     writeln('Ingrese el campo que quiere modificar ');
-    writeln('1:Apellido');
-    writeln('2:Nombres');
-    writeln('3:Direccion');
-    writeln('4:Fecha de nacimiento');
-    writeln('5:Celular');
-    writeln('6:Email');
+    gotoxy(40,12);
     writeln('0:Salir');
-    readln(campo);
+    gotoxy(40,13);
+    writeln('1:Apellido');
+    gotoxy(40,14);
+    writeln('2:Nombres');
+    gotoxy(40,15);
+    writeln('3:Direccion');
+    gotoxy(40,16);
+    writeln('4:Fecha de nacimiento');
+    gotoxy(40,17);
+    writeln('5:Celular');
+    gotoxy(40,18);
+    writeln('6:Email');
+    gotoxy(78,10);
+    campo:=readkey;
     case lowercase(campo) of
     '1', '2', '3', '4', '5', '6', '0': valido:=True;
 
     else
-      writeln('CAMPO INVALIDO; VUELVA A INGRESAR. ');
+      begin
+        textbackground(red);
+        gotoxy(40,20);
+        writeln('CAMPO INVALIDO; PULSE UNA TECLA PARA VOLVER A INGRESAR. ');
+        readkey();
+        normVideo;
+        clrscr;
+      end;
     end;
   until (valido);
 end;
@@ -79,6 +95,8 @@ begin
   if (campo <> '4') and (campo<>'0') then
     begin
       //VALIDA Y LEE DATO DATO_MODIFICADO
+      clrscr;
+      gotoxy(40,10);
       write('Ingrese el nuevo dato ');
       case campo of
       '1':validar_apynom(dato_modificado);
@@ -94,14 +112,19 @@ begin
   else
   if campo<>'0' then
     begin
+      clrscr;
+      gotoxy(40,10);
       writeln('Ingrese la nueva fecha de nacimiento');
-    write('Dia: ');
+      gotoxy(40,12);
+      write('Dia: ');
       validar_fecha_completo(fecha_modificada,1);
+      gotoxy(40,13);
       write('Mes: ');
       validar_fecha_completo(fecha_modificada,2);
+      gotoxy(40,14);
       write('Año: ');
-       validar_fecha_completo(fecha_modificada,3);
-     modificar_registro(registro_clientes,campo,dato_modificado,fecha_modificada);
+      validar_fecha_completo(fecha_modificada,3);
+      modificar_registro(registro_clientes,campo,dato_modificado,fecha_modificada);
       guardar_registro(arch_clientes,pos,registro_clientes);
     end;
 
@@ -152,6 +175,7 @@ begin
            end;
       '2': begin
              vc:=true;
+             clrscr;
              modificar_datos(arch_clientes,campo,pos);
              clrscr;
            end;
