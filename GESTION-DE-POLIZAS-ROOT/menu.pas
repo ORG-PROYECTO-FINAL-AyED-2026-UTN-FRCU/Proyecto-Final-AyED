@@ -28,6 +28,7 @@ begin
         if respuesta ='1' then
           begin
             vc:=true;
+            clrscr;
             pos:=filesize(arch_clientes);
             carga_registro(registro_clientes,dni1);
             guardar_registro(arch_clientes,pos,registro_clientes);
