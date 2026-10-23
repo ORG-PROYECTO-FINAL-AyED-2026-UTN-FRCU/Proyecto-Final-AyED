@@ -184,7 +184,7 @@ begin
       begin
         clrscr;
         gotoxy(40,10);
-        writeln('DNI: ');
+        write('DNI: ');
         readln(dni);
         es_valido:= ValidarDNI(dni);
         if es_valido = false then
