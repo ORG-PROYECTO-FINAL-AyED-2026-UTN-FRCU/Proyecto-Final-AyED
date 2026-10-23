@@ -59,7 +59,7 @@ end;
 procedure modificar_datos (var arch_clientes:t_archivo_clientes ; campo:string ; var pos:longint);
 var
   registro_clientes : t_reg_clientes;
-  dato_modificado:shortstring;
+  dato_modificado:shortstring;  // CAMBIE ESTO DE STRING--->> ShortString por compatibilidad de rangos en Strings acotados
   fecha_modificada:reg_fecha;
   reg_modificado:reg_fecha;
 begin
