@@ -75,26 +75,20 @@ begin
   with r do
     begin
       dni:=dni_1;
-      gotoxy(40,11);
-      write('Ingrese apellido: ');
-      validar_apynom(apellido);
-      gotoxy(40,12);
-      write('Ingrese nombre: ');
-      validar_apynom(nombres);
+      Ingresar_apellido(apellido);
+      Ingresar_nombre(nombres);
       gotoxy(40,13);
       write('Ingrese direccion ');
       readln(direccion);
       gotoxy(40,14);
       writeln('Fecha nacimiento: ');
-      gotoxy(40,15);
-      write('Dia: ');
-      validar_fecha_completo(fecha_nacimiento,1);
+      ingresar_validar_fecha_completo(fecha_nacimiento,1);
       gotoxy(40,16);
       write('Mes: ');
-      validar_fecha_completo(fecha_nacimiento,2);
+      ingresar_validar_fecha_completo(fecha_nacimiento,2);
       gotoxy(40,17);
       write('Año: ');
-      validar_fecha_completo(fecha_nacimiento,3);
+      ingresar_validar_fecha_completo(fecha_nacimiento,3);
       gotoxy(40,18);
       write('Ingrese celular:  ');
       validar_celular(celular);

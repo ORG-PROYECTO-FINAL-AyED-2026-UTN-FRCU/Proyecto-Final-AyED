@@ -38,7 +38,7 @@ begin
             clrscr;
             TextBackground(red);
             gotoxy(34,10);
-            writeln('RESPUESTA INCORRECTA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+            writeln('OPCION SELECCIONADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
             readkey();
             NormVideo;
           end;
@@ -99,8 +99,8 @@ begin
       gotoxy(40,10);
       write('Ingrese el nuevo dato ');
       case campo of
-      '1':validar_apynom(dato_modificado);
-      '2':validar_apynom(dato_modificado);
+      '1':validar_string(dato_modificado);
+      '2':validar_string(dato_modificado);
       '5':validar_celular(dato_modificado);
       else
         readln(dato_Modificado);
@@ -117,13 +117,13 @@ begin
       writeln('Ingrese la nueva fecha de nacimiento');
       gotoxy(40,12);
       write('Dia: ');
-      validar_fecha_completo(fecha_modificada,1);
+      ingresar_validar_fecha_completo(fecha_modificada,1);
       gotoxy(40,13);
       write('Mes: ');
-      validar_fecha_completo(fecha_modificada,2);
+      ingresar_validar_fecha_completo(fecha_modificada,2);
       gotoxy(40,14);
       write('Año: ');
-      validar_fecha_completo(fecha_modificada,3);
+      ingresar_validar_fecha_completo(fecha_modificada,3);
       modificar_registro(registro_clientes,campo,dato_modificado,fecha_modificada);
       guardar_registro(arch_clientes,pos,registro_clientes);
     end;
@@ -184,7 +184,7 @@ begin
            clrscr;
            gotoxy(40,10);
            textbackground(red);
-          writeln('OPCION INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR.');
+          writeln('OPCION SELECCIONADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR.');
           readkey();
           normVideo;
           CLRSCR;

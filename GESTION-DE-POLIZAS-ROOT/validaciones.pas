@@ -3,27 +3,47 @@ unit validaciones;
 
 interface
   uses crt,sysutils,archivo_clientes;
+  procedure Ingresar_apellido(var dato:shortstring);
+  procedure Ingresar_nombre(var dato:shortstring);
   function ValidarDNI(dni:string): BOOLEAN;
   procedure Validar_T_dato_word(var dato: word);
   function Validar_rango_fecha(var dato: word; min, max: word): boolean;
   function Validar_String(dato: string):boolean;
-  procedure validar_apynom(var dato:shortstring);
   function validar_formato_celular( dato: string):boolean;
   procedure validar_celular(var dato: shortstring);
-  procedure validar_fecha_completo(var reg:reg_fecha; opc:BYTE);
+  procedure ingresar_validar_fecha_completo(var reg:reg_fecha; opc:BYTE);
 implementation
-
-procedure validar_apynom(var dato:shortstring);
+procedure Ingresar_apellido(var dato:shortstring);
 begin
     repeat
+      gotoxy(40,11);
+      write('Ingrese apellido: ');
       readln(dato);
       if not validar_string(dato) then
         begin
-       gotoxy(40,22); write('                                               ');
-       gotoxy(40,22);
-       textbackground(red);
-        writeln('ERROR, Debe ser una cadena, ingrese nuevamente: ');
-        normvideo;
+            TextBackground(red);
+            gotoxy(36,13);
+            writeln('ENTRADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+            readkey();
+            NormVideo;
+            clrscr;
+        end;
+    until Validar_String(dato);
+end;
+procedure Ingresar_nombre(var dato:shortstring);
+begin
+    repeat
+      gotoxy(40,12);
+      write('Ingrese nombres ');
+      readln(dato);
+      if not validar_string(dato) then
+        begin
+            TextBackground(red);
+            gotoxy(36,14);
+            writeln('ENTRADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+            readkey();
+            NormVideo;
+            clrscr;
         end;
     until Validar_String(dato);
 end;
@@ -35,34 +55,17 @@ var
   codigo: integer;
   valido: boolean;
 begin
-  valido := false;
-  repeat
     readln(s);
     val(s, dato, codigo); // Intenta convertir el texto ingresado a número
 
     if codigo <> 0 then
-      begin
-       gotoxy(40,22);write('                                               ');
-       gotoxy(40,22);
-       textbackground(red);
-        writeln('TIPO DE DATO INVALIDO. Ingrese nuevamente: ');
-        normvideo;
-      end
+      valido := false
     else
       if (dato < min) or (dato > max) then
-        begin
-       gotoxy(40,22);    write('                                               ');
-       gotoxy(40,22);
-       textbackground(red);
-          writeln('ERROR: Rango invalido, reingrese: ');
-          normvideo;
-        end
+        valido := false
       else
-        begin
           valido := true; // El número es válido y está dentro del rango
-        end;
-  until valido;
-  validar_rango_fecha := true;
+  validar_rango_fecha := valido;
 end;
 //squi evitamos que se cierre el programa por errores de tipos de datos usando los controles I/O
 procedure Validar_T_dato_word(var dato: word);
@@ -80,22 +83,73 @@ begin
     normvideo;
        end;
   until IOresult=0;
-end; //squi evitamos que se cierre el programa por errores de tipos de datos usando los controles I/O
-procedure validar_fecha_completo(var reg: reg_fecha; opc: BYTE);
+end; //aqui evitamos que se cierre el programa por errores de tipos de datos usando los controles I/O
+procedure ingresar_validar_fecha_completo(var reg: reg_fecha; opc: BYTE);
+var
+  vc:boolean;
 begin
+  vc:=false;
     case opc of
       1:
         begin
-          validar_rango_fecha(reg.dia, 1, 31);
+          repeat
+            gotoxy(40,15);
+            write('                             ');    //limpia esa linea
+            gotoxy(40,15);
+            write('Dia: ');
+            vc:=validar_rango_fecha(reg.dia, 1, 31);
+            if not vc then
+              begin
+                gotoxy(40,17);
+                TextBackground(red);
+                write('ERROR. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+                readkey();
+                normvideo;
+                gotoxy(40,17);
+                write('                                                   ');  //limpia la linea
+              end;
+          until vc=True;
         end;
       2:
         begin
-          validar_rango_fecha(reg.mes, 1, 12);
-        end;
+          repeat
+            gotoxy(40,16);
+            write('                             ');    //limpia esa linea
+            gotoxy(40,16);
+            write('Mes: ');
+            vc:=validar_rango_fecha(reg.mes, 1, 12);
+            if not vc then
+              begin
+                gotoxy(40,18);                                                             //validar_rango_fecha(reg.ano, 1900, 2049);
+                TextBackground(red);
+                write('ERROR. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+                readkey();
+                normvideo;
+                gotoxy(40,18);
+                write('                                                   ');  //limpia la linea
+              end;
+            until vc=True;
+          end;
       3:
         begin
-          validar_rango_fecha(reg.ano, 1900, 2049);
-        end;
+          repeat
+            gotoxy(40,17);
+            write('                             ');    //limpia esa linea
+            gotoxy(40,17);
+            write('Año: ');
+            vc:=validar_rango_fecha(reg.ano, 1900, 2049);
+            if not vc then
+              begin
+                gotoxy(40,19);
+                TextBackground(red);
+                write('ERROR. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+                readkey();
+                normvideo;
+                gotoxy(40,19);
+                write('                                                   ');  //limpia la linea
+              end;
+            until vc=True;
+          end;
     end;
 end;
 
