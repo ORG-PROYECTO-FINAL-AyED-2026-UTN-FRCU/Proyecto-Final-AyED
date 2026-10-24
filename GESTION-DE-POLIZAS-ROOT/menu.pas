@@ -99,12 +99,12 @@ begin
       gotoxy(40,10);
       write('Ingrese el nuevo dato ');
       case campo of
-      '1': Ingresar_apellido(dato_modificado);
-      '2': Ingresar_nombre(dato_modificado);
+      '1':validar_string(dato_modificado);
+      '2':validar_string(dato_modificado);
       '5':validar_celular(dato_modificado);
       else
         readln(dato_Modificado);
-      end;
+      end;    // PD: SANTI RAMEAU.
 
       modificar_registro(registro_clientes,campo,dato_modificado,fecha_modificada);
       guardar_registro(arch_clientes,pos,registro_clientes);

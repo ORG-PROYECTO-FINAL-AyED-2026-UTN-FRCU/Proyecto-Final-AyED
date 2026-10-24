@@ -34,7 +34,7 @@ procedure Ingresar_nombre(var dato:shortstring);
 begin
     repeat
       gotoxy(40,12);
-      write('Ingrese nombre/s: ');
+      write('Ingrese nombres ');
       readln(dato);
       if not validar_string(dato) then
         begin
