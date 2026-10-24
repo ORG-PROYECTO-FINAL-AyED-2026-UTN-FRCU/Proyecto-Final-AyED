@@ -182,7 +182,6 @@ begin
            textbackground(red);
       writeln('celular invalido ingrese nuevamente: ');
       NormVideo;
-      gotoxy(56, wherey - 1); // Ajusta la X según dónde esté tu etiqueta "Ingrese apellido:"
       end;
   until validar_formato_celular(dato);
 end;
