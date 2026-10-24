@@ -83,15 +83,9 @@ begin
       gotoxy(40,14);
       writeln('Fecha nacimiento: ');
       ingresar_validar_fecha_completo(fecha_nacimiento,1);
-      gotoxy(40,16);
-      write('Mes: ');
       ingresar_validar_fecha_completo(fecha_nacimiento,2);
-      gotoxy(40,17);
-      write('Año: ');
       ingresar_validar_fecha_completo(fecha_nacimiento,3);
-      gotoxy(40,18);
-      write('Ingrese celular:  ');
-      validar_celular(celular);
+      ingresar_validar_celular(celular);
       gotoxy(40,19);
       write('Ingrese direccion de e-mail ');
       email:='';

@@ -10,12 +10,14 @@ interface
   function Validar_rango_fecha(var dato: word; min, max: word): boolean;
   function Validar_String(dato: string):boolean;
   function validar_formato_celular( dato: string):boolean;
-  procedure validar_celular(var dato: shortstring);
+  procedure ingresar_validar_celular(var dato: shortstring);
   procedure ingresar_validar_fecha_completo(var reg:reg_fecha; opc:BYTE);
 implementation
 procedure Ingresar_apellido(var dato:shortstring);
 begin
     repeat
+      gotoxy(40,11);
+      write('                                                                                                                   '); //limpia esa linea
       gotoxy(40,11);
       write('Ingrese apellido: ');
       readln(dato);
@@ -26,13 +28,16 @@ begin
             writeln('ENTRADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
             readkey();
             NormVideo;
-            clrscr;
+            gotoxy(36,13);
+            write('                                                                                                             '); //limpia esa linea
         end;
     until Validar_String(dato);
 end;
 procedure Ingresar_nombre(var dato:shortstring);
 begin
     repeat
+      gotoxy(40,12);
+      write('                      '); // borra esa linea
       gotoxy(40,12);
       write('Ingrese nombres ');
       readln(dato);
@@ -43,7 +48,8 @@ begin
             writeln('ENTRADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
             readkey();
             NormVideo;
-            clrscr;
+            gotoxy(36,14);
+            write('                                                                    '); // borra esa linea
         end;
     until Validar_String(dato);
 end;
@@ -76,7 +82,7 @@ begin
     {$I+}
      if IORESULT<>0 THEN
        begin
-       gotoxy(40,22);write('                                               ');
+       gotoxy(40,22);write('                                                                                                                  ');   // limpia esa linea
        gotoxy(40,22);
        textbackground(red);
     writeln('TIPO DE DATO INVALIDO. ');
@@ -225,17 +231,26 @@ begin
   validar_formato_celular:=esValido;
 end;
 
-procedure validar_celular(var dato: shortstring);
+procedure ingresar_validar_celular(var dato: shortstring);
+var
+  vc:boolean;
 begin
   repeat
+    gotoxy(40,18);
+    write('                             ');   // borra esa linea
+    gotoxy(40,18);
+    write('Ingrese celular:  ');
     readln(dato);
-    if not(validar_formato_celular(dato)) then
-      BEGIN
-           gotoxy(40,22);   write('                                               ');
-           gotoxy(40,22);
-           textbackground(red);
-      writeln('celular invalido ingrese nuevamente: ');
-      NormVideo;
+    vc:=validar_formato_celular(dato);
+    if not vc then
+      begin
+        gotoxy(40,20);
+        textbackground(red);
+        writeln('ERROR. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+        readkey;
+        NormVideo;
+        gotoxy(40,20);
+        write('                                                      ');   // borra esa linea
       end;
   until validar_formato_celular(dato);
 end;
