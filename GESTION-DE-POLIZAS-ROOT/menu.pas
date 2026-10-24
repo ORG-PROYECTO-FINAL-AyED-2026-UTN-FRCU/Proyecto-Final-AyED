@@ -38,7 +38,7 @@ begin
             clrscr;
             TextBackground(red);
             gotoxy(34,10);
-            writeln('RESPUESTA INCORRECTA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+            writeln('OPCION SELECCIONADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
             readkey();
             NormVideo;
           end;
@@ -92,20 +92,52 @@ var
 begin
   campo_valido(campo);
   leer_dato(arch_clientes,pos,registro_clientes);
-  if (campo <> '4') and (campo<>'0') then
+  clrscr;
+  if campo <> '0' then
+    begin
+    case campo of
+    '1': ingresar_apellido(dato_modificado);
+    '2': ingresar_nombre(dato_modificado);
+    '3':begin
+          gotoxy(40,10);
+          write('Ingrese la nueva direccion ');
+          readln(dato_Modificado);
+        end;
+    '4': begin
+           clrscr;
+           gotoxy(40,13);
+           writeln('Ingrese la nueva fecha de nacimiento');
+           ingresar_validar_fecha_completo(fecha_modificada,1);
+           ingresar_validar_fecha_completo(fecha_modificada,2);
+           ingresar_validar_fecha_completo(fecha_modificada,3);
+           modificar_registro(registro_clientes,campo,dato_modificado,fecha_modificada);
+           guardar_registro(arch_clientes,pos,registro_clientes);
+         end;
+    '5': ingresar_validar_celular(dato_modificado);
+    '6':begin
+          gotoxy(40,10);
+          write('Ingrese la nueva direccion de e-mail ');
+          readln(dato_Modificado);
+        end;
+
+    end;
+      modificar_registro(registro_clientes,campo,dato_modificado,fecha_modificada);
+      guardar_registro(arch_clientes,pos,registro_clientes);
+    end;
+
+  {if (campo <> '4') and (campo<>'0') then
     begin
       //VALIDA Y LEE DATO DATO_MODIFICADO
       clrscr;
       gotoxy(40,10);
       write('Ingrese el nuevo dato ');
       case campo of
-      '1':validar_apynom(dato_modificado);
-      '2':validar_apynom(dato_modificado);
+      '1':validar_string(dato_modificado);
+      '2':validar_string(dato_modificado);
       '5':validar_celular(dato_modificado);
       else
         readln(dato_Modificado);
       end;    // PD: SANTI RAMEAU.
-
       modificar_registro(registro_clientes,campo,dato_modificado,fecha_modificada);
       guardar_registro(arch_clientes,pos,registro_clientes);
     end
@@ -113,20 +145,14 @@ begin
   if campo<>'0' then
     begin
       clrscr;
-      gotoxy(40,10);
-      writeln('Ingrese la nueva fecha de nacimiento');
-      gotoxy(40,12);
-      write('Dia: ');
-      validar_fecha_completo(fecha_modificada,1);
       gotoxy(40,13);
-      write('Mes: ');
-      validar_fecha_completo(fecha_modificada,2);
-      gotoxy(40,14);
-      write('Año: ');
-      validar_fecha_completo(fecha_modificada,3);
+      writeln('Ingrese la nueva fecha de nacimiento');
+      ingresar_validar_fecha_completo(fecha_modificada,1);
+      ingresar_validar_fecha_completo(fecha_modificada,2);
+      ingresar_validar_fecha_completo(fecha_modificada,3);
       modificar_registro(registro_clientes,campo,dato_modificado,fecha_modificada);
       guardar_registro(arch_clientes,pos,registro_clientes);
-    end;
+    end;}
 
 end;
 procedure menu_cliente_encontrado (var arch_clientes:t_archivo_clientes ; dni1:string; var pos:longint);
@@ -184,7 +210,7 @@ begin
            clrscr;
            gotoxy(40,10);
            textbackground(red);
-          writeln('OPCION INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR.');
+          writeln('OPCION SELECCIONADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR.');
           readkey();
           normVideo;
           CLRSCR;
