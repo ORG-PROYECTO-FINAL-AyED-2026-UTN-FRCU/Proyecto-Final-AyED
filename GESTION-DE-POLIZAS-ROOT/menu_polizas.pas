@@ -53,7 +53,25 @@ begin
       i := i + 1;
   end;
 end;
-
+{VALIDACION PATENTE}
+function Validar_formato_patente (patente:String):boolean;
+var VC:boolean;
+begin
+  if length(patente)<>7 then
+    vc:=false
+   else
+    if not (Upcase(patente[1]) in ['A'..'Z']) or not (Upcase(patente[2]) in ['A'..'Z']) then
+       vc:=false
+      else
+         if not (Upcase(patente[6]) in ['A'..'Z']) or not (Upcase(patente[7]) in ['A'..'Z']) then
+           Vc:=false
+           else
+             if not (Patente[3] in ['0'..'9']) or not (Patente[4] in ['0'..'9']) or not (Patente[5] in ['0'..'9']) then
+               Vc:=false
+               else
+                 vc:=true;
+  Validar_formato_patente:=vc;
+end;
 procedure mostrar_registro (r:t_reg_polizas);
 begin
   with r do
@@ -246,6 +264,7 @@ begin
     res:=readkey;
     if res = '1' then
       begin
+        repeat
         clrscr;
         gotoxy(40,10);
         write('DNI: ');
@@ -260,11 +279,14 @@ begin
             readkey();
             NormVideo;
           end;
+        until es_valido_DNI=true;
+        begin
+        repeat
         clrscr;
         gotoxy(40,10);
         write('PATENTE: ');
         readln(patente);
-        {es_valido_Patente:= ValidarPatente(patente);
+        es_valido_Patente:=Validar_formato_patente(patente);
         if es_valido_patente = false then
           begin
             clrscr;
@@ -273,7 +295,9 @@ begin
             writeln('PATENTE INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
             readkey();
             NormVideo;
-          end;}
+          end;
+          until es_valido_patente=true;
+        end;
       end
     else
       if res <> '0' then
@@ -400,7 +424,6 @@ begin
           end;
   end;
 end;
-
 
 
 
