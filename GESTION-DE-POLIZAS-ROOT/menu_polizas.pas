@@ -1,14 +1,18 @@
 unit Menu_Polizas;
 interface
 uses
-  Classes, SysUtils,ARCHIVO_POLIZAS,validaciones;
+  Classes, SysUtils,ARCHIVO_POLIZAS,validaciones,crt;
 const
   ruta='ARCHIVO_POLIZAS.DAT';
 procedure abrir_crear (var a:t_archivo_polizas);
 procedure leer_dato (var a:t_archivo_polizas ; pos:cardinal ; var dato:t_reg_polizas);
 procedure guardar_registro (var a:t_archivo_polizas ; pos:cardinal ; registro:t_reg_polizas);
+procedure mostrar_registro (r:t_reg_polizas);
+procedure menu_poliza(var arch_polizas:t_archivo_polizas);
+procedure menu_poliza_encontrado (var arch_polizas:t_archivo_polizas ; dni1:string; var pos:longint);
+procedure menu_poliza_no_encontrado(var arch_polizas:t_archivo_polizas;dni1:string;patente_1:string);
 implementation
-Procedure abrir_crear (var a:t_archivo_polizas);
+Procedure abrir_crear(var a:t_archivo_polizas);
 begin
   assign(a,ruta);
   {$I-}
@@ -27,22 +31,29 @@ begin
   seek(a,pos);
   write(a,registro);
 end;
-procedure modificar_registro (var registro:t_reg_polizas; campo:string; dato_modificado:string;);
+{BUSQUEDA}
+procedure busqueda_dni_patente (var a: t_archivo_polizas;dni_buscado:string;patente_buscada:string;var pos: longint);
+var
+  i: cardinal;
+  encontrado: boolean;
+  leido: t_reg_polizas;
 begin
-  with registro do
+  encontrado := false;
+  i := 0;
+  pos := -1;
+  while (i < filesize(a)) and not encontrado do
+  begin
+    leer_dato(a, i, leido);
+    if (leido.dni = dni_buscado) and (leido.patente = patente_buscada) then
     begin
-      case campo of
-      '1': numero_poliza:=dato_modificado;
-      '2': marca:=dato_modificado;
-      '3': modelo:=dato_modificado;
-      '4': ano_vehiculo:=dato_modificado;
-      '5': patente=dato_modificado;
-      '6': suma_asegurada:=dato_modificado;
-      '7': cobertura:=dato_modificado;
-      '8': valor_cuota:=dato_modificado;
-      end;
-    end;
+      encontrado := true;
+      pos := i;
+    end
+    else
+      i := i + 1;
+  end;
 end;
+
 procedure mostrar_registro (r:t_reg_polizas);
 begin
   with r do
@@ -102,7 +113,7 @@ begin
     gotoxy(78,10);
     campo:=readkey;
     case lowercase(campo) of
-    '1', '2', '3', '4', '5', '6','7','8', '0': valido:=True;
+    '1', '2', '3', '4', '5', '6', '7', '8', '0': valido:=True;
 
     else
       begin
@@ -116,14 +127,28 @@ begin
     end;
   until (valido);
 end;
-
-
-procedure modificar_datos (var arch_polizas:t_archivo_polizas ; campo:string ; var pos:longint);
+procedure modificar_registro (var registro:t_reg_polizas; campo:string; dato_modificado:string;dato_modificado_cardinal:cardinal;dato_modificado_real:real);
+begin
+  with registro do
+    begin
+      case campo of
+      '1': numero_poliza:=dato_modificado_cardinal;
+      '2': marca:=dato_modificado;
+      '3': modelo:=dato_modificado;
+      '4': ano_vehiculo:=dato_modificado_cardinal;
+      '5': patente:=dato_modificado;
+      '6': suma_asegurada:=dato_modificado_real;
+      '7': cobertura:=dato_modificado;
+      '8': valor_cuota:=dato_modificado_real;
+      end;
+    end;
+end;
+procedure modificar_datos(var arch_polizas:t_archivo_polizas ; campo:string ; var pos:longint);
 var
   registro_polizas : t_reg_polizas;
   dato_modificado:shortstring;
-  {fecha_modificada:reg_fecha;
-  reg_modificado:reg_fecha;}
+  dato_modificado_cardinal:cardinal;
+  dato_modificado_Real:real;
 begin
   campo_valido(campo);
   leer_dato(arch_polizas,pos,registro_polizas);
@@ -134,27 +159,29 @@ begin
     '1': begin
            gotoxy(40,10);
            write('Ingrese nuevo numero de poliza ');
-           readln(dato_modificado);
-    '2':begin
+           readln(dato_modificado_cardinal);
+         end;
+    '2': begin
           gotoxy(40,10);
           write('Ingrese marca ');
           readln(dato_modificado);
+         end;
     '3':begin
           gotoxy(40,10);
-          write('Ingrese la nueva direccion ');
+          write('Ingrese modelo ');
           readln(dato_Modificado);
         end;
     '4': begin
            clrscr;
            gotoxy(40,10);
            writeln('Ingrese ano del vehiculo ');
-           readln(dato_modificado);
+           readln(dato_modificado_cardinal);
          end;
-    '5': {ingresar_validar_Patente(dato_modificado);}
+    {'5': ingresar_validar_Patente(dato_modificado);}
     '6':begin
           gotoxy(40,10);
           write('Ingrese la nueva suma asegurada ');
-          readln(dato_Modificado);
+          readln(dato_Modificado_real);
         end;
     '7':begin
           gotoxy(40,10);
@@ -164,11 +191,11 @@ begin
     '8':begin
           gotoxy(40,10);
           write('Ingrese valor de cuota ');
-          readln(dato_Modificado);
+          readln(dato_Modificado_real);
         end;
 
     end;
-      modificar_registro(registro_polizas,campo,dato_modificado,);
+      modificar_registro(registro_polizas,campo,dato_modificado,dato_modificado_cardinal,dato_modificado_real);
       guardar_registro(arch_polizas,pos,registro_polizas);
     end;
 end;
@@ -192,15 +219,16 @@ begin
       write('Ingrese ano del vehiculo ');
       readln(ano_Vehiculo);
       {write('Ingrese suma asegurada ');
-      readln(Suma_asegurada);}                         {La suma asegurada y valor de cuota se tiene que sacar con un calculo pero por las dudas las dejamos por ahora}
-      write('Ingrese cobertura ');
+      readln(Suma_asegurada);}
+      write('Ingrese cobertura ');         {La suma asegurada y valor de cuota se tiene que sacar con un calculo pero por las dudas las dejamos por ahora}
       readln(cobertura);
       {writeln('Ingrese valor de cuota ');
       readln(Valor_cuota);}
       estado:=True;
      end;
     end;
-procedure menu_polizas (var arch_polizas:t_archivo_polizas);
+{MENU POLIZA PRINCIPAL}
+procedure menu_poliza (var arch_polizas:t_archivo_polizas);
 var
   res:char;
   dni:string;
@@ -208,6 +236,7 @@ var
   es_valido_DNI,es_valido_Patente:boolean;
   pos:longint;
 begin
+  abrir_crear(arch_polizas);
   repeat
     clrscr;
     gotoxy(40,10);
@@ -222,7 +251,7 @@ begin
         write('DNI: ');
         readln(dni);
         es_valido_DNI:= ValidarDNI(dni);
-        if es_valido = false then
+        if es_valido_DNI = false then
           begin
             clrscr;
             gotoxy(40,10);
@@ -260,12 +289,12 @@ begin
 
   until ((es_valido_DNI = true) and (es_valido_Patente = true)) or (res = '0');
   busqueda_dni_patente(arch_polizas,dni,patente,pos);
-  if es_valido = True then
+  if ((es_valido_DNI = true) and (es_valido_Patente = true)) then
       if pos = -1 then
         menu_poliza_no_encontrado(arch_polizas,dni,patente)
       else
         menu_poliza_encontrado(arch_polizas,dni,pos);
-end;
+  end;
 
 {MENU ENCONTRADO POLIZA}
 procedure menu_poliza_encontrado (var arch_polizas:t_archivo_polizas ; dni1:string; var pos:longint);
@@ -333,7 +362,7 @@ begin
 end;
 
 {MENU NO ENCONTRADO}
-procedure menu_poliza_no_encontrado(var arch_polizas:t_archivo_polizas;dni1:string,patente_1:string);
+procedure menu_poliza_no_encontrado(var arch_polizas:t_archivo_polizas;dni1:string;patente_1:string);
 var
   registro_polizas:t_reg_polizas;
   VC:boolean;
@@ -379,27 +408,6 @@ end;
 
 
 
-{BUSQUEDA}
-procedure busqueda_dni_patente (var a: t_archivo_polizas;dni_buscado:string;patente_buscada:string;var pos: longint);
-var
-  i: cardinal;
-  encontrado: boolean;
-  leido: t_reg_polizas;
-begin
-  encontrado := false;
-  i := 0;
-  pos := -1;
-  while (i < filesize(a)) and not encontrado do
-  begin
-    leer_dato(a, i, leido);
-    if (leido.dni = dni_buscado) and (leido.patente = patente_buscada) then
-    begin
-      encontrado := true;
-      pos := i;
-    end
-    else
-      i := i + 1;
-  end;
-end;
+
 end.
 
