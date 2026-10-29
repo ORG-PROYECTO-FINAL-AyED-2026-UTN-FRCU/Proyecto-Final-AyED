@@ -262,9 +262,10 @@ end;
 
 
 function validar_mail(var dato: shortstring):boolean;
-var i:byte;
+var i,cont:byte;
     control:boolean;
 begin
+  cont:=0;
   control:=true;
      if (length(dato) < 3) then
     begin
@@ -274,12 +275,16 @@ begin
     begin
       for i := 1 to length(dato) do
         begin
-         if not (upcase(dato[i]) in ['A'..'Z', '0'..'9', '@', '.', '_']) then
+         if (not (upcase(dato[i]) in ['A'..'Z', '0'..'9', '@', '.', '_'])) then
            begin
             control := false;
            end;
+         if (dato[i]='@') then
+           inc(cont);
         end;
     end;
+    if cont<>1 Then
+      control:=false;
     validar_mail:=control ;
 
 
