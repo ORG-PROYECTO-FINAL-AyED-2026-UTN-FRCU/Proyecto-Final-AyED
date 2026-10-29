@@ -16,7 +16,25 @@ interface
   procedure ingresar_direccion_calle(var calle:shortstring);
   procedure ingresar_direccion_nro(var nro: word);
   function validar_mail(var dato: shortstring):boolean;
+  procedure ingresar_dni (var dni:string; var es_valido:boolean);
 implementation
+    procedure ingresar_dni (var dni:string; var es_valido:boolean);
+    begin
+      clrscr;
+      gotoxy(40,10);
+      write('DNI: ');
+      readln(dni);
+      es_valido:= ValidarDNI(dni);
+      if es_valido = false then
+        begin
+          clrscr;
+          gotoxy(40,10);
+          TextBackground(red);
+          writeln('DNI INVALIDO. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+          readkey();
+          NormVideo;
+        end;
+end;
 procedure Ingresar_apellido(var dato:shortstring);
 begin
     repeat
