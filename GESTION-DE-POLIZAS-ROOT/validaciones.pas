@@ -62,7 +62,7 @@ begin
       gotoxy(40,12);
       write('                      '); // borra esa linea
       gotoxy(40,12);
-      write('Ingrese nombres ');
+      write('Ingrese nombres: ');
       readln(dato);
       if not validar_string(dato) then
         begin
