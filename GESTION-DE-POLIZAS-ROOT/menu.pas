@@ -115,11 +115,7 @@ begin
            guardar_registro(arch_clientes,pos,registro_clientes);
          end;
     '5': ingresar_validar_celular(dato_modificado);
-    '6':begin
-          gotoxy(40,10);
-          write('Ingrese la nueva direccion de e-mail ');
-          readln(dato_Modificado);
-        end;
+    '6':Ingresar_mail(dato_modificado);
 
     end;
       modificar_registro(registro_clientes,campo,dato_modificado,fecha_modificada);
