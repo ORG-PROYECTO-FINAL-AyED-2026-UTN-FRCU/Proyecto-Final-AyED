@@ -90,7 +90,6 @@ var
   dato_modificado:shortstring;  // CAMBIE ESTO DE STRING--->> ShortString por compatibilidad de rangos en Strings acotados
   fecha_modificada:reg_fecha;
   reg_modificado:reg_fecha;
-  dir_modificada:reg_direccion;
 begin
   campo_valido(campo);
   leer_dato(arch_clientes,pos,registro_clientes);
@@ -101,9 +100,10 @@ begin
     '1': ingresar_apellido(dato_modificado);
     '2': ingresar_nombre(dato_modificado);
     '3':begin
-      ingresar_direccion_calle(dir_modificada.calle);
-      ingresar_direccion_nro(dir_modificada.nro);
-       end;
+          gotoxy(40,10);
+          write('Ingrese la nueva direccion ');
+          readln(dato_Modificado);
+        end;
     '4': begin
            clrscr;
            gotoxy(40,13);
@@ -111,14 +111,18 @@ begin
            ingresar_validar_fecha_completo(fecha_modificada,1);
            ingresar_validar_fecha_completo(fecha_modificada,2);
            ingresar_validar_fecha_completo(fecha_modificada,3);
-           modificar_registro(registro_clientes,campo,dato_modificado,fecha_modificada,dir_modificada);
+           modificar_registro(registro_clientes,campo,dato_modificado,fecha_modificada);
            guardar_registro(arch_clientes,pos,registro_clientes);
          end;
     '5': ingresar_validar_celular(dato_modificado);
-    '6':Ingresar_mail(dato_modificado);
+    '6':begin
+          gotoxy(40,10);
+          write('Ingrese la nueva direccion de e-mail ');
+          readln(dato_Modificado);
+        end;
 
     end;
-      modificar_registro(registro_clientes,campo,dato_modificado,fecha_modificada,dir_modificada);
+      modificar_registro(registro_clientes,campo,dato_modificado,fecha_modificada);
       guardar_registro(arch_clientes,pos,registro_clientes);
     end;
 
@@ -186,6 +190,23 @@ begin
       end;
     end;
 end;
+procedure ingresar_dni (var dni:string; var es_valido:boolean);
+begin
+  clrscr;
+  gotoxy(40,10);
+  write('DNI: ');
+  readln(dni);
+  es_valido:= ValidarDNI(dni);
+  if es_valido = false then
+    begin
+      clrscr;
+      gotoxy(40,10);
+      TextBackground(red);
+      writeln('DNI INVALIDO. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+      readkey();
+      NormVideo;
+    end;
+end;
 procedure menu_clientes (var arch_clientes:t_archivo_clientes);
 var
   res:char;
@@ -201,22 +222,7 @@ begin
     writeln('1: DNI');
     res:=readkey;
     if res = '1' then
-      begin
-        clrscr;
-        gotoxy(40,10);
-        write('DNI: ');
-        readln(dni);
-        es_valido:= ValidarDNI(dni);
-        if es_valido = false then
-          begin
-            clrscr;
-            gotoxy(40,10);
-            TextBackground(red);
-            writeln('DNI INVALIDO. PULSE UNA TECLA PARA VOLVER A INGRESAR');
-            readkey();
-            NormVideo;
-          end;
-      end
+      ingresar_dni(dni,es_valido)
     else
       if res <> '0' then
         begin

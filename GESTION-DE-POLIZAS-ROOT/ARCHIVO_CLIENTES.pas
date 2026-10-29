@@ -3,7 +3,7 @@ interface
 type
   reg_direccion = record
     calle:string[20];
-    nro:word;
+    nro:byte;
   end;
 
   reg_fecha = record
@@ -16,7 +16,7 @@ type
     dni:string[9];
     apellido : string[60];
     nombres : string[60];
-    direccion :reg_direccion;
+    direccion :string[60];//reg_direccion; (cambiar por este, es mejor) ;
     fecha_nacimiento : reg_fecha;
     celular : string[15];
     email : string[30];
