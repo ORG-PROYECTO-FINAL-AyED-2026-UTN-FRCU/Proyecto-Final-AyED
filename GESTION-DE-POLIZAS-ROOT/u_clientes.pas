@@ -50,23 +50,23 @@ procedure mostrar_registro (r:t_reg_clientes); //llama primero el leer_dato y ds
 begin
   with r do
     begin
-      gotoxy(40,10);
+      gotoxy(35,10);
       writeln('DNI: ', dni);
-      gotoxy(40,11);
+      gotoxy(35,11);
       writeln('Apellido: ',apellido);
-      gotoxy(40,12);
+      gotoxy(35,12);
       writeln('Nombres: ', nombres);
-      gotoxy(40,13);
+      gotoxy(35,13);
       writeln('Direccion, calle: ', direccion.calle);
-      gotoxy(40,14);
+      gotoxy(35,14);
       writeln('direccion, nro puerta: ', direccion.nro);
-      gotoxy(40,15);
+      gotoxy(35,15);
       writeln('Fecha nacimiento: ',fecha_nacimiento.dia, '/',fecha_nacimiento.mes, '/', fecha_nacimiento.ano);
-      gotoxy(40,16);
+      gotoxy(35,16);
       writeln('Celular: ', celular);
-      gotoxy(40,17);
+      gotoxy(35,17);
       writeln('Direccion e-mail: ', email);
-      gotoxy(40,18);
+      gotoxy(35,18);
       if estado = true then
         writeln('Estado: ACTIVO')
       else
