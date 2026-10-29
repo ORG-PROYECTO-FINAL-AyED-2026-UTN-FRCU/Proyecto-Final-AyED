@@ -1,14 +1,14 @@
 unit Menu_Polizas;
 interface
 uses
-  Classes, SysUtils,ARCHIVO_POLIZAS,validaciones,crt;
+  Classes, SysUtils,ARCHIVO_POLIZAS,archivo_clientes,validaciones,u_clientes,crt;
 const
   ruta_polizas='arch_polizas.dat';
 procedure abrir_crear_pol (var a:t_archivo_polizas);
 procedure leer_dato_pol (var a:t_archivo_polizas ; pos:cardinal ; var dato:t_reg_polizas);
 procedure guardar_registro_pol (var a:t_archivo_polizas ; pos:cardinal ; registro:t_reg_polizas);
 procedure mostrar_registro_pol (r:t_reg_polizas);
-procedure menu_poliza (var arch_polizas:t_archivo_polizas);
+procedure menu_poliza (var arch_polizas:t_archivo_polizas;var arch_clientes:t_archivo_clientes);
 procedure menu_poliza_encontrado (var arch_polizas:t_archivo_polizas ; dni1:string; var pos:longint);
 procedure menu_poliza_no_encontrado(var arch_polizas:t_archivo_polizas;dni1:string;patente_1:string);
 implementation
@@ -348,14 +348,36 @@ begin
           end;
   end;
 end;
+procedure ingresar_patente (var es_valido_Patente:boolean);
+var
+  patente:string;
+begin
+repeat
+clrscr;
+gotoxy(40,10);
+write('Ingrese patente: ');
+readln(patente);
+es_valido_Patente:=Validar_formato_patente(patente);
+if es_valido_patente = false then
+  begin
+    clrscr;
+    gotoxy(40,10);
+    TextBackground(red);
+    writeln('PATENTE INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+    readkey();
+    NormVideo;
+  end;
+  until es_valido_patente=true;
+end;
 {MENU POLIZA PRINCIPAL}
-procedure menu_poliza (var arch_polizas:t_archivo_polizas);
+procedure menu_poliza (var arch_polizas:t_archivo_polizas; var arch_clientes:t_archivo_clientes);
 var
   res:char;
   dni:string;
   patente:String;
   es_valido_dni,es_valido_Patente:boolean;
   pos:longint;
+  aux:t_reg_clientes;
 begin
   repeat
     clrscr;
@@ -377,51 +399,28 @@ begin
           NormVideo;
           clrscr;
         end;
-
   until (es_valido_dni = true) or (res = '0');
-        begin
-        repeat
-        clrscr;
-        gotoxy(40,10);
-        write('PATENTE: ');
-        readln(patente);
-        es_valido_Patente:=Validar_formato_patente(patente);
-        if es_valido_patente = false then
-          begin
-            clrscr;
-            gotoxy(40,10);
-            TextBackground(red);
-            writeln('PATENTE INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
-            readkey();
-            NormVideo;
-          end;
-          until es_valido_patente=true;
-        end;
+if es_valido_dni = True then
+  begin
+    busqueda_dni(arch_clientes,dni,pos);
+    if pos = -1 then
+      begin
+        gotoxy(40,15);
+        writeln('Cliente no encontrado . Dar de alta');
       end
     else
-      if res <> '0' then
-        begin
-          clrscr;
-          gotoxy(36,10);
-          TextBackground(red);
-          writeln('OPCION INVALIDA. PRESIONE UNA TECLA PARA VOLVER A INGRESAR');
-          readkey();
-          NormVideo;
-          clrscr;
-        end;
+      begin
+        leer_dato(arch_clientes,pos,aux);
+        if aux.estado = False then
+          begin
+            gotoxy(40,15);
+            writeln('Estado del cliente: INACTIVO. Dar de alta');
+          end
+        else
 
-  until ((es_valido_DNI = true) and (es_valido_Patente = true)) or (res = '0');
-  busqueda_dni_patente(arch_polizas,dni,patente,pos);
-  if ((es_valido_DNI = true) and (es_valido_Patente = true)) then
-      if pos = -1 then
-        menu_poliza_no_encontrado(arch_polizas,dni,patente)
-      else
-        menu_poliza_encontrado(arch_polizas,dni,pos);
+
   end;
-
-{MENU ENCONTRADO POLIZA}
-
-
-
+end;
+end;
 end.
 

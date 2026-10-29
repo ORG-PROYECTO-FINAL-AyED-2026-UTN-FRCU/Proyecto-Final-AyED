@@ -215,12 +215,14 @@ begin
         end;
 
   until (es_valido = true) or (res = '0');
-  busqueda_dni(arch_clientes,dni,pos);
   if es_valido = True then
+    begin
+      busqueda_dni(arch_clientes,dni,pos);
       if pos = -1 then
         menu_Cliente_no_encontrado(arch_clientes,dni)
       else
         menu_cliente_encontrado(arch_clientes,dni,pos);
+    end;
 end;
 procedure menu_principal;
 var
@@ -252,7 +254,7 @@ repeat
 
     case opcion of
     '1': menu_clientes(arch_clientes);
-    '2': menu_poliza(arch_polizas);
+    '2': menu_poliza(arch_polizas,arch_clientes);
 {    '3': LISTADOS (ARCH_CLIENTES, ARCH_POLIZAS, ARBOL_NOM);
     '4': ESTADÍSTICAS (ARCH_CLIENTES,ARCH_POLIZAS);}
     else
