@@ -11,6 +11,7 @@ type
     mes: word;
     ano: word;
   end;
+
   t_reg_clientes = record
     dni:string[9];
     apellido : string[60];
