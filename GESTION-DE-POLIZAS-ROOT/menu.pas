@@ -126,35 +126,6 @@ begin
       guardar_registro(arch_clientes,pos,registro_clientes);
     end;
 
-  {if (campo <> '4') and (campo<>'0') then
-    begin
-      //VALIDA Y LEE DATO DATO_MODIFICADO
-      clrscr;
-      gotoxy(40,10);
-      write('Ingrese el nuevo dato ');
-      case campo of
-      '1':validar_string(dato_modificado);
-      '2':validar_string(dato_modificado);
-      '5':validar_celular(dato_modificado);
-      else
-        readln(dato_Modificado);
-      end;    // PD: SANTI RAMEAU.
-      modificar_registro(registro_clientes,campo,dato_modificado,fecha_modificada);
-      guardar_registro(arch_clientes,pos,registro_clientes);
-    end
-  else
-  if campo<>'0' then
-    begin
-      clrscr;
-      gotoxy(40,13);
-      writeln('Ingrese la nueva fecha de nacimiento');
-      ingresar_validar_fecha_completo(fecha_modificada,1);
-      ingresar_validar_fecha_completo(fecha_modificada,2);
-      ingresar_validar_fecha_completo(fecha_modificada,3);
-      modificar_registro(registro_clientes,campo,dato_modificado,fecha_modificada);
-      guardar_registro(arch_clientes,pos,registro_clientes);
-    end;}
-
 end;
 procedure menu_cliente_encontrado (var arch_clientes:t_archivo_clientes ; dni1:string; var pos:longint);
 var
