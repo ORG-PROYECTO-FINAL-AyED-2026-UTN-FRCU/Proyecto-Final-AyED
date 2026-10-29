@@ -13,6 +13,7 @@ interface
   procedure ingresar_validar_celular(var dato: shortstring);
   procedure ingresar_validar_fecha_completo(var reg:reg_fecha; opc:BYTE);
   procedure Ingresar_mail(var dato:shortstring);
+  function Validar_formato_patente (patente:String):boolean;
   procedure ingresar_direccion_calle(var calle:shortstring);
   procedure ingresar_direccion_nro(var nro: word);
   function validar_mail(var dato: shortstring):boolean;
@@ -392,6 +393,26 @@ begin
       write('                                                                                                               '); // limpia la línea de error
     end;
   until vc;
+end;
+
+  {VALIDACION PATENTE}
+function Validar_formato_patente (patente:String):boolean;
+var VC:boolean;
+begin
+  if length(patente)<>7 then
+    vc:=false
+   else
+    if not (Upcase(patente[1]) in ['A'..'Z']) or not (Upcase(patente[2]) in ['A'..'Z']) then
+       vc:=false
+      else
+         if not (Upcase(patente[6]) in ['A'..'Z']) or not (Upcase(patente[7]) in ['A'..'Z']) then
+           Vc:=false
+           else
+             if not (Patente[3] in ['0'..'9']) or not (Patente[4] in ['0'..'9']) or not (Patente[5] in ['0'..'9']) then
+               Vc:=false
+               else
+                 vc:=true;
+  Validar_formato_patente:=vc;
 end;
 
   end.
