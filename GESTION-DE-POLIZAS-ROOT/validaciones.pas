@@ -13,6 +13,8 @@ interface
   procedure ingresar_validar_celular(var dato: shortstring);
   procedure ingresar_validar_fecha_completo(var reg:reg_fecha; opc:BYTE);
   procedure Ingresar_mail(var dato:shortstring);
+  procedure ingresar_direccion_calle(var calle:shortstring);
+  procedure ingresar_direccion_nro(var nro: word);
   function validar_mail(var dato: shortstring):boolean;
 implementation
 procedure Ingresar_apellido(var dato:shortstring);
@@ -204,7 +206,7 @@ begin
       control := true;
       for i := 1 to length(dato) do
         begin
-         if not (upcase(dato[i]) in ['A'..'Z']) then
+         if not (upcase(dato[i]) in ['A'..'Z',' ']) then
            begin
             control := false;
            end;
@@ -310,6 +312,38 @@ begin
         end;
 
     until validar_mail(dato);
+end;
+
+procedure ingresar_direccion_calle(var calle:shortstring);
+begin
+    repeat
+      gotoxy(40,13);
+      write('                                                                                                                   '); //limpia esa linea
+      gotoxy(40,13);
+      writeln('Ingrese direccion ');
+      gotoxy(40,14);
+      write('Nombre de la calle: ');
+      readln(calle);
+      if not validar_string(calle) then
+        begin
+            TextBackground(red);
+            gotoxy(36,15);
+            writeln('ENTRADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+            readkey();
+            NormVideo;
+            gotoxy(36,15);
+            write('                                                                                                             '); //limpia esa linea
+        end;
+    until Validar_String(calle);
+end;
+
+    procedure ingresar_direccion_nro(var nro: word);
+begin
+  gotoxy(40, 15);
+  write('                                                                                                               '); // limpia esa línea
+  gotoxy(40, 15);
+  write('Numero de calle: ');
+  Validar_T_dato_word(nro);
 end;
 
   end.
