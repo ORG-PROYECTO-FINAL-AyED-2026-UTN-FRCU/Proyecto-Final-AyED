@@ -32,7 +32,7 @@ begin
   write(a,registro);
 end;
 {BUSQUEDA}
-procedure busqueda_dni_patente (var a: t_archivo_polizas;dni_buscado:string;patente_buscada:string;var pos: longint);
+procedure busqueda_dni_patente (var a:t_archivo_polizas;patente_buscada:string; var pos: longint);
 var
   i: cardinal;
   encontrado: boolean;
@@ -348,9 +348,7 @@ begin
           end;
   end;
 end;
-procedure ingresar_patente (var es_valido_Patente:boolean);
-var
-  patente:string;
+procedure ingresar_patente (var patente:string;var es_valido_Patente:boolean);
 begin
 repeat
 clrscr;
@@ -368,6 +366,15 @@ if es_valido_patente = false then
     NormVideo;
   end;
   until es_valido_patente=true;
+end;
+procedure patente(var arch_polizas:t_archivo_polizas);
+var
+  patente:string;
+  es_valiod:boolean;
+begin
+  ingresar_patente(patente,es_valido);
+
+
 end;
 {MENU POLIZA PRINCIPAL}
 procedure menu_poliza (var arch_polizas:t_archivo_polizas; var arch_clientes:t_archivo_clientes);
