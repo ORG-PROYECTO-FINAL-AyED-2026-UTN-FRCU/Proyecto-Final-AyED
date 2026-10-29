@@ -201,22 +201,7 @@ begin
     writeln('1: DNI');
     res:=readkey;
     if res = '1' then
-      begin
-        clrscr;
-        gotoxy(40,10);
-        write('DNI: ');
-        readln(dni);
-        es_valido:= ValidarDNI(dni);
-        if es_valido = false then
-          begin
-            clrscr;
-            gotoxy(40,10);
-            TextBackground(red);
-            writeln('DNI INVALIDO. PULSE UNA TECLA PARA VOLVER A INGRESAR');
-            readkey();
-            NormVideo;
-          end;
-      end
+      ingresar_dni(dni,es_valido)
     else
       if res <> '0' then
         begin
