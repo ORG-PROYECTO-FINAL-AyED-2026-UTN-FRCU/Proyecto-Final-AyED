@@ -1,4 +1,5 @@
 unit menu;
+{$codepage UTF8}
 interface
   uses
     archivo_clientes,archivo_polizas, u_clientes,validaciones,//,ARCHIVO_POLIZAS, ARBOL, ESTADÍSTICAS

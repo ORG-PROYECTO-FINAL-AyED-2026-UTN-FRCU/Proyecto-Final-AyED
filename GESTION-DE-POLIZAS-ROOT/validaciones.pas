@@ -1,5 +1,5 @@
 unit validaciones;
-{$mode ObjFPC}{$H+}
+{$mode ObjFPC}{$H+} {$codepage UTF8}
 
 interface
   uses crt,sysutils,archivo_clientes;

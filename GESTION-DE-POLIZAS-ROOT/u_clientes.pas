@@ -1,4 +1,5 @@
 unit u_clientes;
+{$codepage UTF8}
 interface
 uses
     archivo_clientes,validaciones,crt;
