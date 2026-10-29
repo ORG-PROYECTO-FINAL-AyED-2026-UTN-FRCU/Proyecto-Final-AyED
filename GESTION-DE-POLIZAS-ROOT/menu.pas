@@ -2,7 +2,7 @@ unit menu;
 {$codepage UTF8}
 interface
   uses
-    archivo_clientes,archivo_polizas, u_clientes,validaciones, menu_polizas, //, ARBOL, ESTADÍSTICAS
+    archivo_clientes,archivo_polizas, u_clientes,validaciones, menu_polizas,u_polizas, //, ARBOL, ESTADÍSTICAS
     crt,sysutils;
     //LISTADOS; //LLAMADA A TODAS LAS UNIT NECESARIAS
     procedure menu_principal;

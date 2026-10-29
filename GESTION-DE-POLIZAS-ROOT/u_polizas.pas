@@ -12,6 +12,7 @@ procedure campo_valido_pol(var campo:string);
 procedure modificar_registro_pol (var registro:t_reg_polizas; campo:string; dato_modificado:string;dato_modificado_cardinal:cardinal;dato_modificado_real:real);
 procedure modificar_datos_pol(var arch_polizas:t_archivo_polizas ; campo:string ; var pos:longint);
 procedure carga_registro_pol (var r:t_reg_polizas ; dni_1:string;Patente_1:string);
+procedure busqueda_patente (var a: t_archivo_polizas; patente_buscada:string; var pos: longint);
 implementation
 Procedure abrir_crear_pol(var a:t_archivo_polizas);
 begin
@@ -33,7 +34,7 @@ begin
   write(a,registro);
 end;
 {BUSQUEDA}
-procedure busqueda_dni_patente (var a: t_archivo_polizas;dni_buscado:string;patente_buscada:string;var pos: longint);
+procedure busqueda_patente (var a: t_archivo_polizas; patente_buscada:string; var pos: longint);
 var
   i: cardinal;
   encontrado: boolean;
@@ -45,7 +46,7 @@ begin
   while (i < filesize(a)) and not encontrado do
   begin
     leer_dato_pol(a, i, leido);
-    if (leido.dni = dni_buscado) and (leido.patente = patente_buscada) then
+    if leido.patente = patente_buscada then
     begin
       encontrado := true;
       pos := i;
