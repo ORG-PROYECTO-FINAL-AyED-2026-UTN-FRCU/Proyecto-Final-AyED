@@ -12,6 +12,8 @@ interface
   function validar_formato_celular( dato: string):boolean;
   procedure ingresar_validar_celular(var dato: shortstring);
   procedure ingresar_validar_fecha_completo(var reg:reg_fecha; opc:BYTE);
+  procedure Ingresar_mail(var dato:shortstring);
+  function validar_mail(var dato: shortstring):boolean;
 implementation
 procedure Ingresar_apellido(var dato:shortstring);
 begin
@@ -254,5 +256,56 @@ begin
       end;
   until validar_formato_celular(dato);
 end;
+
+
+//validaciones de email y direccion
+
+
+function validar_mail(var dato: shortstring):boolean;
+var i:byte;
+    control:boolean;
+begin
+  control:=true;
+     if (length(dato) < 3) then
+    begin
+      control := false;
+    end
+  else
+    begin
+      for i := 1 to length(dato) do
+        begin
+         if not (upcase(dato[i]) in ['A'..'Z', '0'..'9', '@', '.', '_']) then
+           begin
+            control := false;
+           end;
+        end;
+    end;
+    validar_mail:=control ;
+
+
+end;
+
+procedure Ingresar_mail(var dato:shortstring);
+begin
+    repeat
+      gotoxy(40,19);
+      write('                                                                                                           ');   // borra esa linea
+      gotoxy(40,19);
+      write('Ingrese su e-mail (puede contener: letras, arroba, puntos y guion bajo) : ');
+      readln(dato);
+      if not(validar_mail(dato) ) then
+        begin
+            TextBackground(red);
+            gotoxy(40,21);
+            writeln('ENTRADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+            readkey();
+            NormVideo;
+            gotoxy(40,21);
+            write('                                                                                                                 '); // borra esa linea
+        end;
+
+    until validar_mail(dato);
+end;
+
   end.
 
