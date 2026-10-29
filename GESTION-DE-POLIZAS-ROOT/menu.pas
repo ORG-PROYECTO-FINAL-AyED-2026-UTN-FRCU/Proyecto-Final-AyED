@@ -115,7 +115,11 @@ begin
            guardar_registro(arch_clientes,pos,registro_clientes);
          end;
     '5': ingresar_validar_celular(dato_modificado);
-    '6':Ingresar_mail(dato_modificado);
+    '6':begin
+          gotoxy(40,10);
+          write('Ingrese la nueva direccion de e-mail ');
+          readln(dato_Modificado);
+        end;
 
     end;
       modificar_registro(registro_clientes,campo,dato_modificado,fecha_modificada);
@@ -215,6 +219,23 @@ begin
       end;
     end;
 end;
+procedure ingresar_dni (var dni:string; var es_valido:boolean);
+begin
+  clrscr;
+  gotoxy(40,10);
+  write('DNI: ');
+  readln(dni);
+  es_valido:= ValidarDNI(dni);
+  if es_valido = false then
+    begin
+      clrscr;
+      gotoxy(40,10);
+      TextBackground(red);
+      writeln('DNI INVALIDO. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+      readkey();
+      NormVideo;
+    end;
+end;
 procedure menu_clientes (var arch_clientes:t_archivo_clientes);
 var
   res:char;
@@ -230,22 +251,7 @@ begin
     writeln('1: DNI');
     res:=readkey;
     if res = '1' then
-      begin
-        clrscr;
-        gotoxy(40,10);
-        write('DNI: ');
-        readln(dni);
-        es_valido:= ValidarDNI(dni);
-        if es_valido = false then
-          begin
-            clrscr;
-            gotoxy(40,10);
-            TextBackground(red);
-            writeln('DNI INVALIDO. PULSE UNA TECLA PARA VOLVER A INGRESAR');
-            readkey();
-            NormVideo;
-          end;
-      end
+      ingresar_dni(dni,es_valido)
     else
       if res <> '0' then
         begin
