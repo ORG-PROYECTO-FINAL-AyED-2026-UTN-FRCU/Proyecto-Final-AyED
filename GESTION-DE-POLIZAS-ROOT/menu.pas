@@ -2,7 +2,7 @@ unit menu;
 {$codepage UTF8}
 interface
   uses
-    archivo_clientes,archivo_polizas, u_clientes,validaciones,//,ARCHIVO_POLIZAS, ARBOL, ESTADÍSTICAS
+    archivo_clientes,archivo_polizas, u_clientes,validaciones, menu_polizas, //, ARBOL, ESTADÍSTICAS
     crt,sysutils;
     //LISTADOS; //LLAMADA A TODAS LAS UNIT NECESARIAS
     procedure menu_principal;
@@ -246,6 +246,7 @@ var
 
 begin
   abrir_crear(arch_clientes);
+  abrir_crear_pol(arch_polizas);
 //GENERAR ARBOLES
 repeat
   clrscr;
@@ -266,9 +267,9 @@ repeat
 
     case opcion of
     '1': menu_clientes(arch_clientes);
-    {'2': POLIZAS (ARCH_CLIENTES, ARCH_POLIZAS, ARBOL_DNI );
-    '3': LISTADOS (ARCH_CLIENTES, ARCH_POLIZAS, ARBOL_NOM);
-    '4': ESTADÍSTICAS (ARCH_CLIENTES,ARCH_POLIZAS);    }
+    '2': menu_poliza(arch_polizas);
+{    '3': LISTADOS (ARCH_CLIENTES, ARCH_POLIZAS, ARBOL_NOM);
+    '4': ESTADÍSTICAS (ARCH_CLIENTES,ARCH_POLIZAS);}
     else
       writeln('ERROR, OPCION INVALIDA');
     end;
