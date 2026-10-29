@@ -222,8 +222,10 @@ function Validar_String( dato: string):boolean;
 var
   i:word;
   control:boolean;
+  cont_espacios:byte;
 begin
-  if (length(dato) < 3) then
+  cont_espacios:=0;
+  if (length(dato) <= 3) then
     begin
       control := false;
     end
@@ -236,7 +238,11 @@ begin
            begin
             control := false;
            end;
+         if dato[i]=' ' then
+         cont_espacios:=cont_espacios+1;
         end;
+      if cont_espacios>1 then
+      control:=false;
     end;
   validar_string:=control;
 end;
