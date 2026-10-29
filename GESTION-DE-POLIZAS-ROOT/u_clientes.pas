@@ -80,10 +80,9 @@ begin
       dni:=dni_1;
       Ingresar_apellido(apellido);
       Ingresar_nombre(nombres);
-      gotoxy(40,13);
       ingresar_direccion_calle(direccion.calle);
       Ingresar_direccion_nro(direccion.nro);
-      gotoxy(40,14);
+      gotoxy(35,16);
       writeln('Fecha nacimiento: ');
       ingresar_validar_fecha_completo(fecha_nacimiento,1);
       ingresar_validar_fecha_completo(fecha_nacimiento,2);

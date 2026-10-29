@@ -18,9 +18,9 @@ begin
   while vc=false do
   begin
     clrscr;
-    gotoxy(40,10);
+    gotoxy(35,10);
     writeln('0:SALIR');
-    gotoxy(40,11);
+    gotoxy(35,11);
     writeln('1:DAR DE ALTA');
     respuesta:=readkey;
     if respuesta='0' then
@@ -38,7 +38,7 @@ begin
           begin
             clrscr;
             TextBackground(red);
-            gotoxy(34,10);
+            gotoxy(35,10);
             writeln('OPCION SELECCIONADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
             readkey();
             NormVideo;
@@ -51,21 +51,21 @@ var
 begin
   valido:=False;
   repeat
-    gotoxy(40,10);
+    gotoxy(35,10);
     writeln('Ingrese el campo que quiere modificar ');
-    gotoxy(40,12);
+    gotoxy(35,12);
     writeln('0:Salir');
-    gotoxy(40,13);
+    gotoxy(35,13);
     writeln('1:Apellido');
-    gotoxy(40,14);
+    gotoxy(35,14);
     writeln('2:Nombres');
-    gotoxy(40,15);
+    gotoxy(35,15);
     writeln('3:Direccion');
-    gotoxy(40,16);
+    gotoxy(35,16);
     writeln('4:Fecha de nacimiento');
-    gotoxy(40,17);
+    gotoxy(35,17);
     writeln('5:Celular');
-    gotoxy(40,18);
+    gotoxy(35,18);
     writeln('6:Email');
     gotoxy(78,10);
     campo:=readkey;
@@ -75,7 +75,7 @@ begin
     else
       begin
         textbackground(red);
-        gotoxy(40,20);
+        gotoxy(35,20);
         writeln('CAMPO INVALIDO; PULSE UNA TECLA PARA VOLVER A INGRESAR. ');
         readkey();
         normVideo;
@@ -106,7 +106,7 @@ begin
        end;
     '4': begin
            clrscr;
-           gotoxy(40,13);
+           gotoxy(35,13);
            writeln('Ingrese la nueva fecha de nacimiento');
            ingresar_validar_fecha_completo(fecha_modificada,1);
            ingresar_validar_fecha_completo(fecha_modificada,2);
@@ -138,19 +138,19 @@ begin
   while vc=false do
     begin
       textbackground(Blue);
-      gotoxy(40,20);
+      gotoxy(35,20);
       write('PULSE UNA TECLA PARA CONTINUAR');
       readkey();
       normVideo;
       clrscr;
-      gotoxy(40,10);
+      gotoxy(35,10);
       writeln('0: VOLVER');
-      gotoxy(40,11);
+      gotoxy(35,11);
       if registro_clientes.estado = true then
         writeln('1: DAR DE BAJA')
       else
         writeln('1: DAR DE ALTA');
-      gotoxy(40,12);
+      gotoxy(35,12);
       writeln('2: MODIFICAR');
       respuesta:=readkey;
       case respuesta of
@@ -176,7 +176,7 @@ begin
       else
         begin
            clrscr;
-           gotoxy(40,10);
+           gotoxy(35,10);
            textbackground(red);
           writeln('OPCION SELECCIONADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR.');
           readkey();
@@ -195,9 +195,9 @@ var
 begin
   repeat
     clrscr;
-    gotoxy(40,10);
+    gotoxy(35,10);
     writeln('0: VOLVER');
-    gotoxy(40,11);
+    gotoxy(35,11);
     writeln('1: DNI');
     res:=readkey;
     if res = '1' then
@@ -206,7 +206,7 @@ begin
       if res <> '0' then
         begin
           clrscr;
-          gotoxy(36,10);
+          gotoxy(35,10);
           TextBackground(red);
           writeln('OPCION INVALIDA. PRESIONE UNA TECLA PARA VOLVER A INGRESAR');
           readkey();
@@ -237,19 +237,19 @@ begin
 //GENERAR ARBOLES
 repeat
   clrscr;
-  gotoxy(40,10);
+  gotoxy(35,10);
   writeln('1- GESTION DE CLIENTES ');
-  gotoxy(40,12);
+  gotoxy(35,12);
   writeln('2- GESTION DE POLIZAS ');
-  gotoxy(40,14);
+  gotoxy(35,14);
   writeln('3- LISTADOS ');
-  gotoxy(40,16);
+  gotoxy(35,16);
   writeln('4- ESTADISTICAS ');
-  gotoxy(40,18);
+  gotoxy(35,18);
   writeln('0- SALIR ');
-  gotoxy(40,20);
+  gotoxy(35,20);
   writeln('INGRESE OPCION: ');
-  gotoxy(56,20);
+  gotoxy(50,20);
   opcion:=readkey;
 
     case opcion of
@@ -263,7 +263,7 @@ repeat
      if opcion<>'0' then
       begin
         clrscr;
-        gotoxy(40,10);
+        gotoxy(35,10);
         writeln('PRESIONE UNA TECLA PARA MOSTRAR NUEVAMENTE EL MENU'); READKEY;
       end;
 until opcion = '0';
