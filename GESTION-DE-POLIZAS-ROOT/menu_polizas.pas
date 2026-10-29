@@ -354,7 +354,7 @@ var
   res:char;
   dni:string;
   patente:String;
-  es_valido_DNI,es_valido_Patente:boolean;
+  es_valido_dni,es_valido_Patente:boolean;
   pos:longint;
 begin
   repeat
@@ -362,26 +362,23 @@ begin
     gotoxy(40,10);
     writeln('0: VOLVER');
     gotoxy(40,11);
-    writeln('1: DNI Y PATENTE');
+    writeln('1: DNI');
     res:=readkey;
     if res = '1' then
-      begin
-        repeat
-        clrscr;
-        gotoxy(40,10);
-        write('DNI: ');
-        readln(dni);
-        es_valido_DNI:= ValidarDNI(dni);
-        if es_valido_DNI = false then
-          begin
-            clrscr;
-            gotoxy(40,10);
-            TextBackground(red);
-            writeln('DNI INVALIDO. PULSE UNA TECLA PARA VOLVER A INGRESAR');
-            readkey();
-            NormVideo;
-          end;
-        until es_valido_DNI=true;
+      ingresar_dni(dni,es_valido_dni)
+    else
+      if res <> '0' then
+        begin
+          clrscr;
+          gotoxy(36,10);
+          TextBackground(red);
+          writeln('OPCION INVALIDA. PRESIONE UNA TECLA PARA VOLVER A INGRESAR');
+          readkey();
+          NormVideo;
+          clrscr;
+        end;
+
+  until (es_valido_dni = true) or (res = '0');
         begin
         repeat
         clrscr;
