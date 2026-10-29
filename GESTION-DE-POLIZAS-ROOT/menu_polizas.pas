@@ -3,30 +3,30 @@ interface
 uses
   Classes, SysUtils,ARCHIVO_POLIZAS,validaciones,crt;
 const
-  ruta='ARCHIVO_POLIZAS.DAT';
-procedure abrir_crear (var a:t_archivo_polizas);
-procedure leer_dato (var a:t_archivo_polizas ; pos:cardinal ; var dato:t_reg_polizas);
-procedure guardar_registro (var a:t_archivo_polizas ; pos:cardinal ; registro:t_reg_polizas);
-procedure mostrar_registro (r:t_reg_polizas);
-procedure menu_poliza(var arch_polizas:t_archivo_polizas);
+  ruta_polizas='arch_polizas.dat';
+procedure abrir_crear_pol (var a:t_archivo_polizas);
+procedure leer_dato_pol (var a:t_archivo_polizas ; pos:cardinal ; var dato:t_reg_polizas);
+procedure guardar_registro_pol (var a:t_archivo_polizas ; pos:cardinal ; registro:t_reg_polizas);
+procedure mostrar_registro_pol (r:t_reg_polizas);
+procedure menu_poliza (var arch_polizas:t_archivo_polizas);
 procedure menu_poliza_encontrado (var arch_polizas:t_archivo_polizas ; dni1:string; var pos:longint);
 procedure menu_poliza_no_encontrado(var arch_polizas:t_archivo_polizas;dni1:string;patente_1:string);
 implementation
-Procedure abrir_crear(var a:t_archivo_polizas);
+Procedure abrir_crear_pol(var a:t_archivo_polizas);
 begin
-  assign(a,ruta);
+  assign(a,ruta_polizas);
   {$I-}
   Reset(a);
   {$I+}
   if IOResult <> 0 then
     ReWrite(a);
 end;
-procedure leer_dato (var a:t_archivo_polizas ; pos:cardinal ; var dato:t_reg_polizas);
+procedure leer_dato_pol (var a:t_archivo_polizas ; pos:cardinal ; var dato:t_reg_polizas);
 begin
   seek(a,pos);
   read(a,dato);
 end;
-procedure guardar_registro (var a:t_archivo_polizas ; pos:cardinal ; registro:t_reg_polizas);
+procedure guardar_registro_pol (var a:t_archivo_polizas ; pos:cardinal ; registro:t_reg_polizas);
 begin
   seek(a,pos);
   write(a,registro);
@@ -43,7 +43,7 @@ begin
   pos := -1;
   while (i < filesize(a)) and not encontrado do
   begin
-    leer_dato(a, i, leido);
+    leer_dato_pol(a, i, leido);
     if (leido.dni = dni_buscado) and (leido.patente = patente_buscada) then
     begin
       encontrado := true;
@@ -72,7 +72,7 @@ begin
                  vc:=true;
   Validar_formato_patente:=vc;
 end;
-procedure mostrar_registro (r:t_reg_polizas);
+procedure mostrar_registro_pol (r:t_reg_polizas);
 begin
   with r do
     begin
@@ -102,7 +102,7 @@ begin
     end;
 end;
 
-procedure campo_valido(var campo:string);
+procedure campo_valido_pol(var campo:string);
 var
   valido:boolean;
 begin
@@ -145,7 +145,7 @@ begin
     end;
   until (valido);
 end;
-procedure modificar_registro (var registro:t_reg_polizas; campo:string; dato_modificado:string;dato_modificado_cardinal:cardinal;dato_modificado_real:real);
+procedure modificar_registro_pol (var registro:t_reg_polizas; campo:string; dato_modificado:string;dato_modificado_cardinal:cardinal;dato_modificado_real:real);
 begin
   with registro do
     begin
@@ -161,15 +161,15 @@ begin
       end;
     end;
 end;
-procedure modificar_datos(var arch_polizas:t_archivo_polizas ; campo:string ; var pos:longint);
+procedure modificar_datos_pol(var arch_polizas:t_archivo_polizas ; campo:string ; var pos:longint);
 var
   registro_polizas : t_reg_polizas;
   dato_modificado:shortstring;
   dato_modificado_cardinal:cardinal;
   dato_modificado_Real:real;
 begin
-  campo_valido(campo);
-  leer_dato(arch_polizas,pos,registro_polizas);
+  campo_valido_pol(campo);
+  leer_dato_pol(arch_polizas,pos,registro_polizas);
   clrscr;
   if campo <> '0' then
     begin
@@ -213,13 +213,13 @@ begin
         end;
 
     end;
-      modificar_registro(registro_polizas,campo,dato_modificado,dato_modificado_cardinal,dato_modificado_real);
-      guardar_registro(arch_polizas,pos,registro_polizas);
+      modificar_registro_pol(registro_polizas,campo,dato_modificado,dato_modificado_cardinal,dato_modificado_real);
+      guardar_registro_pol(arch_polizas,pos,registro_polizas);
     end;
 end;
 
 
-procedure carga_registro (var r:t_reg_polizas ; dni_1:string;Patente_1:string);
+procedure carga_registro_pol (var r:t_reg_polizas ; dni_1:string;Patente_1:string);
 begin
   with r do
     begin
@@ -245,6 +245,109 @@ begin
       estado:=True;
      end;
     end;
+procedure menu_poliza_encontrado (var arch_polizas:t_archivo_polizas ; dni1:string; var pos:longint);
+var
+  registro_polizas : t_reg_polizas;
+  VC:boolean;
+  respuesta:char;
+  campo:string;
+begin
+  campo:='';
+  clrscr;
+  leer_dato_pol(arch_polizas,pos,registro_polizas);
+  mostrar_registro_pol(registro_polizas);
+  vc:=false;
+  while vc=false do
+    begin
+      textbackground(Blue);
+      gotoxy(40,20);
+      write('PULSE UNA TECLA PARA CONTINUAR');
+      readkey();
+      normVideo;
+      clrscr;
+      gotoxy(40,10);
+      writeln('0: VOLVER');
+      gotoxy(40,11);
+      if registro_polizas.estado = true then
+        writeln('1: DAR DE BAJA')
+      else
+        writeln('1: DAR DE ALTA');
+      gotoxy(40,12);
+      writeln('2: MODIFICAR');
+      respuesta:=readkey;
+      case respuesta of
+      '0': begin
+             vc:=True;
+             clrscr;
+           end;
+      '1': begin
+            vc:=True;
+            if registro_polizas.estado = true then
+              registro_polizas.estado:=False
+            else
+              registro_polizas.estado:=True;
+            guardar_registro_pol(arch_polizas,pos,registro_polizas);
+            clrscr;
+           end;
+      '2': begin
+             vc:=true;
+             clrscr;
+             modificar_datos_pol(arch_polizas,campo,pos);
+             clrscr;
+           end;
+      else
+        begin
+           clrscr;
+           gotoxy(40,10);
+           textbackground(red);
+          writeln('OPCION SELECCIONADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR.');
+          readkey();
+          normVideo;
+          CLRSCR;
+        end;
+      end;
+    end;
+end;
+
+{MENU NO ENCONTRADO}
+procedure menu_poliza_no_encontrado(var arch_polizas:t_archivo_polizas;dni1:string;patente_1:string);
+var
+  registro_polizas:t_reg_polizas;
+  VC:boolean;
+  respuesta:char;
+  pos:integer;
+begin
+  vc:=false;
+  while vc=false do
+  begin
+    clrscr;
+    gotoxy(40,10);
+    writeln('0:SALIR');
+    gotoxy(40,11);
+    writeln('1:DAR DE ALTA');
+    respuesta:=readkey;
+    if respuesta='0' then
+      vc:=true
+      else
+        if respuesta ='1' then
+          begin
+            vc:=true;
+            clrscr;
+            pos:=filesize(arch_polizas);
+            carga_registro_pol(registro_polizas,dni1,patente_1);
+            guardar_registro_pol(arch_polizas,pos,registro_polizas);
+          end
+        else
+          begin
+            clrscr;
+            TextBackground(red);
+            gotoxy(34,10);
+            writeln('OPCION SELECCIONADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+            readkey();
+            NormVideo;
+          end;
+  end;
+end;
 {MENU POLIZA PRINCIPAL}
 procedure menu_poliza (var arch_polizas:t_archivo_polizas);
 var
@@ -254,7 +357,6 @@ var
   es_valido_DNI,es_valido_Patente:boolean;
   pos:longint;
 begin
-  abrir_crear(arch_polizas);
   repeat
     clrscr;
     gotoxy(40,10);
@@ -321,109 +423,7 @@ begin
   end;
 
 {MENU ENCONTRADO POLIZA}
-procedure menu_poliza_encontrado (var arch_polizas:t_archivo_polizas ; dni1:string; var pos:longint);
-var
-  registro_polizas : t_reg_polizas;
-  VC:boolean;
-  respuesta:char;
-  campo:string;
-begin
-  campo:='';
-  clrscr;
-  leer_dato(arch_polizas,pos,registro_polizas);
-  mostrar_registro(registro_polizas);
-  vc:=false;
-  while vc=false do
-    begin
-      textbackground(Blue);
-      gotoxy(40,20);
-      write('PULSE UNA TECLA PARA CONTINUAR');
-      readkey();
-      normVideo;
-      clrscr;
-      gotoxy(40,10);
-      writeln('0: VOLVER');
-      gotoxy(40,11);
-      if registro_polizas.estado = true then
-        writeln('1: DAR DE BAJA')
-      else
-        writeln('1: DAR DE ALTA');
-      gotoxy(40,12);
-      writeln('2: MODIFICAR');
-      respuesta:=readkey;
-      case respuesta of
-      '0': begin
-             vc:=True;
-             clrscr;
-           end;
-      '1': begin
-            vc:=True;
-            if registro_polizas.estado = true then
-              registro_polizas.estado:=False
-            else
-              registro_polizas.estado:=True;
-            guardar_registro(arch_polizas,pos,registro_polizas);
-            clrscr;
-           end;
-      '2': begin
-             vc:=true;
-             clrscr;
-             modificar_datos(arch_polizas,campo,pos);
-             clrscr;
-           end;
-      else
-        begin
-           clrscr;
-           gotoxy(40,10);
-           textbackground(red);
-          writeln('OPCION SELECCIONADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR.');
-          readkey();
-          normVideo;
-          CLRSCR;
-        end;
-      end;
-    end;
-end;
 
-{MENU NO ENCONTRADO}
-procedure menu_poliza_no_encontrado(var arch_polizas:t_archivo_polizas;dni1:string;patente_1:string);
-var
-  registro_polizas:t_reg_polizas;
-  VC:boolean;
-  respuesta:char;
-  pos:integer;
-begin
-  vc:=false;
-  while vc=false do
-  begin
-    clrscr;
-    gotoxy(40,10);
-    writeln('0:SALIR');
-    gotoxy(40,11);
-    writeln('1:DAR DE ALTA');
-    respuesta:=readkey;
-    if respuesta='0' then
-      vc:=true
-      else
-        if respuesta ='1' then
-          begin
-            vc:=true;
-            clrscr;
-            pos:=filesize(arch_polizas);
-            carga_registro(registro_polizas,dni1,patente_1);
-            guardar_registro(arch_polizas,pos,registro_polizas);
-          end
-        else
-          begin
-            clrscr;
-            TextBackground(red);
-            gotoxy(34,10);
-            writeln('OPCION SELECCIONADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
-            readkey();
-            NormVideo;
-          end;
-  end;
-end;
 
 
 end.
