@@ -226,7 +226,8 @@ begin
      end;
     end;
 end.
-procedure ingresar_marca (var marca:string; var es_valido:boolean);
+procedure ingresar_marca (var marca:string);
+var es_valido:boolean;
 begin
   clrscr;
   gotoxy(40,10);
@@ -243,7 +244,8 @@ begin
       NormVideo;
     end;
 end;
-procedure ingresar_modelo (var modelo:string; var es_valido:boolean);
+procedure ingresar_modelo (var modelo:string);
+var es_valido:boolean;
 begin
   clrscr;
   gotoxy(40,10);
@@ -260,7 +262,8 @@ begin
       NormVideo;
     end;
 end;
-procedure ingresar_ano (var ano:string; var es_valido:boolean);
+procedure ingresar_ano (var ano:string);
+var es_valido:boolean;
 begin
   clrscr;
   gotoxy(40,10);
@@ -277,7 +280,8 @@ begin
       NormVideo;
     end;
 end;
-procedure ingresar_cobertura (var ano:string; var es_valido:boolean);
+procedure ingresar_cobertura (var ano:string);
+var es_valido:boolean;
 begin
   clrscr;
   gotoxy(40,10);
@@ -295,25 +299,41 @@ begin
     end;
 end;
 
-{procedure ingresar_poliza (var poliza:string; var es_valido:boolean);
+procedure ingresar_poliza (var poliza:string);
+var es_valido:boolean;
 begin
-  clrscr;
-  gotoxy(40,10);
-  write('POLIZA: ');
-  readln(poliza);
-  es_valido:= Validar_String(poliza);
-  if es_valido = false then
+ repeat
+    gotoxy(35, 10);
+    write('                                                       '); // Limpia la línea
+    gotoxy(35, 10);
+    write('Numero de Poliza: ');
+
+    {$I-}
+    readln(s);
+    {$I+}
+
+    if IORESULT <> 0 then
+      s := '';
+
+    vc := validar_formato_cardinal(s, poliza);
+
+    if not vc then
     begin
-      clrscr;
-      gotoxy(40,10);
-      TextBackground(red);
-      writeln('POLIZA INVALIDO. PULSE UNA TECLA PARA VOLVER A INGRESAR');
-      readkey();
-      NormVideo;
+      gotoxy(40, 10);
+      textbackground(red);
+      write('POLIZA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+      normvideo;
+      readkey;
+
+      gotoxy(40, 10);
+      write('                                                       '); // Limpia el mensaje de error
     end;
-end; }
+  until vc;
+end;
+end;
 
 {VALIDACIONES.. PASAR A UNIT VALIDACIONES}
+
 function Validar_ano(ano:2020..2050): boolean;
 var
     esValido, esNumero : boolean;
@@ -337,8 +357,8 @@ end;
 
 
 
-
-{function validar_formato_word(s: string; var num: word): boolean;
+ {validar_formato_cardinal}
+function validar_formato_cardinal(s: string; var num: cardinal): boolean;
 var
  codigo: integer;
  valido: boolean;
@@ -351,14 +371,14 @@ begin
  end
  else
  begin
-   val(s, num, codigo); // Intenta convertir el texto a word
+   val(s, num, codigo); // Intenta convertir el texto a cardinal
    if codigo <> 0 then
    begin
      valido := false;
    end;
  end;
 
- validar_formato_word := valido;
-end;}
+ validar_formato_cardinal := valido;
+end;
 end.
 
