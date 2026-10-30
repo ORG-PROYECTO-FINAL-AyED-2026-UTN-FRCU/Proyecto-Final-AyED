@@ -226,4 +226,139 @@ begin
      end;
     end;
 end.
+procedure ingresar_marca (var marca:string; var es_valido:boolean);
+begin
+  clrscr;
+  gotoxy(40,10);
+  write('MARCA: ');
+  readln(marca);
+  es_valido:= Validar_String(marca);
+  if es_valido = false then
+    begin
+      clrscr;
+      gotoxy(40,10);
+      TextBackground(red);
+      writeln('MARCA INVALIDO. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+      readkey();
+      NormVideo;
+    end;
+end;
+procedure ingresar_modelo (var modelo:string; var es_valido:boolean);
+begin
+  clrscr;
+  gotoxy(40,10);
+  write('MODELO: ');
+  readln(modelo);
+  es_valido:= Validar_String(modelo);
+  if es_valido = false then
+    begin
+      clrscr;
+      gotoxy(40,10);
+      TextBackground(red);
+      writeln('MODELO INVALIDO. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+      readkey();
+      NormVideo;
+    end;
+end;
+procedure ingresar_ano (var ano:string; var es_valido:boolean);
+begin
+  clrscr;
+  gotoxy(40,10);
+  write('AÑO: ');
+  readln(ano);
+  es_valido:= Validar_ano(ano);
+  if es_valido = false then
+    begin
+      clrscr;
+      gotoxy(40,10);
+      TextBackground(red);
+      writeln('AÑO INVALIDO. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+      readkey();
+      NormVideo;
+    end;
+end;
+procedure ingresar_cobertura (var ano:string; var es_valido:boolean);
+begin
+  clrscr;
+  gotoxy(40,10);
+  write('AÑO: ');
+  readln(ano);
+  es_valido:= Validar_ano(ano);
+  if es_valido = false then
+    begin
+      clrscr;
+      gotoxy(40,10);
+      TextBackground(red);
+      writeln('AÑO INVALIDO. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+      readkey();
+      NormVideo;
+    end;
+end;
+
+{procedure ingresar_poliza (var poliza:string; var es_valido:boolean);
+begin
+  clrscr;
+  gotoxy(40,10);
+  write('POLIZA: ');
+  readln(poliza);
+  es_valido:= Validar_String(poliza);
+  if es_valido = false then
+    begin
+      clrscr;
+      gotoxy(40,10);
+      TextBackground(red);
+      writeln('POLIZA INVALIDO. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+      readkey();
+      NormVideo;
+    end;
+end; }
+
+{VALIDACIONES.. PASAR A UNIT VALIDACIONES}
+function Validar_ano(ano:2020..2050): boolean;
+var
+    esValido, esNumero : boolean;
+    i:integer;
+begin
+  esValido:=FALSE;
+  EsNumero:=TRUE;
+  for i:=1 to length(ano) do             {no se si es necesaria esta parte}
+    begin
+      if not (ano[i] in ['0'..'9']) then
+        esNumero:=false
+    end;
+
+  //Validacion final
+  if (length(ano)<> 4) or (esNumero=false) then
+    esValido:=false;
+  if (ano<2020) or (ano>2050) then
+    esValido:=false;
+  validar_ano:=esValido;
+end;
+
+
+
+
+{function validar_formato_word(s: string; var num: word): boolean;
+var
+ codigo: integer;
+ valido: boolean;
+begin
+ valido := true;
+
+ if length(s) = 0 then
+ begin
+   valido := false;
+ end
+ else
+ begin
+   val(s, num, codigo); // Intenta convertir el texto a word
+   if codigo <> 0 then
+   begin
+     valido := false;
+   end;
+ end;
+
+ validar_formato_word := valido;
+end;}
+end.
 
