@@ -225,7 +225,7 @@ var
   cont_espacios:byte;
 begin
   cont_espacios:=0;
-  if (length(dato) <= 3) then
+  if (length(dato) < 3) then
     begin
       control := false;
     end
