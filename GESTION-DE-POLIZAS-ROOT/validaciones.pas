@@ -331,6 +331,7 @@ begin
       write('                                                                                                           ');   // borra esa linea
       gotoxy(35,21);
       write('Ingrese su e-mail (puede contener: letras, arroba, puntos y guion bajo) : ');
+      gotoxy(35,22);
       readln(dato);
       if not(validar_mail(dato) ) then
         begin
@@ -389,14 +390,14 @@ begin
     if IORESULT <> 0 then
       s := '';
     vc := validar_formato_word(s, nro);
-    if not vc then
+    if (not vc) or (length(s) > 4) then
     begin
+      vc:=false;
       gotoxy(35, 17);
       textbackground(red);
       write('TIPO DE DATO INVALIDO O VACIO. PULSE UNA TECLA');
       normvideo;
       readkey;
-
       gotoxy(35, 17);
       write('                                                                                                               '); // limpia la línea de error
     end;

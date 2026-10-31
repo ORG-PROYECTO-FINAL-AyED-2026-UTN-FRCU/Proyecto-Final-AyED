@@ -57,16 +57,14 @@ begin
       gotoxy(35,12);
       writeln('Nombres: ', nombres);
       gotoxy(35,13);
-      writeln('Direccion, calle: ', direccion.calle);
+      writeln('Direccion: ', direccion.calle, ' ', direccion.nro);
       gotoxy(35,14);
-      writeln('direccion, nro puerta: ', direccion.nro);
-      gotoxy(35,15);
       writeln('Fecha nacimiento: ',fecha_nacimiento.dia, '/',fecha_nacimiento.mes, '/', fecha_nacimiento.ano);
-      gotoxy(35,16);
+      gotoxy(35,15);
       writeln('Celular: ', celular);
-      gotoxy(35,17);
+      gotoxy(35,16);
       writeln('Direccion e-mail: ', email);
-      gotoxy(35,18);
+      gotoxy(35,17);
       if estado = true then
         writeln('Estado: ACTIVO')
       else
