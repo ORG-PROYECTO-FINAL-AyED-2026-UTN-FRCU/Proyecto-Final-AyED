@@ -116,7 +116,7 @@ begin
             vc:=true;
             clrscr;
             pos:=filesize(arch_polizas);
-            carga_registro_pol(registro_polizas,dni1,patente_1);
+            carga_registro_pol(registro_polizas,dni1,patente_1,pos);
             guardar_registro_pol(arch_polizas,pos,registro_polizas);
           end
         else

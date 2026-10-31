@@ -11,7 +11,7 @@ procedure mostrar_registro_pol (r:t_reg_polizas);
 procedure campo_valido_pol(var campo:string);
 procedure modificar_registro_pol (var registro:t_reg_polizas; campo:string; dato_modificado:string;dato_modificado_cardinal:cardinal;dato_modificado_real:real);
 procedure modificar_datos_pol(var arch_polizas:t_archivo_polizas ; campo:string ; var pos:longint);
-procedure carga_registro_pol (var r:t_reg_polizas ; dni_1:string;Patente_1:string);
+procedure carga_registro_pol (var r:t_reg_polizas ; dni_1:string;Patente_1:string;pos:integer);
 procedure busqueda_patente (var a: t_archivo_polizas; patente_buscada:string; var pos: longint);
 implementation
 Procedure abrir_crear_pol(var a:t_archivo_polizas);
@@ -199,13 +199,13 @@ begin
       guardar_registro_pol(arch_polizas,pos,registro_polizas);
     end;
 end;
-procedure carga_registro_pol (var r:t_reg_polizas ; dni_1:string;Patente_1:string);
+procedure carga_registro_pol (var r:t_reg_polizas ; dni_1:string;Patente_1:string;pos:integer);
 begin
   with r do
     begin
       dni:=dni_1;
       patente:=patente_1;
-      //numero_poliza hay q ver como le asignamos, ya que eso no lo ingresa el usuario
+      numero_poliza:=pos+1;
       gotoxy(35,11);
       write('Ingrese marca ');
       readln(marca);
