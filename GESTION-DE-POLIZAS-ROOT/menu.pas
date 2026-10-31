@@ -106,11 +106,11 @@ begin
        end;
     '4': begin
            clrscr;
-           gotoxy(35,13);
+           gotoxy(35,10);
            writeln('Ingrese la nueva fecha de nacimiento');
-           ingresar_validar_fecha_completo(fecha_modificada,1);
-           ingresar_validar_fecha_completo(fecha_modificada,2);
-           ingresar_validar_fecha_completo(fecha_modificada,3);
+           ingresar_validar_fecha_completo(fecha_modificada,1,2);
+           ingresar_validar_fecha_completo(fecha_modificada,2,2);
+           ingresar_validar_fecha_completo(fecha_modificada,3,2);
            modificar_registro(registro_clientes,campo,dato_modificado,fecha_modificada,dir_modificada);
            guardar_registro(arch_clientes,pos,registro_clientes);
          end;

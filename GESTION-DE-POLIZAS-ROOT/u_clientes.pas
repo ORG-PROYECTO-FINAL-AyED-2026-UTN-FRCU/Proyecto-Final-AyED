@@ -82,9 +82,9 @@ begin
       Ingresar_direccion_nro(direccion.nro);
       gotoxy(35,16);
       writeln('Fecha nacimiento: ');
-      ingresar_validar_fecha_completo(fecha_nacimiento,1);
-      ingresar_validar_fecha_completo(fecha_nacimiento,2);
-      ingresar_validar_fecha_completo(fecha_nacimiento,3);
+      ingresar_validar_fecha_completo(fecha_nacimiento,1,1);
+      ingresar_validar_fecha_completo(fecha_nacimiento,2,1);
+      ingresar_validar_fecha_completo(fecha_nacimiento,3,1);
       ingresar_validar_celular(celular);
       Ingresar_mail(email);
       estado:=True;

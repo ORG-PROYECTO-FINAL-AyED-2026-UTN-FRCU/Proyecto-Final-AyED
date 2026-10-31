@@ -11,7 +11,7 @@ interface
   function Validar_String(dato: string):boolean;
   function validar_formato_celular( dato: string):boolean;
   procedure ingresar_validar_celular(var dato: shortstring);
-  procedure ingresar_validar_fecha_completo(var reg:reg_fecha; opc:BYTE);
+  procedure ingresar_validar_fecha_completo(var reg:reg_fecha; opc:BYTE; opc_mostrar:byte);
   procedure Ingresar_mail(var dato:shortstring);
   function Validar_formato_patente (patente:String):boolean;
   procedure ingresar_direccion_calle(var calle:shortstring);
@@ -120,28 +120,33 @@ begin
   validar_formato_word := valido;
 end;
 
-procedure ingresar_validar_fecha_completo(var reg: reg_fecha; opc: BYTE);
+procedure ingresar_validar_fecha_completo(var reg: reg_fecha; opc: BYTE; opc_mostrar:byte);
 var
   vc:boolean;
+  i:byte;
 begin
   vc:=false;
+  if opc_mostrar = 1 then
+    i:=17
+  else
+    i:=11;
     case opc of
       1:
         begin
           repeat
-            gotoxy(35,17);
-            write('                             ');    //limpia esa linea
-            gotoxy(35,17);
+            gotoxy(35,i);
+            write('                                 ');    //limpia esa linea
+            gotoxy(35,i);
             write('Dia: ');
             vc:=validar_rango_fecha(reg.dia, 1, 31);
             if not vc then
               begin
-                gotoxy(35,18);
+                gotoxy(35,i+1);
                 TextBackground(red);
                 write('ERROR. PULSE UNA TECLA PARA VOLVER A INGRESAR');
                 readkey();
                 normvideo;
-                gotoxy(35,18);
+                gotoxy(35,i+1);
                 write('                                                   ');  //limpia la linea
               end;
           until vc=True;
@@ -149,19 +154,19 @@ begin
       2:
         begin
           repeat
-            gotoxy(35,18);
-            write('                             ');    //limpia esa linea
-            gotoxy(35,18);
+            gotoxy(35,i+1);
+            write('                                ');    //limpia esa linea
+            gotoxy(35,i+1);
             write('Mes: ');
             vc:=validar_rango_fecha(reg.mes, 1, 12);
             if not vc then
               begin
-                gotoxy(35,19);                                                             //validar_rango_fecha(reg.ano, 1900, 2049);
+                gotoxy(35,i+2);                                                             //validar_rango_fecha(reg.ano, 1900, 2049);
                 TextBackground(red);
                 write('ERROR. PULSE UNA TECLA PARA VOLVER A INGRESAR');
                 readkey();
                 normvideo;
-                gotoxy(35,19);
+                gotoxy(35,i+2);
                 write('                                                   ');  //limpia la linea
               end;
             until vc=True;
@@ -169,19 +174,19 @@ begin
       3:
         begin
           repeat
-            gotoxy(35,19);
+            gotoxy(35,i+2);
             write('                             ');    //limpia esa linea
-            gotoxy(35,19);
+            gotoxy(35,i+2);
             write('Año: ');
             vc:=validar_rango_fecha(reg.ano, 1900, 2049);
             if not vc then
               begin
-                gotoxy(35,21);
+                gotoxy(35,i+3);
                 TextBackground(red);
                 write('ERROR. PULSE UNA TECLA PARA VOLVER A INGRESAR');
                 readkey();
                 normvideo;
-                gotoxy(35,21);
+                gotoxy(35,i+3);
                 write('                                                   ');  //limpia la linea
               end;
             until vc=True;
@@ -273,7 +278,7 @@ var
 begin
   repeat
     gotoxy(35,20);
-    write('                             ');   // borra esa linea
+    write('                                                                         ');   // borra esa linea
     gotoxy(35,20);
     write('Ingrese celular:  ');
     readln(dato);
@@ -286,7 +291,7 @@ begin
         readkey;
         NormVideo;
         gotoxy(35,22);
-        write('                                                      ');   // borra esa linea
+        write('                                                                    ');   // borra esa linea
       end;
   until validar_formato_celular(dato);
 end;
@@ -355,7 +360,7 @@ begin
       gotoxy(35,13);
       writeln('Ingrese direccion ');
       gotoxy(35,14);
-      write('                          ');
+      write('                                                                                                                   ');
       gotoxy(35,14);
       write('Nombre de la calle: ');
       readln(calle);
@@ -423,6 +428,5 @@ begin
                  vc:=true;
   Validar_formato_patente:=vc;
 end;
-
-  end.
+end.
 
