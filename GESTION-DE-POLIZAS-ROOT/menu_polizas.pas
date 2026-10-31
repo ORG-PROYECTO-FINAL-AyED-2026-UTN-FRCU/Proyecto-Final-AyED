@@ -42,19 +42,19 @@ begin
   while vc=false do
     begin
       textbackground(Blue);
-      gotoxy(40,20);
+      gotoxy(35,20);
       write('PULSE UNA TECLA PARA CONTINUAR');
       readkey();
       normVideo;
       clrscr;
-      gotoxy(40,10);
+      gotoxy(35,10);
       writeln('0: VOLVER');
-      gotoxy(40,11);
+      gotoxy(35,11);
       if registro_polizas.estado = true then
         writeln('1: DAR DE BAJA')
       else
         writeln('1: DAR DE ALTA');
-      gotoxy(40,12);
+      gotoxy(35,12);
       writeln('2: MODIFICAR');
       respuesta:=readkey;
       case respuesta of
@@ -103,9 +103,9 @@ begin
   while vc=false do
   begin
     clrscr;
-    gotoxy(40,10);
+    gotoxy(35,10);
     writeln('0:SALIR');
-    gotoxy(40,11);
+    gotoxy(35,11);
     writeln('1:DAR DE ALTA');
     respuesta:=readkey;
     if respuesta='0' then
@@ -136,14 +136,14 @@ var
 begin
 repeat
 clrscr;
-gotoxy(40,10);
+gotoxy(35,10);
 write('Ingrese patente: ');
 readln(patente);
 es_valido_Patente:=Validar_formato_patente(patente);
 if es_valido_patente = false then
   begin
     clrscr;
-    gotoxy(40,10);
+    gotoxy(35,12);
     TextBackground(red);
     writeln('PATENTE INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
     readkey();
@@ -175,9 +175,9 @@ var
 begin
   repeat
     clrscr;
-    gotoxy(40,10);
+    gotoxy(35,10);
     writeln('0: VOLVER');
-    gotoxy(40,11);
+    gotoxy(35,11);
     writeln('1: DNI');
     res:=readkey;
     if res = '1' then
@@ -186,7 +186,7 @@ begin
       if res <> '0' then
         begin
           clrscr;
-          gotoxy(36,10);
+          gotoxy(35,10);
           TextBackground(red);
           writeln('OPCION INVALIDA. PRESIONE UNA TECLA PARA VOLVER A INGRESAR');
           readkey();
@@ -199,7 +199,7 @@ if es_valido_dni = True then
     busqueda_dni(arch_clientes,dni,pos);
     if pos = -1 then
       begin
-        gotoxy(40,15);
+        gotoxy(35,15);
         writeln('Cliente no encontrado . Dar de alta');
         readkey();
       end
@@ -208,7 +208,7 @@ if es_valido_dni = True then
         leer_dato(arch_clientes,pos,aux);
         if aux.estado = False then
           begin
-            gotoxy(40,15);
+            gotoxy(35,15);
             writeln('Estado del cliente: INACTIVO. Dar de alta');
             readkey();
           end

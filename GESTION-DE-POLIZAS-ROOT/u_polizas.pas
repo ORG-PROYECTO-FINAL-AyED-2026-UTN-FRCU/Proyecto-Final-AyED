@@ -59,25 +59,25 @@ procedure mostrar_registro_pol (r:t_reg_polizas);
 begin
   with r do
     begin
-      gotoxy(40,10);
+      gotoxy(35,10);
       writeln('Poliza: ', numero_poliza);
-      gotoxy(40,11);
+      gotoxy(35,11);
       writeln('DNI: ', dni);
-      gotoxy(40,12);
+      gotoxy(35,12);
       writeln('Marca: ', marca);
-      gotoxy(40,13);
+      gotoxy(35,13);
       writeln('Modelo: ', modelo);
-      gotoxy(40,14);
+      gotoxy(35,14);
       writeln('Ano del vehiculo: ', Ano_Vehiculo);
-      gotoxy(40,15);
+      gotoxy(35,15);
       writeln('Patente: ', patente);
-      gotoxy(40,16);
+      gotoxy(35,16);
       writeln('Suma asegurada: ', Suma_asegurada);
-      gotoxy(40,17);
+      gotoxy(35,17);
       writeln('Cobertura: ', cobertura);
-      gotoxy(40,18);
+      gotoxy(35,18);
       writeln('Valor de cuota: ', Valor_cuota);
-      gotoxy(40,19);
+      gotoxy(35,19);
       if estado = true then
         writeln('Estado: ACTIVO')
       else
@@ -90,27 +90,27 @@ var
 begin
   valido:=False;
   repeat
-    gotoxy(40,10);
+    gotoxy(35,10);
     writeln('Ingrese el campo que quiere modificar ');
-    gotoxy(40,12);
+    gotoxy(35,12);
     writeln('0:Salir');
-    gotoxy(40,13);
+    gotoxy(35,13);
     writeln('1:Numero de poliza');
-    gotoxy(40,14);
+    gotoxy(35,14);
     writeln('2:Marca');
-    gotoxy(40,15);
+    gotoxy(35,15);
     writeln('3:Modelo');
-    gotoxy(40,16);
+    gotoxy(35,16);
     writeln('4:Ano del vehiculo');
-    gotoxy(40,17);
+    gotoxy(35,17);
     writeln('5:Patente');
-    gotoxy(40,18);
+    gotoxy(35,18);
     writeln('6:Suma Asegurdad');
-    gotoxy(40,19);
+    gotoxy(35,19);
     writeln('7:Cobertura');
-    gotoxy(40,20);
+    gotoxy(35,20);
     writeln('8:Valor de cuota');
-    gotoxy(78,10);
+    gotoxy(35,21);
     campo:=readkey;
     case lowercase(campo) of
     '1', '2', '3', '4', '5', '6', '7', '8', '0': valido:=True;
@@ -118,7 +118,7 @@ begin
     else
       begin
         textbackground(red);
-        gotoxy(40,20);
+        gotoxy(35,22);
         writeln('CAMPO INVALIDO; PULSE UNA TECLA PARA VOLVER A INGRESAR. ');
         readkey();
         normVideo;
@@ -157,39 +157,39 @@ begin
     begin
     case campo of
     '1': begin
-           gotoxy(40,10);
+           gotoxy(35,10);
            write('Ingrese nuevo numero de poliza ');
            readln(dato_modificado_cardinal);
          end;
     '2': begin
-          gotoxy(40,10);
+          gotoxy(35,10);
           write('Ingrese marca ');
           readln(dato_modificado);
          end;
     '3':begin
-          gotoxy(40,10);
+          gotoxy(35,10);
           write('Ingrese modelo ');
           readln(dato_Modificado);
         end;
     '4': begin
            clrscr;
-           gotoxy(40,10);
+           gotoxy(35,10);
            writeln('Ingrese ano del vehiculo ');
            readln(dato_modificado_cardinal);
          end;
     {'5': ingresar_validar_Patente(dato_modificado);}
     '6':begin
-          gotoxy(40,10);
+          gotoxy(35,10);
           write('Ingrese la nueva suma asegurada ');
           readln(dato_Modificado_real);
         end;
     '7':begin
-          gotoxy(40,10);
+          gotoxy(35,10);
           write('Ingrese cobertura ');
           readln(dato_Modificado);
         end;
     '8':begin
-          gotoxy(40,10);
+          gotoxy(35,10);
           write('Ingrese valor de cuota ');
           readln(dato_Modificado_real);
         end;
@@ -205,20 +205,20 @@ begin
     begin
       dni:=dni_1;
       patente:=patente_1;
-      gotoxy(40,13);
-      write('Ingrese numero de poliza ');
-      readln(numero_poliza);
-      gotoxy(40,14);
+      //numero_poliza hay q ver como le asignamos, ya que eso no lo ingresa el usuario
+      gotoxy(35,11);
       write('Ingrese marca ');
       readln(marca);
-      gotoxy(40,15);
+      gotoxy(35,12);
       write('Ingrese modelo ');
       readln(modelo);
-      write('Ingrese ano del vehiculo ');
+      gotoxy(35,13);
+      write('Ingrese año del vehiculo ');
       readln(ano_Vehiculo);
-      {write('Ingrese suma asegurada ');
+      {write('Ingrese suma asegurada ');  {La suma asegurada y valor de cuota se tiene que sacar con un calculo pero por las dudas las dejamos por ahora}
       readln(Suma_asegurada);}
-      write('Ingrese cobertura ');         {La suma asegurada y valor de cuota se tiene que sacar con un calculo pero por las dudas las dejamos por ahora}
+      gotoxy(35,14);
+      write('Ingrese cobertura ');
       readln(cobertura);
       {writeln('Ingrese valor de cuota ');
       readln(Valor_cuota);}
@@ -230,14 +230,14 @@ procedure ingresar_marca (var marca:string);
 var es_valido:boolean;
 begin
   clrscr;
-  gotoxy(40,10);
+  gotoxy(35,10);
   write('MARCA: ');
   readln(marca);
   es_valido:= Validar_String(marca);
   if es_valido = false then
     begin
       clrscr;
-      gotoxy(40,10);
+      gotoxy(35,10);
       TextBackground(red);
       writeln('MARCA INVALIDO. PULSE UNA TECLA PARA VOLVER A INGRESAR');
       readkey();
@@ -248,14 +248,14 @@ procedure ingresar_modelo (var modelo:string);
 var es_valido:boolean;
 begin
   clrscr;
-  gotoxy(40,10);
+  gotoxy(35,10);
   write('MODELO: ');
   readln(modelo);
   es_valido:= Validar_String(modelo);
   if es_valido = false then
     begin
       clrscr;
-      gotoxy(40,10);
+      gotoxy(35,10);
       TextBackground(red);
       writeln('MODELO INVALIDO. PULSE UNA TECLA PARA VOLVER A INGRESAR');
       readkey();
