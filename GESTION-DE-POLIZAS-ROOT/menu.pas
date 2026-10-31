@@ -101,8 +101,8 @@ begin
     '1': ingresar_apellido(dato_modificado);
     '2': ingresar_nombre(dato_modificado);
     '3':begin
-      ingresar_direccion_calle(dir_modificada.calle);
-      ingresar_direccion_nro(dir_modificada.nro);
+      ingresar_direccion_calle(dir_modificada.calle,2);
+      ingresar_direccion_nro(dir_modificada.nro,2);
        end;
     '4': begin
            clrscr;
@@ -114,8 +114,8 @@ begin
            modificar_registro(registro_clientes,campo,dato_modificado,fecha_modificada,dir_modificada);
            guardar_registro(arch_clientes,pos,registro_clientes);
          end;
-    '5': ingresar_validar_celular(dato_modificado);
-    '6':Ingresar_mail(dato_modificado);
+    '5': ingresar_validar_celular(dato_modificado,2);
+    '6':Ingresar_mail(dato_modificado,2);
 
     end;
       modificar_registro(registro_clientes,campo,dato_modificado,fecha_modificada,dir_modificada);

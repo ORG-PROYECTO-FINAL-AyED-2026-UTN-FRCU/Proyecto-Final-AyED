@@ -10,12 +10,12 @@ interface
   function Validar_rango_fecha(var dato: word; min, max: word): boolean;
   function Validar_String(dato: string):boolean;
   function validar_formato_celular( dato: string):boolean;
-  procedure ingresar_validar_celular(var dato: shortstring);
+  procedure ingresar_validar_celular(var dato: shortstring;opc_mostrar:byte);
   procedure ingresar_validar_fecha_completo(var reg:reg_fecha; opc:BYTE; opc_mostrar:byte);
-  procedure Ingresar_mail(var dato:shortstring);
+  procedure Ingresar_mail(var dato:shortstring;opc_mostrar:byte);
   function Validar_formato_patente (patente:String):boolean;
-  procedure ingresar_direccion_calle(var calle:shortstring);
-  procedure ingresar_direccion_nro(var nro: word);
+  procedure ingresar_direccion_calle(var calle:shortstring;opc_mostrar:byte);
+  procedure ingresar_direccion_nro(var nro: word;opc_mostrar:byte);
   function validar_mail(var dato: shortstring):boolean;
   procedure ingresar_dni (var dni:string; var es_valido:boolean);
 implementation
@@ -141,12 +141,12 @@ begin
             vc:=validar_rango_fecha(reg.dia, 1, 31);
             if not vc then
               begin
-                gotoxy(35,i+1);
+                gotoxy(35,i+2);
                 TextBackground(red);
                 write('ERROR. PULSE UNA TECLA PARA VOLVER A INGRESAR');
                 readkey();
                 normvideo;
-                gotoxy(35,i+1);
+                gotoxy(35,i+2);
                 write('                                                   ');  //limpia la linea
               end;
           until vc=True;
@@ -161,12 +161,12 @@ begin
             vc:=validar_rango_fecha(reg.mes, 1, 12);
             if not vc then
               begin
-                gotoxy(35,i+2);                                                             //validar_rango_fecha(reg.ano, 1900, 2049);
+                gotoxy(35,i+3);                                                             //validar_rango_fecha(reg.ano, 1900, 2049);
                 TextBackground(red);
                 write('ERROR. PULSE UNA TECLA PARA VOLVER A INGRESAR');
                 readkey();
                 normvideo;
-                gotoxy(35,i+2);
+                gotoxy(35,i+3);
                 write('                                                   ');  //limpia la linea
               end;
             until vc=True;
@@ -181,12 +181,12 @@ begin
             vc:=validar_rango_fecha(reg.ano, 1900, 2049);
             if not vc then
               begin
-                gotoxy(35,i+3);
+                gotoxy(35,i+4);
                 TextBackground(red);
                 write('ERROR. PULSE UNA TECLA PARA VOLVER A INGRESAR');
                 readkey();
                 normvideo;
-                gotoxy(35,i+3);
+                gotoxy(35,i+4);
                 write('                                                   ');  //limpia la linea
               end;
             until vc=True;
@@ -272,25 +272,30 @@ begin
   validar_formato_celular:=esValido;
 end;
 
-procedure ingresar_validar_celular(var dato: shortstring);
+procedure ingresar_validar_celular(var dato: shortstring; opc_mostrar:byte);
 var
   vc:boolean;
+  i:byte;
 begin
+  if opc_mostrar = 1 then
+    i:=20
+  else
+    i:=11;
   repeat
-    gotoxy(35,20);
+    gotoxy(35,i);
     write('                                                                         ');   // borra esa linea
-    gotoxy(35,20);
+    gotoxy(35,i);
     write('Ingrese celular:  ');
     readln(dato);
     vc:=validar_formato_celular(dato);
     if not vc then
       begin
-        gotoxy(35,22);
+        gotoxy(35,i+2);
         textbackground(red);
         writeln('ERROR. PULSE UNA TECLA PARA VOLVER A INGRESAR');
         readkey;
         NormVideo;
-        gotoxy(35,22);
+        gotoxy(35,i+2);
         write('                                                                    ');   // borra esa linea
       end;
   until validar_formato_celular(dato);
@@ -329,63 +334,80 @@ begin
 
 end;
 
-procedure Ingresar_mail(var dato:shortstring);
+procedure Ingresar_mail(var dato:shortstring;opc_mostrar:byte);
+var
+    i:byte;
 begin
-    repeat
-      gotoxy(35,21);
-      write('                                                                                                           ');   // borra esa linea
-      gotoxy(35,21);
+    if opc_mostrar = 1 then
+      i:=21
+    else
+      i:=11;
+    repeat                                                                                                              // borra esa linea
+      gotoxy(35,i);
       write('Ingrese su e-mail (puede contener: letras, arroba, puntos y guion bajo) : ');
-      gotoxy(35,22);
+      gotoxy(35,i+1);
+      write('                                                                                                               ');
+      gotoxy(35,i+1);
       readln(dato);
       if not(validar_mail(dato) ) then
         begin
             TextBackground(red);
-            gotoxy(35,23);
+            gotoxy(35,i+2);
             writeln('ENTRADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
             readkey();
             NormVideo;
-            gotoxy(35,23);
+            gotoxy(35,i+2);
             write('                                                                                                                 '); // borra esa linea
         end;
 
     until validar_mail(dato);
 end;
 
-procedure ingresar_direccion_calle(var calle:shortstring);
+procedure ingresar_direccion_calle(var calle:shortstring;opc_mostrar:byte);
+var
+    i:byte;
 begin
+  if opc_mostrar = 1 then
+    i:=13
+  else
+    i:=11;
     repeat
-      gotoxy(35,13);
+      gotoxy(35,i);
       write('                                                                                                                   '); //limpia esa linea
-      gotoxy(35,13);
+      gotoxy(35,i);
       writeln('Ingrese direccion ');
-      gotoxy(35,14);
+      gotoxy(35,i+1);
       write('                                                                                                                   ');
-      gotoxy(35,14);
+      gotoxy(35,i+1);
       write('Nombre de la calle: ');
       readln(calle);
       if not validar_string(calle) then
         begin
             TextBackground(red);
-            gotoxy(35,16);
+            gotoxy(35,i+3);
             writeln('ENTRADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
             readkey();
             NormVideo;
-            gotoxy(35,16);
+            gotoxy(35,i+3);
             write('                                                                                                             '); //limpia esa linea
         end;
     until Validar_String(calle);
 end;
 
-  procedure ingresar_direccion_nro(var nro: word);
+  procedure ingresar_direccion_nro(var nro: word;opc_mostrar:byte);
 var
   s: string;
   vc: boolean;
+  i:byte;
 begin
+  if opc_mostrar = 1 then
+    i:=15
+  else
+    i:=13;
   repeat
-    gotoxy(35, 15);
+    gotoxy(35, i);
     write('                                                                                                               ');
-    gotoxy(35, 15);
+    gotoxy(35, i);
     write('Numero de calle: ');
 
     {$I-}
@@ -398,12 +420,12 @@ begin
     if (not vc) or (length(s) > 4) then
     begin
       vc:=false;
-      gotoxy(35, 17);
+      gotoxy(35, i+2);
       textbackground(red);
       write('TIPO DE DATO INVALIDO O VACIO. PULSE UNA TECLA');
       normvideo;
       readkey;
-      gotoxy(35, 17);
+      gotoxy(35, i+2);
       write('                                                                                                               '); // limpia la línea de error
     end;
   until vc;
