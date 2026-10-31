@@ -373,11 +373,11 @@ begin
     i:=11;
     repeat
       gotoxy(35,i);
-      write('                                                                                                                   '); //limpia esa linea
+      write('                                                                                                                                                    '); //limpia esa linea
       gotoxy(35,i);
       writeln('Ingrese direccion ');
       gotoxy(35,i+1);
-      write('                                                                                                                   ');
+      write('                                                                                                                                                                                ');
       gotoxy(35,i+1);
       write('Nombre de la calle: ');
       readln(calle);
