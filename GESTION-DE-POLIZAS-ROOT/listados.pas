@@ -104,7 +104,7 @@ begin
      gotoxy(35,10);
      writeln('0: VOLVER');
      gotoxy(35,11);
-     writeln('1: LISTADO CLIENTES0');
+     writeln('1: LISTADO CLIENTES');
      res:=readkey;
      case res of
      '1':
