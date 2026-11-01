@@ -1,5 +1,6 @@
 unit u_polizas;
 interface
+{$codepage UTF8}
 uses
   Classes, SysUtils,ARCHIVO_POLIZAS,validaciones,crt;
 const
@@ -68,15 +69,15 @@ begin
       gotoxy(35,13);
       writeln('Modelo: ', modelo);
       gotoxy(35,14);
-      writeln('Ano del vehiculo: ', Ano_Vehiculo);
+      writeln('Año del vehiculo: ', Ano_Vehiculo);
       gotoxy(35,15);
       writeln('Patente: ', patente);
       gotoxy(35,16);
-      writeln('Suma asegurada: ', Suma_asegurada);
+      writeln('Suma asegurada: ', Suma_asegurada:0:2);
       gotoxy(35,17);
       writeln('Cobertura: ', cobertura);
       gotoxy(35,18);
-      writeln('Valor de cuota: ', Valor_cuota);
+      writeln('Valor de cuota: ', Valor_cuota:0:2);
       gotoxy(35,19);
       if estado = true then
         writeln('Estado: ACTIVO')
@@ -101,7 +102,7 @@ begin
     gotoxy(35,15);
     writeln('3:Modelo');
     gotoxy(35,16);
-    writeln('4:Ano del vehiculo');
+    writeln('4:Año del vehiculo');
     gotoxy(35,17);
     writeln('5:Patente');
     gotoxy(35,18);
@@ -174,7 +175,7 @@ begin
     '4': begin
            clrscr;
            gotoxy(35,10);
-           writeln('Ingrese ano del vehiculo ');
+           write('Ingrese ano del vehiculo ');
            readln(dato_modificado_cardinal);
          end;
     {'5': ingresar_validar_Patente(dato_modificado);}
