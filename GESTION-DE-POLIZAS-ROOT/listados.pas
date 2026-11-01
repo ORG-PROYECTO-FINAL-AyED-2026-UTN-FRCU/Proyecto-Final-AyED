@@ -4,6 +4,7 @@ unit listados;
 interface
 uses
   Classes, SysUtils,u_clientes,crt,archivo_clientes;
+procedure menu_listados(var a:t_archivo_clientes);
 Procedure mostrar_dato_listado(var A:t_archivo_clientes);
 procedure Listado_clientes(var a:t_archivo_clientes; var reg:t_reg_clientes;var auxy:integer);
 
@@ -93,7 +94,39 @@ begin //PARTE FIJA
   end;
 
 end;
-
+procedure menu_listados(var a:t_archivo_clientes);
+var res:string;
+  vc:boolean;
+begin
+ repeat
+     vc:=false;
+     clrscr;
+     gotoxy(35,10);
+     writeln('0: VOLVER');
+     gotoxy(35,11);
+     writeln('1: LISTADO CLIENTES0');
+     res:=readkey;
+     case res of
+     '1':
+         begin
+              mostrar_dato_listado(a);
+              vc:=true;
+         end;
+     '0':
+         vc:=true;
+     else
+         begin
+           clrscr;
+           gotoxy(35,10);
+           TextBackground(red);
+           writeln('OPCION INVALIDA. PRESIONE UNA TECLA PARA VOLVER A INGRESAR');
+           readkey();
+           NormVideo;
+           clrscr;
+         end;
+     end;
+   until vc=true;
+end;
 
 end.
 
