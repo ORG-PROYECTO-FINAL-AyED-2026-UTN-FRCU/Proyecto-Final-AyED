@@ -39,6 +39,10 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="CLIENTES"/>
       </Unit>
+      <Unit>
+        <Filename Value="listados.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

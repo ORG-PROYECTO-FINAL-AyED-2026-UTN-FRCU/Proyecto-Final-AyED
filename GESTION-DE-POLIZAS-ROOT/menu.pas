@@ -3,7 +3,7 @@ unit menu;
 interface
   uses
     archivo_clientes,archivo_polizas, u_clientes,validaciones, menu_polizas,u_polizas, //, ARBOL, ESTADÍSTICAS
-    crt,sysutils;
+    crt,sysutils,listados;
     //LISTADOS; //LLAMADA A TODAS LAS UNIT NECESARIAS
     procedure menu_principal;
 implementation
@@ -255,6 +255,7 @@ repeat
     case opcion of
     '1': menu_clientes(arch_clientes);
     '2': menu_poliza(arch_polizas,arch_clientes);
+    '3':mostrar_dato_listado(arch_clientes);
 {    '3': LISTADOS (ARCH_CLIENTES, ARCH_POLIZAS, ARBOL_NOM);
     '4': ESTADÍSTICAS (ARCH_CLIENTES,ARCH_POLIZAS);}
     else
