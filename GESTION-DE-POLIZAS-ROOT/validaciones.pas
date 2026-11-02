@@ -176,7 +176,9 @@ begin
 
 end;
 
-  {VALIDACION PATENTE}
+
+
+{VALIDACION PATENTE}
 function Validar_formato_patente (patente:String):boolean;
 var VC:boolean;
 begin
@@ -196,9 +198,6 @@ begin
   Validar_formato_patente:=vc;
 end;
 
-
-
-{VALIDACIONES.. PASAR A UNIT VALIDACIONES}
 function Validar_ano(ano:integer): boolean;
 var
   codigo: integer;
