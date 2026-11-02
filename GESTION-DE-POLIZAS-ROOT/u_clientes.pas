@@ -167,7 +167,7 @@ procedure Ingresar_nombre(var dato:shortstring);
 begin
    repeat
      gotoxy(35,12);
-     write('                      '); // borra esa linea
+     write('                                                                                                                '); // borra esa linea
      gotoxy(35,12);
      write('Ingrese nombres: ');
      readln(dato);
@@ -230,7 +230,7 @@ begin
        begin
          repeat
            gotoxy(35,i);
-           write('                                 ');    //limpia esa linea
+           write('                                                                                                       ');    //limpia esa linea
            gotoxy(35,i);
            write('Dia: ');
            vc:=validar_rango_fecha(reg.dia, 1, 31);
@@ -250,7 +250,7 @@ begin
        begin
          repeat
            gotoxy(35,i+1);
-           write('                                ');    //limpia esa linea
+           write('                                                                                                         ');    //limpia esa linea
            gotoxy(35,i+1);
            write('Mes: ');
            vc:=validar_rango_fecha(reg.mes, 1, 12);
@@ -270,7 +270,7 @@ begin
        begin
          repeat
            gotoxy(35,i+2);
-           write('                             ');    //limpia esa linea
+           write('                                                                                                          ');    //limpia esa linea
            gotoxy(35,i+2);
            write('Año: ');
            vc:=validar_rango_fecha(reg.ano, 1900, 2049);

@@ -134,15 +134,15 @@ begin
   clrscr;
   leer_dato(arch_clientes,pos,registro_clientes);
   mostrar_registro(registro_clientes);
+  textbackground(Blue);
+  gotoxy(35,20);
+  write('PULSE UNA TECLA PARA CONTINUAR');
+  readkey();
+  normVideo;
+  clrscr;
   vc:=false;
   while vc=false do
     begin
-      textbackground(Blue);
-      gotoxy(35,20);
-      write('PULSE UNA TECLA PARA CONTINUAR');
-      readkey();
-      normVideo;
-      clrscr;
       gotoxy(35,10);
       writeln('0: VOLVER');
       gotoxy(35,11);
@@ -264,8 +264,11 @@ repeat
      if opcion<>'0' then
       begin
         clrscr;
+        textbackground(Blue);
         gotoxy(35,10);
-        writeln('PRESIONE UNA TECLA PARA MOSTRAR NUEVAMENTE EL MENU'); READKEY;
+        writeln('PRESIONE UNA TECLA PARA MOSTRAR NUEVAMENTE EL MENU');
+        readkey;
+        normvideo;
       end;
 until opcion = '0';
 end;
