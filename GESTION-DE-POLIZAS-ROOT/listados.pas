@@ -61,9 +61,17 @@ begin
                         write(email);
                         gotoxy(116,auxy);
                         if estado=true then
-                        writeln('Alta')
+                        begin
+                        textcolor(green);
+                        writeln('Alta');
+                        textcolor(lightgray);
+                        end
                         else
+                        begin
+                          textcolor(red);
                           writeln('Baja');
+                          textcolor(lightgray);
+                        end;
                       end;
           end;
           if i=9 then  //Reinicia la lista
