@@ -8,25 +8,7 @@ procedure menu_poliza (var arch_polizas:t_archivo_polizas;var arch_clientes:t_ar
 procedure menu_poliza_encontrado (var arch_polizas:t_archivo_polizas ; var pos:longint);
 procedure menu_poliza_no_encontrado(var arch_polizas:t_archivo_polizas;dni1:string;patente_1:string);
 implementation
-{VALIDACION PATENTE}
-function Validar_formato_patente (patente:String):boolean;
-var VC:boolean;
-begin
-  if length(patente)<>7 then
-    vc:=false
-   else
-    if not (Upcase(patente[1]) in ['A'..'Z']) or not (Upcase(patente[2]) in ['A'..'Z']) then
-       vc:=false
-      else
-         if not (Upcase(patente[6]) in ['A'..'Z']) or not (Upcase(patente[7]) in ['A'..'Z']) then
-           Vc:=false
-           else
-             if not (Patente[3] in ['0'..'9']) or not (Patente[4] in ['0'..'9']) or not (Patente[5] in ['0'..'9']) then
-               Vc:=false
-               else
-                 vc:=true;
-  Validar_formato_patente:=vc;
-end;
+
 procedure menu_poliza_encontrado (var arch_polizas:t_archivo_polizas ; var pos:longint);
 var
   registro_polizas : t_reg_polizas;
