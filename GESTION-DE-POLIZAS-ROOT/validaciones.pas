@@ -2,80 +2,22 @@ unit validaciones;
 {$mode ObjFPC}{$H+} {$codepage UTF8}
 
 interface
-  uses crt,sysutils,archivo_clientes;
-  procedure Ingresar_apellido(var dato:shortstring);
-  procedure Ingresar_nombre(var dato:shortstring);
+  uses crt,sysutils,archivo_clientes, archivo_polizas;
+  function validar_formato_cardinal(s: string; var num: cardinal): boolean;
+  function Validar_ano(ano:integer): boolean;
   function ValidarDNI(dni:string): BOOLEAN;
   function validar_formato_word(s: string; var num: word): boolean;
   function Validar_rango_fecha(var dato: word; min, max: word): boolean;
   function Validar_String(dato: string):boolean;
   function validar_formato_celular( dato: string):boolean;
-  procedure ingresar_validar_celular(var dato: shortstring;opc_mostrar:byte);
-  procedure ingresar_validar_fecha_completo(var reg:reg_fecha; opc:BYTE; opc_mostrar:byte);
-  procedure Ingresar_mail(var dato:shortstring;opc_mostrar:byte);
   function Validar_formato_patente (patente:String):boolean;
-  procedure ingresar_direccion_calle(var calle:shortstring;opc_mostrar:byte);
-  procedure ingresar_direccion_nro(var nro: word;opc_mostrar:byte);
   function validar_mail(var dato: shortstring):boolean;
-  procedure ingresar_dni (var dni:string; var es_valido:boolean);
+
 implementation
-    procedure ingresar_dni (var dni:string; var es_valido:boolean);
-    begin
-      clrscr;
-      gotoxy(35,10);
-      write('DNI: ');
-      readln(dni);
-      es_valido:= ValidarDNI(dni);
-      if es_valido = false then
-        begin
-          clrscr;
-          gotoxy(35,10);
-          TextBackground(red);
-          writeln('DNI INVALIDO. PULSE UNA TECLA PARA VOLVER A INGRESAR');
-          readkey();
-          NormVideo;
-        end;
-end;
-procedure Ingresar_apellido(var dato:shortstring);
-begin
-    repeat
-      gotoxy(35,11);
-      write('                                                                                                                   '); //limpia esa linea
-      gotoxy(35,11);
-      write('Ingrese apellido: ');
-      readln(dato);
-      if not validar_string(dato) then
-        begin
-            TextBackground(red);
-            gotoxy(35,13);
-            writeln('ENTRADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
-            readkey();
-            NormVideo;
-            gotoxy(35,13);
-            write('                                                                                                             '); //limpia esa linea
-        end;
-    until Validar_String(dato);
-end;
-procedure Ingresar_nombre(var dato:shortstring);
-begin
-    repeat
-      gotoxy(35,12);
-      write('                      '); // borra esa linea
-      gotoxy(35,12);
-      write('Ingrese nombres: ');
-      readln(dato);
-      if not validar_string(dato) then
-        begin
-            TextBackground(red);
-            gotoxy(35,14);
-            writeln('ENTRADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
-            readkey();
-            NormVideo;
-            gotoxy(35,14);
-            write('                                                                    '); // borra esa linea
-        end;
-    until Validar_String(dato);
-end;
+
+
+
+
 //VALIDACIONES  DE RANGO DE FECHA, DIA Y MES, QUE CUMPLAN RANGOS ESTIPULADOS
 //ESTAS VALIDACIONES NO INVOLUCRAN ANTI-CRASH POR DATO INGRESADO DE TIPO INVALIDO, EJEMPLO SI SE INGRESA UN STRING.
 function validar_rango_fecha(var dato: word; min, max: word): boolean;
@@ -120,79 +62,7 @@ begin
   validar_formato_word := valido;
 end;
 
-procedure ingresar_validar_fecha_completo(var reg: reg_fecha; opc: BYTE; opc_mostrar:byte);
-var
-  vc:boolean;
-  i:byte;
-begin
-  vc:=false;
-  if opc_mostrar = 1 then
-    i:=17
-  else
-    i:=11;
-    case opc of
-      1:
-        begin
-          repeat
-            gotoxy(35,i);
-            write('                                 ');    //limpia esa linea
-            gotoxy(35,i);
-            write('Dia: ');
-            vc:=validar_rango_fecha(reg.dia, 1, 31);
-            if not vc then
-              begin
-                gotoxy(35,i+2);
-                TextBackground(red);
-                write('ERROR. PULSE UNA TECLA PARA VOLVER A INGRESAR');
-                readkey();
-                normvideo;
-                gotoxy(35,i+2);
-                write('                                                   ');  //limpia la linea
-              end;
-          until vc=True;
-        end;
-      2:
-        begin
-          repeat
-            gotoxy(35,i+1);
-            write('                                ');    //limpia esa linea
-            gotoxy(35,i+1);
-            write('Mes: ');
-            vc:=validar_rango_fecha(reg.mes, 1, 12);
-            if not vc then
-              begin
-                gotoxy(35,i+3);                                                             //validar_rango_fecha(reg.ano, 1900, 2049);
-                TextBackground(red);
-                write('ERROR. PULSE UNA TECLA PARA VOLVER A INGRESAR');
-                readkey();
-                normvideo;
-                gotoxy(35,i+3);
-                write('                                                   ');  //limpia la linea
-              end;
-            until vc=True;
-          end;
-      3:
-        begin
-          repeat
-            gotoxy(35,i+2);
-            write('                             ');    //limpia esa linea
-            gotoxy(35,i+2);
-            write('Año: ');
-            vc:=validar_rango_fecha(reg.ano, 1900, 2049);
-            if not vc then
-              begin
-                gotoxy(35,i+4);
-                TextBackground(red);
-                write('ERROR. PULSE UNA TECLA PARA VOLVER A INGRESAR');
-                readkey();
-                normvideo;
-                gotoxy(35,i+4);
-                write('                                                   ');  //limpia la linea
-              end;
-            until vc=True;
-          end;
-    end;
-end;
+
 
 //validacion DNI
 function ValidarDNI(dni:string): boolean;
@@ -272,34 +142,6 @@ begin
   validar_formato_celular:=esValido;
 end;
 
-procedure ingresar_validar_celular(var dato: shortstring; opc_mostrar:byte);
-var
-  vc:boolean;
-  i:byte;
-begin
-  if opc_mostrar = 1 then
-    i:=20
-  else
-    i:=11;
-  repeat
-    gotoxy(35,i);
-    write('                                                                         ');   // borra esa linea
-    gotoxy(35,i);
-    write('Ingrese celular:  ');
-    readln(dato);
-    vc:=validar_formato_celular(dato);
-    if not vc then
-      begin
-        gotoxy(35,i+2);
-        textbackground(red);
-        writeln('ERROR. PULSE UNA TECLA PARA VOLVER A INGRESAR');
-        readkey;
-        NormVideo;
-        gotoxy(35,i+2);
-        write('                                                                    ');   // borra esa linea
-      end;
-  until validar_formato_celular(dato);
-end;
 
 
 //validaciones de email y direccion
@@ -334,103 +176,6 @@ begin
 
 end;
 
-procedure Ingresar_mail(var dato:shortstring;opc_mostrar:byte);
-var
-    i:byte;
-begin
-    if opc_mostrar = 1 then
-      i:=21
-    else
-      i:=11;
-    repeat                                                                                                              // borra esa linea
-      gotoxy(35,i);
-      write('Ingrese su e-mail (puede contener: letras, arroba, puntos y guion bajo) : ');
-      gotoxy(35,i+1);
-      write('                                                                                                               ');
-      gotoxy(35,i+1);
-      readln(dato);
-      if not(validar_mail(dato) ) then
-        begin
-            TextBackground(red);
-            gotoxy(35,i+2);
-            writeln('ENTRADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
-            readkey();
-            NormVideo;
-            gotoxy(35,i+2);
-            write('                                                                                                                 '); // borra esa linea
-        end;
-
-    until validar_mail(dato);
-end;
-
-procedure ingresar_direccion_calle(var calle:shortstring;opc_mostrar:byte);
-var
-    i:byte;
-begin
-  if opc_mostrar = 1 then
-    i:=13
-  else
-    i:=11;
-    repeat
-      gotoxy(35,i);
-      write('                                                                                                                                                    '); //limpia esa linea
-      gotoxy(35,i);
-      writeln('Ingrese direccion ');
-      gotoxy(35,i+1);
-      write('                                                                                                                                                                                ');
-      gotoxy(35,i+1);
-      write('Nombre de la calle: ');
-      readln(calle);
-      if not validar_string(calle) then
-        begin
-            TextBackground(red);
-            gotoxy(35,i+3);
-            writeln('ENTRADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
-            readkey();
-            NormVideo;
-            gotoxy(35,i+3);
-            write('                                                                                                             '); //limpia esa linea
-        end;
-    until Validar_String(calle);
-end;
-
-  procedure ingresar_direccion_nro(var nro: word;opc_mostrar:byte);
-var
-  s: string;
-  vc: boolean;
-  i:byte;
-begin
-  if opc_mostrar = 1 then
-    i:=15
-  else
-    i:=13;
-  repeat
-    gotoxy(35, i);
-    write('                                                                                                               ');
-    gotoxy(35, i);
-    write('Numero de calle: ');
-
-    {$I-}
-    readln(s);
-    {$I+}
-
-    if IORESULT <> 0 then
-      s := '';
-    vc := validar_formato_word(s, nro);
-    if (not vc) or (length(s) > 4) then
-    begin
-      vc:=false;
-      gotoxy(35, i+2);
-      textbackground(red);
-      write('TIPO DE DATO INVALIDO O VACIO. PULSE UNA TECLA');
-      normvideo;
-      readkey;
-      gotoxy(35, i+2);
-      write('                                                                                                               '); // limpia la línea de error
-    end;
-  until vc;
-end;
-
   {VALIDACION PATENTE}
 function Validar_formato_patente (patente:String):boolean;
 var VC:boolean;
@@ -450,5 +195,65 @@ begin
                  vc:=true;
   Validar_formato_patente:=vc;
 end;
+
+
+
+{VALIDACIONES.. PASAR A UNIT VALIDACIONES}
+function Validar_ano(ano:integer): boolean;
+var
+  codigo: integer;
+  valido: boolean;
+  s:string;
+begin
+  valido := true;
+
+  // 1. Validar que tenga exactamente 4 caracteres y sean dígitos
+  if length(s) <> 4 then
+    valido := false
+  else
+  begin
+    // 2. Intentar convertir a número entero/word
+    val(s, ano, codigo);
+    if codigo <> 0 then
+      valido := false
+    else
+    begin
+      // 3. Validar el rango permitido
+      if (ano < 2020) or (ano > 2050) then
+        valido := false;
+    end;
+  end;
+
+  Validar_ano := valido;
+end;
+
+
+
+ {validar_formato_cardinal}
+function validar_formato_cardinal(s: string; var num: cardinal): boolean;
+var
+ codigo: integer;
+ valido: boolean;
+begin
+ valido := true;
+
+ if length(s) = 0 then
+ begin
+   valido := false;
+ end
+ else
+ begin
+   val(s, num, codigo); // Intenta convertir el texto a cardinal
+   if codigo <> 0 then
+   begin
+     valido := false;
+   end;
+ end;
+
+ validar_formato_cardinal := valido;
+end;
+
+
+
 end.
 

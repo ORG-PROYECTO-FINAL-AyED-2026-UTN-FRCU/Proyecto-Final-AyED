@@ -1,10 +1,13 @@
 unit ARCHIVO_POLIZAS;
 interface
   type
+
+  RangoAnios = 2020..2050;
+
   reg_fecha1 = record
     dia:1..31;
     mes:1..12;
-    ano:2020..2050;
+    ano:RangoAnios;
   end;
   t_reg_polizas = record
     numero_poliza : cardinal;

@@ -333,53 +333,5 @@ begin
 end;
 end;
 
-{VALIDACIONES.. PASAR A UNIT VALIDACIONES}
-
-function Validar_ano(ano:2020..2050): boolean;
-var
-    esValido, esNumero : boolean;
-    i:integer;
-begin
-  esValido:=FALSE;
-  EsNumero:=TRUE;
-  for i:=1 to length(ano) do             {no se si es necesaria esta parte}
-    begin
-      if not (ano[i] in ['0'..'9']) then
-        esNumero:=false
-    end;
-
-  //Validacion final
-  if (length(ano)<> 4) or (esNumero=false) then
-    esValido:=false;
-  if (ano<2020) or (ano>2050) then
-    esValido:=false;
-  validar_ano:=esValido;
-end;
-
-
-
- {validar_formato_cardinal}
-function validar_formato_cardinal(s: string; var num: cardinal): boolean;
-var
- codigo: integer;
- valido: boolean;
-begin
- valido := true;
-
- if length(s) = 0 then
- begin
-   valido := false;
- end
- else
- begin
-   val(s, num, codigo); // Intenta convertir el texto a cardinal
-   if codigo <> 0 then
-   begin
-     valido := false;
-   end;
- end;
-
- validar_formato_cardinal := valido;
-end;
 end.
 
