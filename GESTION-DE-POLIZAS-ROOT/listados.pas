@@ -3,8 +3,8 @@ unit listados;
 
 interface
 uses
-  u_clientes,crt,archivo_clientes,validaciones;
-procedure menu_listados(var a:t_archivo_clientes);
+  u_clientes,u_polizas,crt,ARCHIVO_POLIZAS,archivo_clientes,validaciones;
+procedure menu_listados(var a:t_archivo_clientes; var ap:t_archivo_polizas);
 Procedure mostrar_dato_listado_clientes(var A:t_archivo_clientes);
 procedure Listado_clientes(var a:t_archivo_clientes; var reg:t_reg_clientes;var auxy:integer);
 
@@ -96,7 +96,6 @@ begin //PARTE FIJA
   begin  // PARTE VARIABLE
         Listado_clientes(a,reg_clientes,auxy);
     readkey;
-
   end;
 end;
 procedure encabezado2 (r:t_reg_clientes);
@@ -110,14 +109,59 @@ begin
     write('Apellido: ', r.apellido);
     gotoxy(80,2);
     write('Nombres: ', r.nombres);
-    readkey;
+    gotoxy(46,4);
+    write('--- DATOS DE LAS POLIZAS ---');
 end;
-procedure encabezado_poliza;
+procedure lista_poliza(r:t_reg_polizas ; x,y:integer);
 begin
-
+    gotoxy(x,y);
+    write('NUMERO DE POLIZA: ',r.numero_poliza);
+    gotoxy(x,y+1);
+    write('TIPO DE COBERTURA: ',r.cobertura);
+    gotoxy(x,y+2);
+    write('MARCA: ', r.marca);
+    gotoxy(x,y+3);
+    write('MODELO: ', r.modelo);
+    gotoxy(x,y+4);
+    write('AÑO VEHICULO: ', r.ano_vehiculo);
+    gotoxy(x,y+5);
+    write('VIGENCIA DESDE: ',r.vigencia_desde.dia, '/',r.vigencia_desde.mes, '/',r.vigencia_desde.ano);
+    gotoxy(x,y+6);
+    write('VIGENCIA HASTA: ', r.vigencia_hasta.dia, '/',r.vigencia_hasta.mes, '/',r.vigencia_hasta.ano);
+    gotoxy(x,y+7);
+    write('VALOR VEHICULO: $');
+    gotoxy(x,y+8);
+    write('CUOTA: $', r.valor_cuota:0:2);
+end;
+procedure mostrar_polizas(var a:t_archivo_polizas ; dni:string);
+var
+  x,y,tam,i:integer;
+  dato:t_reg_polizas;
+begin
+  x:=1;              // X e Y sera para ubicar el gotoxy al mostrar
+  y:=6;
+  tam:=filesize(a);
+  for i:= 0 to tam-1 do
+    begin
+      leer_dato_pol(a,i,dato);
+      if dato.dni = dni then
+        begin
+          lista_poliza(dato,x,y);
+          x:=x+30;
+          if x = 121 then
+            begin
+              x:=1;
+              if y = 6 then
+                y:=20
+              else
+                y:=6;
+            end;
+        end;
+    end;
+  readkey;
 end;
 //Listado de Polizas de un contratante/cliente
-procedure Listado_de_Polizas_de_un_contratante(var a:t_archivo_clientes);
+procedure Listado_de_Polizas_de_un_contratante(var a:t_archivo_clientes ; var ap:t_archivo_polizas);
 var
   dni:string;
   valido:boolean;
@@ -130,8 +174,9 @@ begin
   if pos <> -1 then
     leer_dato(a,pos,dato);
   encabezado2(dato);
+  mostrar_polizas(ap,dni);
 end;
-procedure menu_listados(var a:t_archivo_clientes);
+procedure menu_listados(var a:t_archivo_clientes ; var ap:t_archivo_polizas);
 var res:string;
   vc:boolean;
 begin
@@ -140,9 +185,9 @@ begin
      clrscr;
      gotoxy(35,10);
      writeln('0: VOLVER');
-     gotoxy(35,11);
-     writeln('1: LISTADO CLIENTES');
      gotoxy(35,12);
+     writeln('1: LISTADO CLIENTES');
+     gotoxy(35,14);
      writeln('2: LISTADO DE POLIZAS DE UN CLIENTE');
      res:=readkey;
      case res of
@@ -155,7 +200,7 @@ begin
          end;
      '2':
          begin
-              Listado_de_Polizas_de_un_contratante(a);
+              Listado_de_Polizas_de_un_contratante(a,ap);
               vc:=true;
          end;
      else

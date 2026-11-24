@@ -311,7 +311,7 @@ begin
 end;
 
 
-Function Confirmar(var reg:t_reg_clientes):boolean;
+{Function Confirmar(var reg:t_reg_clientes):boolean;
 Var resp:char;
     vc:boolean;
 begin
@@ -392,6 +392,7 @@ begin
     end;
 
 end;
+}
 
 
 
