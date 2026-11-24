@@ -186,14 +186,11 @@ begin
       end;
     end;
 end;
-procedure menu_clientes (var arch_clientes:t_archivo_clientes);
+procedure ingresar_dni_opciones (var dni:string;   es_valido : boolean);
 var
   res:char;
-  dni:string;
-  es_valido : boolean;
-  pos:longint;
 begin
-  repeat
+    repeat
     clrscr;
     gotoxy(35,10);
     writeln('0: VOLVER');
@@ -213,8 +210,16 @@ begin
           NormVideo;
           clrscr;
         end;
-
   until (es_valido = true) or (res = '0');
+end;
+procedure menu_clientes (var arch_clientes:t_archivo_clientes);
+var
+  res:char;
+  dni:string;
+  es_valido : boolean;
+  pos:longint;
+begin
+  ingresar_dni_opciones(dni,es_valido);
   if es_valido = True then
     begin
       busqueda_dni(arch_clientes,dni,pos);

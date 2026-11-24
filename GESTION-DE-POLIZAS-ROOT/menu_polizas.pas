@@ -114,7 +114,7 @@ begin
 end;
 procedure ingresar_patente (var patente:string);
 var
-  es_valido_Patente,es_valido_Patente_vieja:boolean;
+  es_valido_Patente:boolean;
 begin
 repeat
 clrscr;
@@ -122,8 +122,7 @@ gotoxy(35,10);
 write('Ingrese patente: ');
 readln(patente);
 es_valido_Patente:=Validar_formato_patente(patente);
-es_valido_Patente_vieja:=Validar_formato_patente_vieja(patente);
-if (es_valido_patente = false) and (es_valido_patente_vieja = false) then
+if es_valido_patente = false then
   begin
     clrscr;
     gotoxy(35,12);
@@ -132,7 +131,7 @@ if (es_valido_patente = false) and (es_valido_patente_vieja = false) then
     readkey();
     NormVideo;
   end;
-  until (es_valido_patente=true) or (es_valido_patente_vieja = true);
+  until es_valido_patente=true;
 end;
 procedure menu_patente(var arch_polizas:t_archivo_polizas; dni:string; pos:longint);
 var
