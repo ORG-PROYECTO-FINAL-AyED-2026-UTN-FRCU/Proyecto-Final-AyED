@@ -13,7 +13,7 @@ interface
   function Validar_formato_patente (patente:String):boolean;
   function validar_mail(var dato: shortstring):boolean;
   procedure campo_valido_confirmar(var campo:string);
-  procedure ingresar_validar_patente(var patente:string; );
+  //procedure ingresar_validar_patente(var patente:string);
 
 implementation
 
@@ -313,44 +313,6 @@ begin
   until (valido);
 end;
 
-
-procedure modificar_reg_Confirmacion (var Reg:t_reg_clientes;campo:string ; var pos:longint);
-var
-  dato_modificado:shortstring;
-  fecha_modificada:reg_fecha;
-  reg_modificado:reg_fecha;
-  dir_modificada:reg_direccion;
-begin
-  campo_valido_Confirmacion(campo);
-  clrscr;
-  if campo <> '0' then
-    begin
-    case campo of
-    '1': ingresar_apellido(dato_modificado);
-    '2': ingresar_nombre(dato_modificado);
-    '3':begin
-      ingresar_direccion_calle(dir_modificada.calle,2);
-      ingresar_direccion_nro(dir_modificada.nro,2);
-       end;
-    '4': begin
-           clrscr;
-           gotoxy(35,10);
-           writeln('Ingrese la nueva fecha de nacimiento');
-           ingresar_validar_fecha_completo(fecha_modificada,1,2);
-           ingresar_validar_fecha_completo(fecha_modificada,2,2);
-           ingresar_validar_fecha_completo(fecha_modificada,3,2);
-           modificar_registro(registro_clientes,campo,dato_modificado,fecha_modificada,dir_modificada);
-           guardar_registro(arch_clientes,pos,registro_clientes);
-         end;
-    '5': ingresar_validar_celular(dato_modificado,2);
-    '6':Ingresar_mail(dato_modificado,2);
-
-    end;
-      modificar_registro(registro_clientes,campo,dato_modificado,fecha_modificada,dir_modificada);
-      guardar_registro(arch_clientes,pos,registro_clientes);
-    end;
-
-end;
 
 
 

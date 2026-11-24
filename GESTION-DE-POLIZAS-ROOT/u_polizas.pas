@@ -176,7 +176,7 @@ begin
            gotoxy(35,10);
            ingresar_ano(dato_modificado_cardinal);
          end;
-    '4': ingresar_validar_Patente(dato_modificado); //patente
+   // '4': ingresar_validar_Patente(dato_modificado); //patente
    { '5':begin       //suma asegurada
           gotoxy(35,10);
           write('Ingrese la nueva suma asegurada ');
