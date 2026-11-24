@@ -12,6 +12,7 @@ interface
   function validar_formato_celular( dato: string):boolean;
   function Validar_formato_patente (patente:String):boolean;
   function validar_mail(var dato: shortstring):boolean;
+  function Validar_formato_patente_vieja (patente:String):boolean;
 
 implementation
 
