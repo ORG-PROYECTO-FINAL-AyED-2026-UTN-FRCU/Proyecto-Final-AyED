@@ -14,6 +14,7 @@ procedure campo_valido_pol(var campo:string);
 procedure ingresar_marca (var marca:shortstring);
 procedure ingresar_modelo (var modelo:shortstring);
 procedure ingresar_ano (var ano:CARDINAL);
+procedure ingresar_validar_patente(var patente:string);
 procedure ingresar_cobertura (var COBERTURA:shortstring);
 //procedure ingresar_poliza (var poliza:shortstring);
 //fin ingresar validar
@@ -135,6 +136,9 @@ begin
     end;
   until (valido);
 end;
+
+
+
 procedure modificar_registro_pol (var registro:t_reg_polizas; campo:string; dato_modificado:string;dato_modificado_cardinal:cardinal;dato_modificado_real:real);
 begin
   with registro do
@@ -219,6 +223,28 @@ begin
       estado:=True;
      end;
     end;
+
+
+procedure ingresar_validar_patente(var patente:string);
+begin
+  repeat
+    gotoxy(35,12);
+    write('                                                                                                                '); // borra esa linea
+    gotoxy(35,12);
+    write('Ingrese patente formato nuevo o viejo (ABC123BB, ABC012)');
+    readln(patente);
+    if not (Validar_formato_patente(patente) or Validar_formato_patente_vieja(patente)) then
+      begin
+          TextBackground(red);
+          gotoxy(35,14);
+          writeln('PATENTE INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+          readkey();
+          NormVideo;
+          gotoxy(35,14);
+          write('                                                                    '); // borra esa linea
+      end;
+  until Validar_formato_patente(patente) or Validar_formato_patente_vieja(patente);
+end;
 procedure ingresar_marca (var marca:shortstring);
 var es_valido:boolean;
 begin
