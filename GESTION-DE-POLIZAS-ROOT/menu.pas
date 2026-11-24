@@ -32,6 +32,7 @@ begin
             clrscr;
             pos:=filesize(arch_clientes);
             carga_registro(registro_clientes,dni1);
+            if confirmar(registro_clientes) then
             guardar_registro(arch_clientes,pos,registro_clientes);
           end
         else

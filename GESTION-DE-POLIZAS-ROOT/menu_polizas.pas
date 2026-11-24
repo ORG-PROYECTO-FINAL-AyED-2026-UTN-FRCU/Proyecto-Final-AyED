@@ -112,33 +112,13 @@ begin
           end;
   end;
 end;
-procedure ingresar_patente (var patente:string);
-var
-  es_valido_Patente:boolean;
-begin
-repeat
-clrscr;
-gotoxy(35,10);
-write('Ingrese patente: ');
-readln(patente);
-es_valido_Patente:=Validar_formato_patente(patente);
-if es_valido_patente = false then
-  begin
-    clrscr;
-    gotoxy(35,12);
-    TextBackground(red);
-    writeln('PATENTE INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
-    readkey();
-    NormVideo;
-  end;
-  until es_valido_patente=true;
-end;
+
 procedure menu_patente(var arch_polizas:t_archivo_polizas; dni:string; pos:longint);
 var
   patente:string;
   es_valido:boolean;
 begin
-  ingresar_patente(patente);
+  ingresar_validar_patente(patente);
   busqueda_patente(arch_polizas,patente,pos);
   if pos <> -1 then                                           {SEGUIR ACA}
     menu_poliza_encontrado(arch_polizas,pos)

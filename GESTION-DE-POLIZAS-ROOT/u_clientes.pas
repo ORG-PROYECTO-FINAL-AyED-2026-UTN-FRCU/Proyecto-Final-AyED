@@ -194,7 +194,6 @@ begin
 end;
 
 
-
 procedure Ingresar_nombre(var dato:shortstring);
 begin
    repeat

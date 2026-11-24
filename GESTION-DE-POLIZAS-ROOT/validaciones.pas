@@ -13,7 +13,7 @@ interface
   function Validar_formato_patente (patente:String):boolean;
   function validar_mail(var dato: shortstring):boolean;
   procedure campo_valido_confirmar(var campo:string);
-  //procedure ingresar_validar_patente(var patente:string);
+  function Validar_formato_patente_vieja (patente:String):boolean;
 
 implementation
 
