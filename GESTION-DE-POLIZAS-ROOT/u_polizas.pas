@@ -306,38 +306,6 @@ begin
       end;
   until es_valido;
 end;
-{
-procedure ingresar_poliza (var poliza:shortstring);
-var vc,es_valido:boolean; s:shortstring;
-begin
- repeat
-    gotoxy(35, 10);
-    write('                                                       '); // Limpia la línea
-    gotoxy(35, 10);
-    write('Numero de Poliza: ');
-
-    {$I-}
-    readln(s);
-    {$I+}
-
-    if IORESULT <> 0 then
-      s := '';
-
-    vc := validar_formato_cardinal(s, poliza);
-
-    if not vc then
-    begin
-      gotoxy(40, 10);
-      textbackground(red);
-      write('POLIZA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
-      normvideo;
-      readkey;
-
-      gotoxy(40, 10);
-      write('                                                       '); // Limpia el mensaje de error
-    end;
-  until vc;
-end;     }
 
 end.
 
