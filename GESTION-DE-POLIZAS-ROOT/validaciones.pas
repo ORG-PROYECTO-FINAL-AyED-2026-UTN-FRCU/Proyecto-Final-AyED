@@ -198,6 +198,22 @@ begin
   Validar_formato_patente:=vc;
 end;
 
+function Validar_formato_patente_vieja (patente:String):boolean;
+var VC:boolean;
+begin
+  if length(patente)<>6 then
+    vc:=false
+   else
+    if not (Upcase(patente[1]) in ['A'..'Z']) or not (Upcase(patente[2]) in ['A'..'Z']) or not (Upcase(patente[3]) in ['A'..'Z']) then
+       vc:=false
+      else
+         if not (Patente[4] in ['0'..'9']) or not (Patente[5] in ['0'..'9']) or not (Patente[6] in ['0'..'9']) then
+            Vc:=false
+           else
+             vc:=true;
+  Validar_formato_patente_vieja:=vc;
+end;
+
 function Validar_ano(ano:integer): boolean;
 var
   codigo: integer;
