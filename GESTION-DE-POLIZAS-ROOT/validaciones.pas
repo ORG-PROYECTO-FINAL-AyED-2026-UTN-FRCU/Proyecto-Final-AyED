@@ -12,12 +12,8 @@ interface
   function validar_formato_celular( dato: string):boolean;
   function Validar_formato_patente (patente:String):boolean;
   function validar_mail(var dato: shortstring):boolean;
-
   procedure campo_valido_confirmar(var campo:string);
-  function Validar_formato_patente_vieja (patente:String):boolean;
-  procedure ingresar_validar_patente(patente:string)
-
-
+  procedure ingresar_validar_patente(var patente:string; );
 
 implementation
 
@@ -241,6 +237,7 @@ begin
     begin
       // 3. Validar el rango permitido
       if (ano < 2020) or (ano > 2050) then
+        if (ano < 1930) or (ano > 2050) then
         valido := false;
     end;
   end;
@@ -276,7 +273,7 @@ end;
 
 {CONFIRMACIÓN}
 
-procedure campo_valido(var campo:string);
+procedure campo_valido_confirmar(var campo:string);
 var
   valido:boolean;
 begin
@@ -317,50 +314,6 @@ begin
 end;
 
 
-{Function Confirmar(var reg:t_reg_clientes):boolean;
-Var resp:char;
-    vc:boolean;
-begin
- confirmar:=false;
- writeln('¿Desea confirmar datos?');
- writeln('1: SI');
- writeln('0: NO')
- readln(resp);
- repeat
- case resp do
-    '1':begin
-             vc:=true;
-             Confirmar:=true;
-        end;
-    '0':Begin
-          Writeln('¿Desea Modificar datos?');
-          Writeln('1: Modificar');
-          Writeln('0: Salir');
-          Readln(Resp);
-          repeat
-          Case Resp do
-            '1':begin
-                     Modificar_Reg_confirmacion(Reg);
-                     vc:=true
-                end;
-            '0': vc:=true;
-          else
-            begin
-              writeln('OPCION SELECCIONADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR.');
-              readkey();
-            end;
-          end;
-          until vc:=true;
-        end;
-    else
-        begin
-          writeln('OPCION SELECCIONADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR.');
-          readkey();
-        end;
-        end;
- until vc:=true;
-end;
-
 procedure modificar_reg_Confirmacion (var Reg:t_reg_clientes;campo:string ; var pos:longint);
 var
   dato_modificado:shortstring;
@@ -398,9 +351,9 @@ begin
     end;
 
 end;
-}
 
 
 
 end.
+
 
