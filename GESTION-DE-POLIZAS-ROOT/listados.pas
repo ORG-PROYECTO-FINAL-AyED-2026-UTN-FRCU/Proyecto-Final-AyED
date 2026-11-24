@@ -74,7 +74,7 @@ begin
                         end;
                       end;
           end;
-          if i mod 9=0 then  //Reinicia la lista
+          if (i mod 9=0) and (i<>0) then  //Reinicia la lista
           begin
           textcolor(red);
           gotoxy(32,auxy+4);
@@ -205,9 +205,22 @@ begin
 
     end;
 end;
-procedure encabezado4;
+procedure consulta_patente(var a:t_archivo_polizas);
+var
+  patente:string;
+  pos:integer;
+  r:t_reg_polizas;
 begin
-
+  clrscr;
+  ingresar_validar_patente(patente);
+  busqueda_patente(a,patente,pos);
+  clrscr;
+  if pos <> -1 then
+    begin
+      leer_dato_pol(a,pos,r);
+      mostrar_registro_pol(r);
+      readkey;
+    end;
 end;
 procedure menu_listados(var a:t_archivo_clientes ; var ap:t_archivo_polizas);
 var res:string;
@@ -224,6 +237,8 @@ begin
      writeln('2: LISTADO DE POLIZAS DE UN CLIENTE');
      gotoxy(35,16);
      writeln('3: LISTADO DE POLIZAS VIGENTES');
+     gotoxy(35,18);
+     writeln('4: CONSULTA POR PATENTE');
      res:=readkey;
      case res of
      '0':
@@ -241,6 +256,12 @@ begin
      '3':
          begin
            listado_de_polizas_vigentes(ap);
+           vc:=True;
+         end;
+     '4':
+         begin
+           consulta_patente(ap);
+           vc:=True;
          end
      else
          begin

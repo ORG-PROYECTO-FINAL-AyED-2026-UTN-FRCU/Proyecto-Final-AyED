@@ -231,7 +231,7 @@ begin
     gotoxy(35,12);
     write('                                                                                                                '); // borra esa linea
     gotoxy(35,12);
-    write('Ingrese patente formato nuevo o viejo (ABC123BB, ABC012)');
+    write('Ingrese patente formato nuevo o viejo (ABC123BB, ABC012) ');
     readln(patente);
     if not (Validar_formato_patente(patente) or Validar_formato_patente_vieja(patente)) then
       begin
