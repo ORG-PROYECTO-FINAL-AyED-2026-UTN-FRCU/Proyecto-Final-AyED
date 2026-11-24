@@ -123,14 +123,16 @@ begin
     gotoxy(x,y+3);
     write('MODELO: ', r.modelo);
     gotoxy(x,y+4);
-    write('AÑO VEHICULO: ', r.ano_vehiculo);
+    write('PATENTE: ', r.patente);
     gotoxy(x,y+5);
-    write('VIGENCIA DESDE: ',r.vigencia_desde.dia, '/',r.vigencia_desde.mes, '/',r.vigencia_desde.ano);
+    write('AÑO VEHICULO: ', r.ano_vehiculo);
     gotoxy(x,y+6);
-    write('VIGENCIA HASTA: ', r.vigencia_hasta.dia, '/',r.vigencia_hasta.mes, '/',r.vigencia_hasta.ano);
+    write('VIGENCIA DESDE: ',r.vigencia_desde.dia, '/',r.vigencia_desde.mes, '/',r.vigencia_desde.ano);
     gotoxy(x,y+7);
-    write('VALOR VEHICULO: $');
+    write('VIGENCIA HASTA: ', r.vigencia_hasta.dia, '/',r.vigencia_hasta.mes, '/',r.vigencia_hasta.ano);
     gotoxy(x,y+8);
+    write('VALOR VEHICULO: $');
+    gotoxy(x,y+9);
     write('CUOTA: $', r.valor_cuota:0:2);
 end;
 procedure mostrar_polizas(var a:t_archivo_polizas ; dni:string);
@@ -176,6 +178,37 @@ begin
   encabezado2(dato);
   mostrar_polizas(ap,dni);
 end;
+procedure encabezado3;
+begin
+    clrscr;
+    gotoxy(54,1);
+    write('--- POLIZAS ACTIVAS ---');
+    gotoxy(1,3);
+    write('Fecha vigencia desde');
+    gotoxy(32,3);
+    write('Numero de poliza');
+    gotoxy(60,3);
+    write('Contratante');
+    gotoxy(82,3);
+    write('Patente');
+    gotoxy(100,3);
+    write('Tipo de cobertura');
+    readkey;
+end;
+procedure listado_de_polizas_vigentes (var a:t_archivo_polizas);
+var
+  i:integer;
+begin
+  encabezado3;
+  for i:=1 to filesize(a)-1 do          //seguir aca con la implementacion en arbol
+    begin
+
+    end;
+end;
+procedure encabezado4;
+begin
+
+end;
 procedure menu_listados(var a:t_archivo_clientes ; var ap:t_archivo_polizas);
 var res:string;
   vc:boolean;
@@ -189,6 +222,8 @@ begin
      writeln('1: LISTADO CLIENTES');
      gotoxy(35,14);
      writeln('2: LISTADO DE POLIZAS DE UN CLIENTE');
+     gotoxy(35,16);
+     writeln('3: LISTADO DE POLIZAS VIGENTES');
      res:=readkey;
      case res of
      '0':
@@ -203,6 +238,10 @@ begin
               Listado_de_Polizas_de_un_contratante(a,ap);
               vc:=true;
          end;
+     '3':
+         begin
+           listado_de_polizas_vigentes(ap);
+         end
      else
          begin
            clrscr;
