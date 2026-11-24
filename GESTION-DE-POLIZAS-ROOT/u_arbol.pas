@@ -1,28 +1,32 @@
 unit u_arbol;
-T_DATO_ARBOL = record
-clave:string[100]; //clave será o legajo o apynom
-pos_arch:word;
-end; }
+INTERFACE
+uses
+u_clientes,ARCHIVO_CLIENTES;
 TYPE
-T_DATO = CHAR;
-T_PUNT = ^T_NODO;
+T_DATO_ARBOL = record
+clave:string[50];//dni
+pos_arch:word;
+end;
+T_DATO = t_dato_arbol;
+T_PUNT_ARBOL_CLIENTE = ^T_NODO;
 T_NODO = RECORD
-INFO:T_DATO;
-SAI,SAD: T_PUNT;
+INFO:t_dato_arbol;
+SAI,SAD: T_PUNT_ARBOL_CLIENTE;
 END;
-PROCEDURE CREAR_ARBOL (VAR RAIZ:T_PUNT);
-PROCEDURE AGREGAR (VAR RAIZ:T_PUNT; X:T_DATO);
-FUNCTION ARBOL_VACIO (RAIZ:T_PUNT): BOOLEAN;
-FUNCTION ARBOL_LLENO (RAIZ:T_PUNT): BOOLEAN;
-procedure suprime (var raiz:t_punt;x:t_dato);
-PROCEDURE INORDEN(VAR RAIZ:T_PUNT);
-PROCEDURE PREORDEN(RAIZ:T_PUNT;BUSCADO:CHAR; VAR ENC:BOOLEAN; VAR X:T_DATO);
+PROCEDURE CREAR_ARBOL (VAR RAIZ:T_PUNT_ARBOL_CLIENTE);
+PROCEDURE AGREGAR (VAR RAIZ:T_PUNT_ARBOL_CLIENTE; X:T_DATO);
+FUNCTION ARBOL_VACIO (RAIZ:T_PUNT_ARBOL_CLIENTE): BOOLEAN;
+FUNCTION ARBOL_LLENO (RAIZ:T_PUNT_ARBOL_CLIENTE): BOOLEAN;
+procedure suprime (var raiz:T_PUNT_ARBOL_CLIENTE;x:t_dato);
+PROCEDURE INORDEN(VAR RAIZ:T_PUNT_ARBOL_CLIENTE);
+PROCEDURE PREORDEN(RAIZ:T_PUNT_ARBOL_CLIENTE;BUSCADO:CHAR; VAR ENC:BOOLEAN; VAR X:T_DATO);
+procedure CARGAR_ARBOL(VAR RAIZ:T_PUNT_ARBOL_CLIENTE;var archivo:t_archivo_clientes);
 implementation
-PROCEDURE CREAR_ARBOL (VAR RAIZ:T_PUNT);
+PROCEDURE CREAR_ARBOL (VAR RAIZ:T_PUNT_ARBOL_CLIENTE);
 BEGIN
 RAIZ:= NIL;
 END;
-PROCEDURE AGREGAR (VAR RAIZ:T_PUNT; X:T_DATO);
+PROCEDURE AGREGAR (VAR RAIZ:T_PUNT_ARBOL_CLIENTE; X:T_DATO);
 BEGIN
 IF RAIZ = NIL THEN
 BEGIN
@@ -31,19 +35,19 @@ RAIZ^.INFO:= X;
 RAIZ^.SAI:= NIL;
 RAIZ^.SAD:= NIL;
 END
-ELSE IF RAIZ^.INFO > X THEN AGREGAR (RAIZ^.SAI,X)
+ELSE IF RAIZ^.INFO.clave > X.clave THEN AGREGAR (RAIZ^.SAI,X)
 ELSE AGREGAR (RAIZ^.SAD,X)
 END;
-FUNCTION ARBOL_VACIO (RAIZ:T_PUNT): BOOLEAN;
+FUNCTION ARBOL_VACIO (RAIZ:T_PUNT_ARBOL_CLIENTE): BOOLEAN;
 BEGIN
 ARBOL_VACIO:= RAIZ = NIL;
 END;
-FUNCTION ARBOL_LLENO (RAIZ:T_PUNT): BOOLEAN;
+FUNCTION ARBOL_LLENO (RAIZ:T_PUNT_ARBOL_CLIENTE): BOOLEAN;
 BEGIN
 ARBOL_LLENO:= GETHEAPSTATUS.TOTALFREE < SIZEOF (T_NODO);
 END;
-function suprime_min (var raiz:t_punt): t_dato;
-VAR DIR:T_PUNT;
+function suprime_min (var raiz:T_PUNT_ARBOL_CLIENTE): t_dato;
+VAR DIR:T_PUNT_ARBOL_CLIENTE;
 begin
 if RAIZ^.SAI = nil then
 begin
@@ -55,13 +59,13 @@ end
 else
 suprime_min:= suprime_min (raiz^.sai)
 end;
-procedure suprime (var raiz:t_punt; x:t_dato);
+procedure suprime (var raiz:T_PUNT_ARBOL_CLIENTE; x:t_dato);
 begin
 if raiz <> nil then
-if x < raiz^.info then
+if x.clave < raiz^.info.clave then
 suprime (raiz^.sai,x)
 else
-if x > raiz^.info then
+if x.clave > raiz^.info.clave then
 suprime (raiz^.sad,x)
 else
 if (raiz^.sai = nil) and (raiz^.sad = nil) then
@@ -75,26 +79,43 @@ raiz:= raiz^.sai
 else
 raiz^.info:= suprime_min (raiz^.sad)
 end;
-PROCEDURE PREORDEN(RAIZ:T_PUNT;BUSCADO:CHAR; VAR ENC:BOOLEAN; VAR X:T_DATO);
+PROCEDURE PREORDEN(RAIZ:T_PUNT_ARBOL_CLIENTE;BUSCADO:CHAR; VAR ENC:BOOLEAN; VAR X:T_DATO);
 BEGIN
 IF (RAIZ = NIL) THEN ENC:= FALSE
 ELSE
-IF ( RAIZ^.INFO = BUSCADO) THEN
+IF ( RAIZ^.INFO.clave = BUSCADO) THEN
 BEGIN
 ENC:= TRUE; X:= RAIZ^.INFO
 END
-ELSE IF RAIZ^.INFO > BUSCADO THEN
+ELSE IF RAIZ^.INFO.clave > BUSCADO THEN
 PREORDEN(RAIZ^.SAI,BUSCADO,ENC,X)
 ELSE
 PREORDEN(RAIZ^.SAD,BUSCADO,ENC,X)
 END;
-PROCEDURE INORDEN(VAR RAIZ:T_PUNT);
+PROCEDURE INORDEN(VAR RAIZ:T_PUNT_ARBOL_CLIENTE);
 BEGIN
 IF RAIZ <> NIL THEN BEGIN
 INORDEN (RAIZ^.SAI);
-WRITELN (RAIZ^.INFO);
+WRITELN (RAIZ^.INFO.clave);
 INORDEN (RAIZ^.SAD);
 end;
 END;
+procedure CARGAR_ARBOL(VAR RAIZ:T_PUNT_ARBOL_CLIENTE;var archivo:t_archivo_clientes);
+          var
+            i:integer;
+            tam:integer;
+            dato_salida:t_reg_clientes;
+            dato_arbol:t_dato_arbol;
+            begin
+            CREAR_ARBOL(raiz);
+              tam:=filesize(archivo);
+              for i:=0 to tam-1 do
+                  begin
+                    leer_dato(archivo,i,dato_salida);
+                    dato_arbol.clave:=dato_salida.apellido+dato_salida.nombres;
+                    dato_arbol.pos_arch:=i;
+                    AGREGAR(raiz,dato_arbol);
+                  end;
+            end;
 end.
 
