@@ -23,6 +23,11 @@ procedure modificar_registro (var registro:t_reg_clientes; campo:string; dato_mo
 procedure mostrar_registro (r:t_reg_clientes);
 procedure carga_registro (var r:t_reg_clientes ; dni_1:string);
 procedure busqueda_dni (var a:t_archivo_clientes ; buscado : string; var pos:longint);
+
+//otros
+Function Confirmar(var reg:t_reg_clientes):boolean;
+procedure Modificar_Reg(var reg:t_reg_clientes);
+procedure modificar_reg_Confirmacion (var Reg: t_reg_clientes; campo: string);
 implementation
 
 //AQUI SE ENCUENTRAN LOS PROCEDIMIENTOS Y FUNCIONES QUE USAN VALIDACIONES PARA EL INGRESO DE DATOS. (1).
@@ -418,6 +423,99 @@ begin
   else
     pos:=-1;
 end;
+
+
+procedure modificar_reg_Confirmacion (var Reg: t_reg_clientes; campo: string);
+var dato_modificado:shortstring;
+  dir_modificada:reg_direccion ;
+  fecha_modificada:reg_fecha;
+begin
+  campo_valido_confirmar(campo);
+  clrscr;
+   if campo <> '0' then
+    begin
+    case campo of
+    '1': ingresar_apellido(dato_modificado);
+    '2': ingresar_nombre(dato_modificado);
+    '3':begin
+      ingresar_direccion_calle(dir_modificada.calle,2);
+      ingresar_direccion_nro(dir_modificada.nro,2);
+       end;
+    '4': begin
+           clrscr;
+           gotoxy(35,10);
+           writeln('Ingrese la nueva fecha de nacimiento');
+           ingresar_validar_fecha_completo(fecha_modificada,1,2);
+           ingresar_validar_fecha_completo(fecha_modificada,2,2);
+           ingresar_validar_fecha_completo(fecha_modificada,3,2);
+           modificar_registro(Reg,campo,dato_modificado,fecha_modificada,dir_modificada);
+         end;
+    '5': ingresar_validar_celular(dato_modificado,2);
+    '6':Ingresar_mail(dato_modificado,2);
+
+    end;
+      modificar_registro(Reg,campo,dato_modificado,fecha_modificada,dir_modificada);
+    end;
+
+end;
+
+
+procedure Modificar_Reg(var reg:t_reg_clientes);
+          var
+            pos:string;
+            campo:string;
+          begin
+            campo_valido_confirmar(campo);
+            modificar_reg_Confirmacion(reg,pos);
+          end;
+
+
+Function Confirmar(var reg:t_reg_clientes):boolean;
+Var resp:char;
+    vc:boolean;
+begin
+ confirmar:=false;
+ writeln('¿Desea confirmar datos?');
+ writeln('1: SI');
+ writeln('0: NO') ;
+ readln(resp);
+ repeat
+ case resp of
+    '1':begin
+             vc:=true;
+             Confirmar:=true;
+        end;
+    '0':Begin
+          Writeln('¿Desea Modificar datos?');
+          Writeln('1: Modificar');
+          Writeln('0: Salir');
+          Readln(Resp);
+          repeat
+          Case Resp of
+            '1':begin
+                     Modificar_Reg(Reg);
+                     vc:=true;
+                     confirmar:=true;
+                end;
+            '0': vc:=true;
+          else
+            begin
+              writeln('OPCION SELECCIONADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR.');
+              readkey();
+            end;
+          end;
+          until vc=true;
+        end;
+    else
+        begin
+          writeln('OPCION SELECCIONADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR.');
+          readkey();
+        end;
+        end;
+ until vc=true;
+end;
+
+
 begin
 
 end.
