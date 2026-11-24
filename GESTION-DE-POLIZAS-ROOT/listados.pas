@@ -3,34 +3,34 @@ unit listados;
 
 interface
 uses
-  Classes, SysUtils,u_clientes,crt,archivo_clientes;
+  u_clientes,crt,archivo_clientes,validaciones;
 procedure menu_listados(var a:t_archivo_clientes);
-Procedure mostrar_dato_listado(var A:t_archivo_clientes);
+Procedure mostrar_dato_listado_clientes(var A:t_archivo_clientes);
 procedure Listado_clientes(var a:t_archivo_clientes; var reg:t_reg_clientes;var auxy:integer);
 
 
 implementation
+//listado clientes
 procedure encabezado;
 begin
-clrscr ;
-gotoxy(1,2);
-write('Nombre');
-gotoxy(16,2);
-write('Apellido');
-gotoxy(30,2);
-write('Dni');
-gotoxy(40,2);
-write('Direccion');
-gotoxy(53,2);
-write('Fecha de nacimiento');
-gotoxy(76,2);
-write('Celular');
-gotoxy(94,2);
-write('Email');
-gotoxy(115,2);
-writeln('Estado');
+    clrscr;
+    gotoxy(1,2);
+    write('Nombre');
+    gotoxy(16,2);
+    write('Apellido');
+    gotoxy(30,2);
+    write('Dni');
+    gotoxy(40,2);
+    write('Direccion');
+    gotoxy(53,2);
+    write('Fecha de nacimiento');
+    gotoxy(76,2);
+    write('Celular');
+    gotoxy(94,2);
+    write('Email');
+    gotoxy(115,2);
+    writeln('Estado');
 end;
-
 procedure Listado_clientes(var a:t_archivo_clientes; var reg:t_reg_clientes;var auxy:integer);
 var
   pos,i:integer;
@@ -87,9 +87,7 @@ begin
           end;
      end;
 end;
-
-
-Procedure mostrar_dato_listado(var a:t_archivo_clientes);
+Procedure mostrar_dato_listado_clientes(var a:t_archivo_clientes);
 var
   auxy:integer;
   reg_clientes:t_reg_clientes;
@@ -100,8 +98,19 @@ begin //PARTE FIJA
     readkey;
 
   end;
+end;
+
+//Listado de Polizas de un contratante/cliente
+procedure Listado_de_Polizas_de_un_contratante(var a:t_archivo_clientes; var reg:t_reg_clientes;var auxy:integer);
+var
+  dni:string;
+  valido:boolean;
+  res:char;
+begin
+  ingresar_dni_opciones(dni,es_valido);
 
 end;
+
 procedure menu_listados(var a:t_archivo_clientes);
 var res:string;
   vc:boolean;
@@ -115,13 +124,17 @@ begin
      writeln('1: LISTADO CLIENTES');
      res:=readkey;
      case res of
-     '1':
-         begin
-              mostrar_dato_listado(a);
-              vc:=true;
-         end;
      '0':
          vc:=true;
+     '1':
+         begin
+              mostrar_dato_listado_clientes(a);
+              vc:=true;
+         end;
+     '2':
+         begin
+             // Listado_de_Polizas_de_un_contratante
+         end;
      else
          begin
            clrscr;
