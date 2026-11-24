@@ -1,7 +1,7 @@
 unit u_arbol;
 INTERFACE
 uses
-u_clientes,ARCHIVO_CLIENTES;
+u_clientes,ARCHIVO_CLIENTES,unit_base_cola_dinamica;
 TYPE
 T_DATO_ARBOL = record
 clave:string[50];//dni
@@ -21,6 +21,7 @@ procedure suprime (var raiz:T_PUNT_ARBOL_CLIENTE;x:t_dato);
 PROCEDURE INORDEN(VAR RAIZ:T_PUNT_ARBOL_CLIENTE);
 PROCEDURE PREORDEN(RAIZ:T_PUNT_ARBOL_CLIENTE;BUSCADO:CHAR; VAR ENC:BOOLEAN; VAR X:T_DATO);
 procedure CARGAR_ARBOL(VAR RAIZ:T_PUNT_ARBOL_CLIENTE;var archivo:t_archivo_clientes);
+procedure inorden_listado_cliente(var raiz:T_PUNT_ARBOL_CLIENTE; var cola:t_cola);
 implementation
 PROCEDURE CREAR_ARBOL (VAR RAIZ:T_PUNT_ARBOL_CLIENTE);
 BEGIN
@@ -100,6 +101,18 @@ WRITELN (RAIZ^.INFO.clave);
 INORDEN (RAIZ^.SAD);
 end;
 END;
+
+procedure inorden_listado_cliente(var raiz:T_PUNT_ARBOL_CLIENTE; var cola:t_cola);
+          begin
+            IF RAIZ <> NIL THEN
+            BEGIN
+                inorden_listado_cliente (RAIZ^.SAI,cola);
+                encolar(cola,RAIZ^.INFO.pos_arch);
+                inorden_listado_cliente (RAIZ^.SAD,cola);
+            end;
+
+          end;
+
 procedure CARGAR_ARBOL(VAR RAIZ:T_PUNT_ARBOL_CLIENTE;var archivo:t_archivo_clientes);
           var
             i:integer;
