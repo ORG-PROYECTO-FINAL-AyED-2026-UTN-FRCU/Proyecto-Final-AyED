@@ -186,32 +186,6 @@ begin
       end;
     end;
 end;
-procedure ingresar_dni_opciones (var dni:string;   es_valido : boolean);
-var
-  res:char;
-begin
-    repeat
-    clrscr;
-    gotoxy(35,10);
-    writeln('0: VOLVER');
-    gotoxy(35,11);
-    writeln('1: DNI');
-    res:=readkey;
-    if res = '1' then
-      ingresar_dni(dni,es_valido)
-    else
-      if res <> '0' then
-        begin
-          clrscr;
-          gotoxy(35,10);
-          TextBackground(red);
-          writeln('OPCION INVALIDA. PRESIONE UNA TECLA PARA VOLVER A INGRESAR');
-          readkey();
-          NormVideo;
-          clrscr;
-        end;
-  until (es_valido = true) or (res = '0');
-end;
 procedure menu_clientes (var arch_clientes:t_archivo_clientes);
 var
   res:char;
@@ -260,7 +234,7 @@ repeat
     case opcion of
     '1': menu_clientes(arch_clientes);
     '2': menu_poliza(arch_polizas,arch_clientes);
-    '3':menu_listados(arch_clientes);
+    '3': menu_listados(arch_clientes);
 {    '3': LISTADOS (ARCH_CLIENTES, ARCH_POLIZAS, ARBOL_NOM);
     '4': ESTADÍSTICAS (ARCH_CLIENTES,ARCH_POLIZAS);}
     else

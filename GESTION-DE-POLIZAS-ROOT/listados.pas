@@ -11,7 +11,7 @@ procedure Listado_clientes(var a:t_archivo_clientes; var reg:t_reg_clientes;var 
 
 implementation
 //listado clientes
-procedure encabezado;
+procedure encabezado1;
 begin
     clrscr;
     gotoxy(1,2);
@@ -83,7 +83,7 @@ begin
           readkey;
           clrscr;
           auxy:=3;
-          encabezado;
+          encabezado1;
           end;
      end;
 end;
@@ -92,25 +92,45 @@ var
   auxy:integer;
   reg_clientes:t_reg_clientes;
 begin //PARTE FIJA
- encabezado;
+ encabezado1;
   begin  // PARTE VARIABLE
         Listado_clientes(a,reg_clientes,auxy);
     readkey;
 
   end;
 end;
+procedure encabezado2 (r:t_reg_clientes);
+begin
+    clrscr;
+    gotoxy(1,2);
+    write('DATOS DEL CLIENTE:');
+    gotoxy(26,2);
+    write('DNI: ', r.dni);
+    gotoxy(50,2);
+    write('Apellido: ', r.apellido);
+    gotoxy(80,2);
+    write('Nombres: ', r.nombres);
+    readkey;
+end;
+procedure encabezado_poliza;
+begin
 
+end;
 //Listado de Polizas de un contratante/cliente
-procedure Listado_de_Polizas_de_un_contratante(var a:t_archivo_clientes; var reg:t_reg_clientes;var auxy:integer);
+procedure Listado_de_Polizas_de_un_contratante(var a:t_archivo_clientes);
 var
   dni:string;
   valido:boolean;
   res:char;
+  pos:integer;
+  dato:t_reg_clientes;
 begin
-  ingresar_dni_opciones(dni,es_valido);
-
+  ingresar_dni_opciones(dni,valido);
+  busqueda_dni(a,dni,pos);
+  if pos <> -1 then
+    leer_dato(a,pos,dato);
+  encabezado2(dato);
 end;
-
 procedure menu_listados(var a:t_archivo_clientes);
 var res:string;
   vc:boolean;
@@ -122,6 +142,8 @@ begin
      writeln('0: VOLVER');
      gotoxy(35,11);
      writeln('1: LISTADO CLIENTES');
+     gotoxy(35,12);
+     writeln('2: LISTADO DE POLIZAS DE UN CLIENTE');
      res:=readkey;
      case res of
      '0':
@@ -133,7 +155,8 @@ begin
          end;
      '2':
          begin
-             // Listado_de_Polizas_de_un_contratante
+              Listado_de_Polizas_de_un_contratante(a);
+              vc:=true;
          end;
      else
          begin

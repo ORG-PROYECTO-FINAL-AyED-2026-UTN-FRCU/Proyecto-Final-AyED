@@ -14,6 +14,7 @@ procedure Ingresar_nombre(var dato:shortstring);
 procedure ingresar_direccion_calle(var calle:shortstring;opc_mostrar:byte);
 procedure ingresar_direccion_nro(var nro: word;opc_mostrar:byte);
 procedure ingresar_dni (var dni:string; var es_valido:boolean);
+procedure ingresar_dni_opciones (var dni:string; var es_valido : boolean);
   // ESTOS SON PROCEDIMIENTOS PROPIOS  DE LA UNIT DE GESTION DE CLIENTES, REALIZAN LAS FUNCIONES COMO TAL, "ABMC CLIENTES"
 procedure abrir_crear (var a:t_archivo_clientes);
 procedure leer_dato (var a:t_archivo_clientes ; pos:cardinal ; var dato:t_reg_clientes);
@@ -25,6 +26,32 @@ procedure busqueda_dni (var a:t_archivo_clientes ; buscado : string; var pos:lon
 implementation
 
 //AQUI SE ENCUENTRAN LOS PROCEDIMIENTOS Y FUNCIONES QUE USAN VALIDACIONES PARA EL INGRESO DE DATOS. (1).
+procedure ingresar_dni_opciones (var dni:string; var es_valido : boolean);
+var
+  res:char;
+begin
+    repeat
+    clrscr;
+    gotoxy(35,10);
+    writeln('0: VOLVER');
+    gotoxy(35,11);
+    writeln('1: DNI');
+    res:=readkey;
+    if res = '1' then
+      ingresar_dni(dni,es_valido)
+    else
+      if res <> '0' then
+        begin
+          clrscr;
+          gotoxy(35,10);
+          TextBackground(red);
+          writeln('OPCION INVALIDA. PRESIONE UNA TECLA PARA VOLVER A INGRESAR');
+          readkey();
+          NormVideo;
+          clrscr;
+        end;
+    until (es_valido = true) or (res = '0');
+end;
 procedure ingresar_dni (var dni:string; var es_valido:boolean);
    begin
      clrscr;
