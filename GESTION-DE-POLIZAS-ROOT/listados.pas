@@ -74,7 +74,7 @@ begin
                         end;
                       end;
           end;
-          if i=9 then  //Reinicia la lista
+          if i mod 9=0 then  //Reinicia la lista
           begin
           textcolor(red);
           gotoxy(32,auxy+4);
