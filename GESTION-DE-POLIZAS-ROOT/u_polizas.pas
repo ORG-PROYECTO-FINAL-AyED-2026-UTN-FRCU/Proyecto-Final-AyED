@@ -255,8 +255,9 @@ begin
   repeat
     clrscr;
     gotoxy(35,10);
-    write('Ingrese patente formato nuevo o viejo (ABC123BB, ABC012) ');
+    write('Ingrese patente formato nuevo o viejo (AB123BB, ABC012) ');
     readln(patente);
+    patente:=upcase(patente);
     if not (Validar_formato_patente(patente) or Validar_formato_patente_vieja(patente)) then
       begin
           TextBackground(red);
