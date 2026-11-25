@@ -497,8 +497,11 @@ repeat
   '0': vc:=true;
   else
     begin
+      gotoxy(36,26);
       writeln('OPCION SELECCIONADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR.');
       readkey();
+      gotoxy(36,26);
+      write('                                                                             ');
     end;
   end;
 until vc=true;
@@ -515,7 +518,7 @@ repeat
   gotoxy(50,23);
   writeln('1: confirmar');
   gotoxy(50,24);
-  writeln('0: no confirmar') ;
+  write('0: no confirmar') ;
   resp:=readkey;
   case resp of
     '1':begin
@@ -527,8 +530,11 @@ repeat
         end;
     else
         begin
+          gotoxy(36,26);
           writeln('OPCION SELECCIONADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR.');
           readkey();
+          gotoxy(36,26);
+          writeln('                                                                        ');
         end;
         end;
  until vc;
