@@ -14,12 +14,13 @@ procedure campo_valido_pol(var campo:string);
 procedure ingresar_marca (var marca:shortstring);
 procedure ingresar_modelo (var modelo:shortstring);
 procedure ingresar_ano (var ano:CARDINAL);
+procedure ingreso_automatico_vig_hasta(var fecha_hasta,fecha_desde:reg_fecha1);
 procedure ingresar_validar_fecha_completo_pol(var reg: reg_fecha1; opc: BYTE; opc_mostrar:byte);
 procedure ingresar_validar_patente(var patente:string);
 procedure ingresar_cobertura (var COBERTURA:shortstring);
 //procedure ingresar_poliza (var poliza:shortstring);
 //fin ingresar validar
-procedure modificar_registro_pol (var registro:t_reg_polizas; campo:string; dato_modificado:string;dato_modificado_cardinal:cardinal;dato_modificado_real:real);
+procedure modificar_registro_pol (var registro:t_reg_polizas; campo:string; dato_modificado:string;dato_modificado_cardinal:cardinal;dato_modificado_real:real;dato_modificado_fecha_desde,dato_modificado_fecha_hasta:reg_fecha1);
 procedure modificar_datos_pol(var arch_polizas:t_archivo_polizas ; campo:string ; var pos:longint);
 procedure carga_registro_pol (var r:t_reg_polizas ; dni_1:string;Patente_1:string;pos:integer);
 procedure busqueda_patente (var a: t_archivo_polizas; patente_buscada:string; var pos: longint);
@@ -109,22 +110,22 @@ begin
     gotoxy(35,12);
     writeln('0:Salir');
     gotoxy(35,13);
-    writeln('1:Numero de poliza');
-    gotoxy(35,14);
-    writeln('2:Marca');
+    writeln('1:Marca');
     gotoxy(35,15);
-    writeln('3:Modelo');
+    writeln('2:Modelo');
     gotoxy(35,16);
-    writeln('4:Año del vehiculo');
+    writeln('3:Año del vehiculo');
     gotoxy(35,17);
-    writeln('5:Patente');
+    writeln('4:Patente');
     gotoxy(35,18);
-    writeln('6:Suma Asegurdad');
+    writeln('5:Suma Asegurdad');
     gotoxy(35,19);
-    writeln('7:Cobertura');
+    writeln('6:Cobertura');
     gotoxy(35,20);
-    writeln('8:Valor de cuota');
+    writeln('7:Valor de cuota');
     gotoxy(35,21);
+    writeln('8: fecha vigencia desde');
+    gotoxy(35,22);
     campo:=readkey;
     case lowercase(campo) of
     '1', '2', '3', '4', '5', '6', '7', '8', '0': valido:=True;
@@ -144,7 +145,7 @@ end;
 
 
 
-procedure modificar_registro_pol (var registro:t_reg_polizas; campo:string; dato_modificado:string;dato_modificado_cardinal:cardinal;dato_modificado_real:real);
+procedure modificar_registro_pol (var registro:t_reg_polizas; campo:string; dato_modificado:string;dato_modificado_cardinal:cardinal;dato_modificado_real:real;dato_modificado_fecha_desde,dato_modificado_fecha_hasta:reg_fecha1);
 begin
   with registro do
     begin
@@ -156,15 +157,30 @@ begin
       '5': suma_asegurada:=dato_modificado_real;
       '6': cobertura:=dato_modificado;
       '7': valor_cuota:=dato_modificado_real;
+      '8':begin
+               vigencia_desde:=dato_modificado_fecha_desde;
+               vigencia_hasta:=dato_modificado_fecha_hasta;
+          end;
       end;
     end;
 end;
+
+
+// se precarga la fecha de vigencia hasta para 1 año despues.
+procedure ingreso_automatico_vig_hasta(var fecha_hasta,fecha_desde:reg_fecha1);
+begin
+     fecha_hasta.dia:= Fecha_desde.dia;
+     fecha_hasta.mes:= Fecha_desde.mes ;
+     fecha_hasta.ano:=Fecha_desde.ano +1; // se le suma 1 para que se venza en un año exacto
+end;
+
 procedure modificar_datos_pol(var arch_polizas:t_archivo_polizas ; campo:string ; var pos:longint);
 var
   registro_polizas : t_reg_polizas;
   dato_modificado:shortstring;
   dato_modificado_cardinal:cardinal;
   dato_modificado_Real:real;
+  dato_modificado_fecha_hasta,dato_modificado_fecha_desde:reg_fecha1;
 begin
   campo_valido_pol(campo);
   leer_dato_pol(arch_polizas,pos,registro_polizas);
@@ -200,20 +216,23 @@ begin
           write('Ingrese valor de cuota ');
           readln(dato_Modificado_real);
         end;    } // ES CON TABLA
+    '8': begin    //fecha desde
+      gotoxy(35,10);
+        ingresar_validar_fecha_completo_pol(dato_modificado_fecha_desde,1,2);
+      gotoxy(35,12);
+        ingresar_validar_fecha_completo_pol(dato_modificado_fecha_desde,2,2);
+      gotoxy(35,14);
+        ingresar_validar_fecha_completo_pol(dato_modificado_fecha_desde,3,2);
+
+        ingreso_automatico_vig_hasta(dato_modificado_fecha_hasta,dato_modificado_fecha_desde);  //modificar la fecha de vigencia desde implica modificar la vigencia hasta
+    end;
 
     end;
-      modificar_registro_pol(registro_polizas,campo,dato_modificado,dato_modificado_cardinal,dato_modificado_real);
+      modificar_registro_pol(registro_polizas,campo,dato_modificado,dato_modificado_cardinal,dato_modificado_real,dato_modificado_fecha_desde,dato_modificado_fecha_hasta);
       guardar_registro_pol(arch_polizas,pos,registro_polizas);
     end;
 end;
 
-// se precarga la fecha de vigencia hasta para 1 año despues.
-procedure ingreso_automatico_vig_hasta(var fecha_hasta,fecha_desde:reg_fecha1);
-begin
-     fecha_hasta.dia:= Fecha_desde.dia;
-     fecha_hasta.mes:= Fecha_desde.mes ;
-     fecha_hasta.ano:=Fecha_desde.ano +1; // se le suma 1 para que se venza en un año exacto
-end;
 
 procedure carga_registro_pol (var r:t_reg_polizas ; dni_1:string;Patente_1:string;pos:integer);
 begin
@@ -233,7 +252,7 @@ begin
       gotoxy(35,14);
       Ingresar_cobertura(cobertura);
       gotoxy(35,15);
-      ingresar_validar_fecha_completo_pol(vigencia_desde,2,2);
+      ingresar_validar_fecha_completo_pol(vigencia_desde,1,2);
       gotoxy(35,16);
       ingresar_validar_fecha_completo_pol(vigencia_desde,2,2);
       gotoxy(35,17);

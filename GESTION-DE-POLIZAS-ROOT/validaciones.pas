@@ -118,7 +118,7 @@ begin
          if dato[i]=' ' then
          cont_espacios:=cont_espacios+1;
         end;
-      if cont_espacios>1 then
+      if cont_espacios>3 then
       control:=false;
     end;
   validar_string:=control;
@@ -235,8 +235,7 @@ begin
       valido := false
     else
     begin
-      // 3. Validar el rango permitido
-      if (ano < 2020) or (ano > 2050) then
+      // 3. Validar el rango permitidO
         if (ano < 1930) or (ano > 2050) then
         valido := false;
     end;
