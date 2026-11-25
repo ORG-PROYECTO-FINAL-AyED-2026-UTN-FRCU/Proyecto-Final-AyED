@@ -8,7 +8,7 @@ uses
 procedure menu_listados(var a:t_archivo_clientes; var ap:t_archivo_polizas;var arbol_clientes,arbol_polizas:T_PUNT_ARBOL);
 Procedure mostrar_dato_listado_clientes(var A:t_archivo_clientes;var arbol:T_PUNT_ARBOL);
 procedure Listado_clientes(var a:t_archivo_clientes; var reg:t_reg_clientes;var auxy:integer;var arbol:T_PUNT_ARBOL);
-procedure listado_de_polizas_vigentes (var a:t_archivo_polizas;var arbol_polizas:t_punt_arbol);
+procedure listado_de_polizas_vigentes (var a:t_archivo_polizas;var ac:t_archivo_clientes;var arbol_polizas,arbol_clientes:t_punt_arbol);
 
 implementation
 //listado clientes
@@ -194,23 +194,31 @@ begin
     writeln('--- POLIZAS VIGENTES ---');
     write('------------------------------------------------------------------------------------------------------------------------')
 end;
-procedure lista_poliza_vigente(r:t_reg_polizas ; x,y:integer);
+procedure lista_poliza_vigente(r:t_reg_polizas ; x,y:integer;var nombre,apellido:string);
 begin
     gotoxy(x,y);
-    write('NUSMERO DE POLIZA: ',r.numero_poliza);
+    write('FECHA DE VIGENCIA DESDE: ',r.vigencia_desde.dia,'/',r.vigencia_desde.mes,'/',r.vigencia_desde.ano);
     gotoxy(x,y+1);
-    write('TIPO DE COBERTURA: ',r.cobertura);
+    write('NUSMERO DE POLIZA: ',r.numero_poliza);
     gotoxy(x,y+2);
-    write('DNI CONTRATANTE: ', r.DNI);
+    write('NOMBRE DEL CONTRATANTE: ',nombre,' ',apellido);
     gotoxy(x,y+3);
-    write('NOMBRE DEL CONTRATANTE: ');
+    write('DNI CONTRATANTE: ', r.DNI);
+    gotoxy(x,y+4);
+    write('PATENTE: ', r.patente);
+    gotoxy(x,y+5);
+    write('TIPO DE COBERTURA: ',r.cobertura);
 end;
-procedure listado_de_polizas_vigentes (var a:t_archivo_polizas;var arbol_polizas:t_punt_arbol);
+procedure listado_de_polizas_vigentes (var a:t_archivo_polizas;var ac:t_archivo_clientes;var arbol_polizas,arbol_clientes:t_punt_arbol);
 var
   i,x,y:integer;
   cola1:t_cola;
   dir:word;
   reg:t_reg_polizas;
+  enc:boolean;
+  aux_reg_clientes:t_reg_clientes;
+  nombre,apellido:string;
+  dato_arbol_cliente:T_DATO_ARBOL;
 begin
    x:=1;              // X e Y sera para ubicar el gotoxy al mostrar
    y:=4;
@@ -223,15 +231,19 @@ begin
         begin
           desencolar(cola1,dir);
           leer_dato_pol(a,dir,reg);
+          PREORDEN(arbol_clientes,reg.dni,enc,dato_arbol_cliente);
+          leer_dato(ac,dato_arbol_cliente.pos_arch,aux_reg_clientes);
+          nombre:=aux_reg_clientes.nombres;
+          apellido:=aux_reg_clientes.apellido;
             begin
-              lista_poliza_vigente(reg,x,y);
-              x:=x+30;
-              if x = 121 then
+              lista_poliza_vigente(reg,x,y,nombre,apellido);
+              x:=x+69;
+              if x > 71 then
                 begin
                   x:=1;
-                  if y < 34 then
+                  if y < 18 then
                     begin
-                      y:=y+5;
+                      y:=y+7;
                       gotoxy(1,y-1);
                       write('------------------------------------------------------------------------------------------------------------------------')
                     end
@@ -239,7 +251,7 @@ begin
                     y:=4;
                 end;
             end;
-          if (i mod 20 = 0) and (i<>0) then
+          if (i mod 6 = 0) and (i<>0) then
             begin
               gotoxy(38,30);
               textcolor(red);
@@ -305,7 +317,7 @@ begin
          end;
      '3':
          begin
-           listado_de_polizas_vigentes(ap,arbol_polizas);
+           listado_de_polizas_vigentes(ap,a,arbol_polizas,arbol_clientes);
            vc:=True;
          end;
      '4':

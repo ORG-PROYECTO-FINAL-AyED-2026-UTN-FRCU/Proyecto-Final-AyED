@@ -19,11 +19,12 @@ FUNCTION ARBOL_VACIO (RAIZ:T_PUNT_ARBOL): BOOLEAN;
 FUNCTION ARBOL_LLENO (RAIZ:T_PUNT_ARBOL): BOOLEAN;
 procedure suprime (var raiz:T_PUNT_ARBOL;x:t_dato);
 PROCEDURE INORDEN(VAR RAIZ:T_PUNT_ARBOL);
-PROCEDURE PREORDEN(RAIZ:T_PUNT_ARBOL;BUSCADO:CHAR; VAR ENC:BOOLEAN; VAR X:T_DATO);
+PROCEDURE PREORDEN(VAR RAIZ:T_PUNT_ARBOL;BUSCADO:STRING; VAR ENC:BOOLEAN; VAR X:T_DATO);
 procedure CARGAR_ARBOL_CLIENTES(VAR RAIZ:T_PUNT_ARBOL;var archivo:t_archivo_clientes);
 procedure CARGAR_ARBOL_POLIZAS_3(VAR RAIZ:T_PUNT_ARBOL;var archivo_polizas:t_archivo_polizas);
 procedure inorden_listado_polizas_3(var raiz:T_PUNT_ARBOL; var cola:t_cola);
 procedure inorden_listado_cliente(var raiz:T_PUNT_ARBOL; var cola:t_cola);
+procedure CARGAR_ARBOL_CLIENTES_DNI(VAR RAIZ:T_PUNT_ARBOL;var archivo:t_archivo_clientes);
 implementation
 PROCEDURE CREAR_ARBOL (VAR RAIZ:T_PUNT_ARBOL);
 BEGIN
@@ -85,7 +86,7 @@ raiz:= raiz^.sai
 else
 raiz^.info:= suprime_min (raiz^.sad)
 end;
-PROCEDURE PREORDEN(RAIZ:T_PUNT_ARBOL;BUSCADO:CHAR; VAR ENC:BOOLEAN; VAR X:T_DATO);
+PROCEDURE PREORDEN(VAR RAIZ:T_PUNT_ARBOL;BUSCADO:STRING; VAR ENC:BOOLEAN; VAR X:T_DATO);
 BEGIN
 IF (RAIZ = NIL) THEN ENC:= FALSE
 ELSE
@@ -145,6 +146,24 @@ procedure inorden_listado_cliente(var raiz:T_PUNT_ARBOL; var cola:t_cola);
                 inorden_listado_cliente (RAIZ^.SAD,cola);
             end;
           end;
+
+procedure CARGAR_ARBOL_CLIENTES_DNI(VAR RAIZ:T_PUNT_ARBOL;var archivo:t_archivo_clientes);
+          var
+            i:integer;
+            tam:integer;
+            dato_salida:t_reg_clientes;
+            dato_arbol:t_dato_arbol;
+            begin
+            CREAR_ARBOL(raiz);
+              tam:=filesize(archivo);
+              for i:=0 to tam-1 do
+                  begin
+                    leer_dato(archivo,i,dato_salida);
+                    dato_arbol.clave:=dato_salida.dni;
+                    dato_arbol.pos_arch:=i;
+                    AGREGAR(raiz,dato_arbol);
+                  end;
+            end;
 
 procedure CARGAR_ARBOL_CLIENTES(VAR RAIZ:T_PUNT_ARBOL;var archivo:t_archivo_clientes);
           var

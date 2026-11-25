@@ -1,12 +1,12 @@
 unit Menu_Polizas;
 interface
 uses
-  Classes, SysUtils,ARCHIVO_POLIZAS,archivo_clientes,validaciones,u_clientes,u_polizas,crt;
+  Classes, SysUtils,ARCHIVO_POLIZAS,archivo_clientes,validaciones,u_clientes,u_polizas,crt,u_arbol;
 const
   ruta_polizas='arch_polizas.dat';
-procedure menu_poliza (var arch_polizas:t_archivo_polizas;var arch_clientes:t_archivo_clientes);
+procedure menu_poliza (var arch_polizas:t_archivo_polizas;var arch_clientes:t_archivo_clientes;var arbol_poliza:T_PUNT_ARBOL);
 procedure menu_poliza_encontrado (var arch_polizas:t_archivo_polizas ; var pos:longint);
-procedure menu_poliza_no_encontrado(var arch_polizas:t_archivo_polizas;dni1:string;patente_1:string);
+procedure menu_poliza_no_encontrado(var arch_polizas:t_archivo_polizas;dni1:string;patente_1:string;var arbol_poliza:T_PUNT_ARBOL);
 implementation
 
 procedure menu_poliza_encontrado (var arch_polizas:t_archivo_polizas ; var pos:longint);
@@ -74,12 +74,13 @@ begin
 end;
 
 {MENU NO ENCONTRADO}
-procedure menu_poliza_no_encontrado(var arch_polizas:t_archivo_polizas;dni1:string;patente_1:string);
+procedure menu_poliza_no_encontrado(var arch_polizas:t_archivo_polizas;dni1:string;patente_1:string;var arbol_poliza:T_PUNT_ARBOL);
 var
   registro_polizas:t_reg_polizas;
   VC:boolean;
   respuesta:char;
   pos:integer;
+  dato_arbol:t_dato_arbol;
 begin
   vc:=false;
   while vc=false do
@@ -98,6 +99,8 @@ begin
             vc:=true;
             clrscr;
             pos:=filesize(arch_polizas);
+            dato_arbol.clave:=inttostr(registro_polizas.vigencia_desde.ano)+inttostr(registro_polizas.vigencia_desde.mes)+inttostr(registro_polizas.vigencia_desde.dia);
+            dato_arbol.pos_arch:=pos;
             carga_registro_pol(registro_polizas,dni1,patente_1,pos);
             guardar_registro_pol(arch_polizas,pos,registro_polizas);
           end
@@ -113,7 +116,7 @@ begin
   end;
 end;
 
-procedure menu_patente(var arch_polizas:t_archivo_polizas; dni:string; pos:longint);
+procedure menu_patente(var arch_polizas:t_archivo_polizas; dni:string; pos:longint;var arbol_poliza:T_PUNT_ARBOL);
 var
   patente:string;
   es_valido:boolean;
@@ -123,10 +126,10 @@ begin
   if pos <> -1 then                                           {SEGUIR ACA}
     menu_poliza_encontrado(arch_polizas,pos)
   else
-    menu_poliza_no_encontrado(arch_polizas,dni,patente);
+    menu_poliza_no_encontrado(arch_polizas,dni,patente,arbol_poliza);
 end;
 {MENU POLIZA PRINCIPAL}
-procedure menu_poliza (var arch_polizas:t_archivo_polizas; var arch_clientes:t_archivo_clientes);
+procedure menu_poliza (var arch_polizas:t_archivo_polizas; var arch_clientes:t_archivo_clientes;var arbol_poliza:T_PUNT_ARBOL);
 var
   res:char;
   dni:string;
@@ -175,7 +178,7 @@ if es_valido_dni = True then
             readkey();
           end
         else
-          menu_patente(arch_polizas,dni,pos);
+          menu_patente(arch_polizas,dni,pos,arbol_poliza);
   end;
 end;
 end;
