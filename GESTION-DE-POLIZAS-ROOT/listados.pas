@@ -252,7 +252,6 @@ begin
               y:=6;
             end;
         end;
-      readkey;
     end;
   readkey();
 end;
