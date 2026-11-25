@@ -116,16 +116,14 @@ begin
     gotoxy(35,16);
     writeln('3:Año del vehiculo');
     gotoxy(35,17);
-    writeln('4:Patente');
+    writeln('5:Suma Asegurada');
     gotoxy(35,18);
-    writeln('5:Suma Asegurdad');
-    gotoxy(35,19);
     writeln('6:Cobertura');
-    gotoxy(35,20);
+    gotoxy(35,19);
     writeln('7:Valor de cuota');
-    gotoxy(35,21);
+    gotoxy(35,20;
     writeln('8: fecha vigencia desde');
-    gotoxy(35,22);
+    gotoxy(35,21);
     campo:=readkey;
     case lowercase(campo) of
     '1', '2', '3', '4', '5', '6', '7', '8', '0': valido:=True;
@@ -153,11 +151,10 @@ begin
       '1': marca:=dato_modificado;
       '2': modelo:=dato_modificado;
       '3': ano_vehiculo:=dato_modificado_cardinal;
-      '4': patente:=dato_modificado;
-      '5': suma_asegurada:=dato_modificado_real;
-      '6': cobertura:=dato_modificado;
-      '7': valor_cuota:=dato_modificado_real;
-      '8':begin
+      '4': suma_asegurada:=dato_modificado_real;
+      '5': cobertura:=dato_modificado;
+      '6': valor_cuota:=dato_modificado_real;
+      '7':begin
                vigencia_desde:=dato_modificado_fecha_desde;
                vigencia_hasta:=dato_modificado_fecha_hasta;
           end;
@@ -201,22 +198,21 @@ begin
            gotoxy(35,10);
            ingresar_ano(dato_modificado_cardinal);
          end;
-   // '4': ingresar_validar_Patente(dato_modificado); //patente
    { '5':begin       //suma asegurada
           gotoxy(35,10);
           write('Ingrese la nueva suma asegurada ');
           readln(dato_Modificado_real);
         end;          } // ES CON LA TABLA
-    '6':begin     //cobertura
+    '4':begin     //cobertura
           gotoxy(35,10);
           Ingresar_cobertura(dato_Modificado);
         end;
-    {'7':begin     //VALOR CUOTA
+    {'5':begin     //VALOR CUOTA
           gotoxy(35,10);
           write('Ingrese valor de cuota ');
           readln(dato_Modificado_real);
         end;    } // ES CON TABLA
-    '8': begin    //fecha desde
+    '6': begin    //fecha desde
       gotoxy(35,10);
         ingresar_validar_fecha_completo_pol(dato_modificado_fecha_desde,1,2);
       gotoxy(35,12);
