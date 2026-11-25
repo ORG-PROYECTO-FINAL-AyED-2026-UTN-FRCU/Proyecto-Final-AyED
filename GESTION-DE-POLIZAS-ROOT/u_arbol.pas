@@ -1,7 +1,7 @@
 unit u_arbol;
 INTERFACE
 uses
-u_clientes,u_polizas,ARCHIVO_CLIENTES,ARCHIVO_POLIZAS,unit_base_cola_dinamica;
+u_clientes,u_polizas,ARCHIVO_CLIENTES,ARCHIVO_POLIZAS,unit_base_cola_dinamica,SysUtils;
 TYPE
 T_DATO_ARBOL = record
 clave:string[50];//dni
@@ -21,7 +21,8 @@ procedure suprime (var raiz:T_PUNT_ARBOL;x:t_dato);
 PROCEDURE INORDEN(VAR RAIZ:T_PUNT_ARBOL);
 PROCEDURE PREORDEN(RAIZ:T_PUNT_ARBOL;BUSCADO:CHAR; VAR ENC:BOOLEAN; VAR X:T_DATO);
 procedure CARGAR_ARBOL_CLIENTES(VAR RAIZ:T_PUNT_ARBOL;var archivo:t_archivo_clientes);
-//procedure CARGAR_ARBOL_POLIZAS(VAR RAIZ:T_PUNT_ARBOL;var archivo_polizas:t_archivo_polizas);
+procedure CARGAR_ARBOL_POLIZAS_3(VAR RAIZ:T_PUNT_ARBOL;var archivo_polizas:t_archivo_polizas);
+procedure inorden_listado_polizas_3(var raiz:T_PUNT_ARBOL; var cola:t_cola);
 procedure inorden_listado_cliente(var raiz:T_PUNT_ARBOL; var cola:t_cola);
 implementation
 PROCEDURE CREAR_ARBOL (VAR RAIZ:T_PUNT_ARBOL);
@@ -105,7 +106,7 @@ WRITELN (RAIZ^.INFO.clave);
 INORDEN (RAIZ^.SAD);
 end;
 END;
-{procedure CARGAR_ARBOL_POLIZAS(VAR RAIZ:T_PUNT_ARBOL;var archivo_polizas:t_archivo_polizas);
+procedure CARGAR_ARBOL_POLIZAS_3(VAR RAIZ:T_PUNT_ARBOL;var archivo_polizas:t_archivo_polizas);
           var
             i:integer;
             tam:integer;
@@ -117,11 +118,23 @@ END;
               for i:=0 to tam-1 do
                   begin
                     leer_dato_pol(archivo_polizas,i,dato_salida);
-                    dato_arbol.clave:=dato_salida.numero_poliza;
-                    dato_arbol.pos_arch:=i;
-                    AGREGAR(raiz,dato_arbol);
+                    if dato_salida.estado then
+                       begin
+                          dato_arbol.clave:=inttostr(dato_salida.vigencia_desde.ano)+inttostr(dato_salida.vigencia_desde.mes)+inttostr(dato_salida.vigencia_desde.dia);
+                          dato_arbol.pos_arch:=i;
+                          AGREGAR(raiz,dato_arbol);
+                       end;
                   end;
-            end;}
+            end;
+procedure inorden_listado_polizas_3(var raiz:T_PUNT_ARBOL; var cola:t_cola);
+          begin
+            IF RAIZ <> NIL THEN
+            BEGIN
+                inorden_listado_cliente (RAIZ^.SAI,cola);
+                encolar(cola,RAIZ^.INFO.pos_arch);
+                inorden_listado_cliente (RAIZ^.SAD,cola);
+            end;
+          end;
 
 procedure inorden_listado_cliente(var raiz:T_PUNT_ARBOL; var cola:t_cola);
           begin

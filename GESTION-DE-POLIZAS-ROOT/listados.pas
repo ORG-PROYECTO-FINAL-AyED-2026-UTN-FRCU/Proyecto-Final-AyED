@@ -5,10 +5,10 @@ unit listados;
 interface
 uses
   u_clientes,u_polizas,crt,ARCHIVO_POLIZAS,archivo_clientes,validaciones,unit_base_cola_dinamica,u_arbol;
-procedure menu_listados(var a:t_archivo_clientes; var ap:t_archivo_polizas;var arbol:T_PUNT_ARBOL);
+procedure menu_listados(var a:t_archivo_clientes; var ap:t_archivo_polizas;var arbol_clientes,arbol_polizas:T_PUNT_ARBOL);
 Procedure mostrar_dato_listado_clientes(var A:t_archivo_clientes;var arbol:T_PUNT_ARBOL);
 procedure Listado_clientes(var a:t_archivo_clientes; var reg:t_reg_clientes;var auxy:integer;var arbol:T_PUNT_ARBOL);
-
+procedure listado_de_polizas_vigentes (var a:t_archivo_polizas;var arbol_polizas:t_punt_arbol);
 
 implementation
 //listado clientes
@@ -199,17 +199,49 @@ begin
     write('Patente');
     gotoxy(100,3);
     write('Tipo de cobertura');
-    readkey;
 end;
-procedure listado_de_polizas_vigentes (var a:t_archivo_polizas);
+procedure listado_de_polizas_vigentes (var a:t_archivo_polizas;var arbol_polizas:t_punt_arbol);
 var
-  i:integer;
+  i,x,y:integer;
+  cola1:t_cola;
+  dir:word;
+  reg:t_reg_polizas;
 begin
+   x:=1;              // X e Y sera para ubicar el gotoxy al mostrar
+   y:=6;
+  crear_cola(cola1);
+  inorden_listado_cliente(arbol_polizas,cola1);
   encabezado3;
-  for i:=1 to filesize(a)-1 do          //seguir aca con la implementacion en arbol
+  for i:=0 to filesize(a)-1 do
     begin
-
+      desencolar(cola1,dir);
+      leer_dato_pol(a,dir,reg);
+        begin
+          lista_poliza(reg,x,y);
+          x:=x+30;
+          if x = 121 then
+            begin
+              x:=1;
+              if y = 6 then
+                y:=20
+              else
+                y:=6;
+            end;
+        end;
+      if (i mod 7 = 0) and (i<>0) then
+        begin
+          gotoxy(38,30);
+          textcolor(red);
+          writeln('Para pasar a la siguiente pagina, toque un tecla');
+          textcolor(lightgray);
+          readkey;
+          clrscr;
+          encabezado3;
+          x:=1;
+          y:=6;
+        end;
     end;
+  readkey();
 end;
 procedure consulta_patente(var a:t_archivo_polizas);
 var
@@ -228,7 +260,7 @@ begin
       readkey;
     end;
 end;
-procedure menu_listados(var a:t_archivo_clientes ; var ap:t_archivo_polizas;var arbol:T_PUNT_ARBOL);
+procedure menu_listados(var a:t_archivo_clientes ; var ap:t_archivo_polizas;var arbol_clientes,arbol_polizas:T_PUNT_ARBOL);
 var res:string;
   vc:boolean;
 begin
@@ -251,7 +283,7 @@ begin
          vc:=true;
      '1':
          begin
-              mostrar_dato_listado_clientes(a,arbol);
+              mostrar_dato_listado_clientes(a,arbol_clientes);
               vc:=true;
          end;
      '2':
@@ -261,7 +293,7 @@ begin
          end;
      '3':
          begin
-           listado_de_polizas_vigentes(ap);
+           listado_de_polizas_vigentes(ap,arbol_polizas);
            vc:=True;
          end;
      '4':

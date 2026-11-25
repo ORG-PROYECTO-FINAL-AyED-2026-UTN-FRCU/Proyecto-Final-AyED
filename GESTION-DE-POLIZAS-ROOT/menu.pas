@@ -214,7 +214,7 @@ procedure menu_principal;
 var
   arch_clientes:t_archivo_clientes;
   arch_polizas:t_archivo_polizas;
-  arbol_clientes:T_PUNT_ARBOL;
+  arbol_clientes,arbol_polizas_activas:T_PUNT_ARBOL;
 // ARBOL_DNI, ARBOL_NOM:T_PUNT;
   opcion:char;
 
@@ -223,6 +223,8 @@ begin
   abrir_crear_pol(arch_polizas);
 
   CREAR_ARBOL(arbol_clientes);
+  CREAR_ARBOL(arbol_polizas_activas);
+  CARGAR_ARBOL_POLIZAS_3(arbol_polizas_activas,arch_polizas);
   CARGAR_ARBOL_CLIENTES(arbol_clientes,arch_clientes);
 //GENERAR ARBOLES
 repeat
@@ -245,7 +247,7 @@ repeat
     case opcion of
     '1': menu_clientes(arch_clientes,arbol_clientes);
     '2': menu_poliza(arch_polizas,arch_clientes);
-    '3': menu_listados(arch_clientes , arch_polizas,arbol_clientes);
+    '3': menu_listados(arch_clientes , arch_polizas,arbol_clientes,arbol_polizas_activas);
 {    '3': LISTADOS (ARCH_CLIENTES, ARCH_POLIZAS, ARBOL_NOM);
     '4': ESTADÍSTICAS (ARCH_CLIENTES,ARCH_POLIZAS);}
     else
