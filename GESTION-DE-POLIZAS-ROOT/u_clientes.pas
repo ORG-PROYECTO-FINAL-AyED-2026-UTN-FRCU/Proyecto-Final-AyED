@@ -511,7 +511,7 @@ begin
           readkey();
         end;
         end;
- until vc=true;
+ until vc;
 end;
 
 
