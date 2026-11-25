@@ -24,7 +24,7 @@ begin
   while vc=false do
     begin
       textbackground(Blue);
-      gotoxy(35,20);
+      gotoxy(35,23);
       write('PULSE UNA TECLA PARA CONTINUAR');
       readkey();
       normVideo;
