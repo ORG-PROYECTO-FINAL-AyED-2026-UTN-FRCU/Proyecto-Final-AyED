@@ -398,6 +398,61 @@ begin
     end;
   until es_valido;
 end;
+
+procedure ingresar_marca (var modelo:string;var marca:shortstring);
+var
+  es_valido:boolean;
+  res:char;
+begin
+  repeat
+    clrscr;
+    gotoxy(35,10);
+    write('Modelo del vehiculo: ');
+    case marca of
+    'Chevrolet': ingresar_modelo(1);
+    'Ford': ingresar_modelo(1);
+    'Fiat': ingresar_modelo(1);
+    'Renault': ingresar_modelo(1);
+    'Volkswagen':ingresar_modelo(1);
+    case res of
+    '1':
+      begin
+        marca:='Chevrolet';
+        es_valido:=True;
+      end;
+    '2':
+      begin
+        marca:='Ford';
+        es_valido:=True;
+      end;
+    '3':
+      begin
+        marca:='Fiat';
+        es_valido:=True;
+      end;
+    '4':
+      begin
+        marca:='Renault';
+        es_valido:=True;
+      end;
+    '5':
+      begin
+        marca:='Volkswagen';
+        es_valido:=True;
+      end
+    else
+      begin
+        gotoxy(35,18);
+        TextBackground(red);
+        writeln('OPCION INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+        readkey();
+        NormVideo;
+      end;
+    end;
+  until es_valido;
+end;
+
+
 procedure ingresar_modelo (var modelo:shortstring);
 var
   es_valido:boolean;
