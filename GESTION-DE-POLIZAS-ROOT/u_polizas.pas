@@ -108,26 +108,25 @@ begin
     gotoxy(35,10);
     writeln('Ingrese el campo que quiere modificar ');
     gotoxy(35,12);
-    writeln('0:Salir');
+    writeln('0: Salir');
     gotoxy(35,13);
-    writeln('1:Marca');
+    writeln('1: Marca');
+    gotoxy(35,14);
+    writeln('2: Modelo');
     gotoxy(35,15);
-    writeln('2:Modelo');
+    writeln('3: Año del vehiculo');
     gotoxy(35,16);
-    writeln('3:Año del vehiculo');
+    writeln('4: Suma Asegurada');
     gotoxy(35,17);
-    writeln('5:Suma Asegurada');
+    writeln('5: Cobertura');
     gotoxy(35,18);
-    writeln('6:Cobertura');
+    writeln('6: Valor de cuota');
     gotoxy(35,19);
-    writeln('7:Valor de cuota');
-    gotoxy(35,20;
-    writeln('8: fecha vigencia desde');
-    gotoxy(35,21);
+    writeln('7: fecha vigencia desde');
+    gotoxy(35,20);
     campo:=readkey;
     case lowercase(campo) of
     '1', '2', '3', '4', '5', '6', '7', '8', '0': valido:=True;
-
     else
       begin
         textbackground(red);
@@ -198,31 +197,26 @@ begin
            gotoxy(35,10);
            ingresar_ano(dato_modificado_cardinal);
          end;
-   { '5':begin       //suma asegurada
+   { '4':begin       //suma asegurada
           gotoxy(35,10);
           write('Ingrese la nueva suma asegurada ');
           readln(dato_Modificado_real);
         end;          } // ES CON LA TABLA
-    '4':begin     //cobertura
+    '5':begin     //cobertura
           gotoxy(35,10);
           Ingresar_cobertura(dato_Modificado);
         end;
-    {'5':begin     //VALOR CUOTA
+    {'6':begin     //VALOR CUOTA
           gotoxy(35,10);
           write('Ingrese valor de cuota ');
           readln(dato_Modificado_real);
         end;    } // ES CON TABLA
-    '6': begin    //fecha desde
-      gotoxy(35,10);
-        ingresar_validar_fecha_completo_pol(dato_modificado_fecha_desde,1,2);
-      gotoxy(35,12);
-        ingresar_validar_fecha_completo_pol(dato_modificado_fecha_desde,2,2);
-      gotoxy(35,14);
-        ingresar_validar_fecha_completo_pol(dato_modificado_fecha_desde,3,2);
-
-        ingreso_automatico_vig_hasta(dato_modificado_fecha_hasta,dato_modificado_fecha_desde);  //modificar la fecha de vigencia desde implica modificar la vigencia hasta
-    end;
-
+    '7': begin    //fecha desde
+            ingresar_validar_fecha_completo_pol(dato_modificado_fecha_desde,1,2);
+            ingresar_validar_fecha_completo_pol(dato_modificado_fecha_desde,2,2);
+            ingresar_validar_fecha_completo_pol(dato_modificado_fecha_desde,3,2);
+            ingreso_automatico_vig_hasta(dato_modificado_fecha_hasta,dato_modificado_fecha_desde);  //modificar la fecha de vigencia desde implica modificar la vigencia hasta
+          end;
     end;
       modificar_registro_pol(registro_polizas,campo,dato_modificado,dato_modificado_cardinal,dato_modificado_real,dato_modificado_fecha_desde,dato_modificado_fecha_hasta);
       guardar_registro_pol(arch_polizas,pos,registro_polizas);
@@ -237,27 +231,18 @@ begin
       dni:=dni_1;
       patente:=patente_1;
       numero_poliza:=pos+1;
-      gotoxy(35,11);
       ingresar_marca(marca);
-      gotoxy(35,12);
       ingresar_modelo(modelo);
-      gotoxy(35,13);
       ingresar_ano(ano_vehiculo);
       {write('Ingrese suma asegurada ');  {La suma asegurada y valor de cuota se tiene que sacar con un calculo pero por las dudas las dejamos por ahora}
       readln(Suma_asegurada);}
-      gotoxy(35,14);
       Ingresar_cobertura(cobertura);
-      gotoxy(35,15);
+      clrscr;
       ingresar_validar_fecha_completo_pol(vigencia_desde,1,2);
-      gotoxy(35,16);
       ingresar_validar_fecha_completo_pol(vigencia_desde,2,2);
-      gotoxy(35,17);
       ingresar_validar_fecha_completo_pol(vigencia_desde,3,2);
       ingreso_automatico_vig_hasta(vigencia_hasta,Vigencia_desde);  //se precarga esto
-      gotoxy(35,18);
-      {writeln('Valor de cuota: ', Valor_cuota:0:2);
-      gotoxy(35,18);}
-
+      {writeln('Valor de cuota: ', Valor_cuota:0:2);}
       {writeln('Ingrese valor de cuota ');
       readln(Valor_cuota);}
       estado:=True;
@@ -268,20 +253,17 @@ begin
 procedure ingresar_validar_patente(var patente:string);
 begin
   repeat
-    gotoxy(35,12);
-    write('                                                                                                                '); // borra esa linea
-    gotoxy(35,12);
+    clrscr;
+    gotoxy(35,10);
     write('Ingrese patente formato nuevo o viejo (ABC123BB, ABC012) ');
     readln(patente);
     if not (Validar_formato_patente(patente) or Validar_formato_patente_vieja(patente)) then
       begin
           TextBackground(red);
-          gotoxy(35,14);
+          gotoxy(35,12);
           writeln('PATENTE INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
           readkey();
           NormVideo;
-          gotoxy(35,14);
-          write('                                                                    '); // borra esa linea
       end;
   until Validar_formato_patente(patente) or Validar_formato_patente_vieja(patente);
 end;
@@ -292,11 +274,8 @@ var
  vc:boolean;
  i:byte;
 begin
- vc:=false;
- if opc_mostrar = 1 then
-   i:=17
- else
-   i:=11;
+   vc:=false;
+   i:=10;
    case opc of
      1:
        begin
@@ -367,7 +346,7 @@ begin
   repeat
     clrscr;
     gotoxy(35,10);
-    write('MARCA: ');
+    write('Marca: ');
     readln(marca);
     es_valido := Validar_String(marca);
     if not es_valido then
@@ -387,7 +366,7 @@ begin
   repeat
     clrscr;
     gotoxy(35,10);
-    write('MODELO DEL VEHICULO: ');
+    write('Modelo del vehiculo: ');
     readln(modelo);
     es_valido := Validar_String(modelo);
     if not es_valido then
@@ -410,11 +389,11 @@ begin
   repeat
     clrscr;
     gotoxy(35, 10);
-    write('AÑO DEL VEHICULO: ');
+    write('Año del vehiculo: ');
     readln(s);
 
     val(s, num, cod);
-    es_valido := (cod = 0) and (length(s) = 4) and (num >= 2020) and (num <= 2050);
+    es_valido := (cod = 0) and (length(s) = 4) and (num >= 1920) and (num <= 2026);
 
     if es_valido then
       ano := cardinal(num)
@@ -431,23 +410,60 @@ end;
 procedure ingresar_cobertura (var cobertura:shortstring);
 var
   es_valido:boolean;
+  res:Char;
 begin
+  es_valido:=false;
   repeat
     clrscr;
     gotoxy(35,10);
-    write('TIPO DE COBERTURA: ');
-    readln(cobertura);
-    es_valido := Validar_String(cobertura);
-    if not es_valido then
-      begin
-        gotoxy(35,12);
-        TextBackground(red);
-        writeln('COBERTURA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
-        readkey();
-        NormVideo;
-      end;
+    write('Tipo de cobertura: ');
+    gotoxy(35,12);
+    write('1: todo riesgo');
+    gotoxy(35,13);
+    write('2: responsabilidad civil');
+    gotoxy(35,14);
+    write('3: incendio y robo total');
+    gotoxy(35,15);
+    write('4: incendio y robo total y parcial');
+    gotoxy(35,16);
+    write('5: tercero completo');
+    res:=readkey;
+    case res of
+      '1':
+        begin
+          cobertura:= 'todo riesgo';
+          es_valido:=True;
+        end;
+      '2':
+        begin
+          cobertura:= 'responsabilidad civil';
+          es_valido:=True;
+        end;
+      '3':
+        begin
+          cobertura:= 'incendio y robo total';
+          es_valido := True;
+        end;
+      '4':
+        begin
+          cobertura:= 'incendio y robo total y parcial';
+          es_valido := True;
+        end;
+      '5':
+        begin
+          cobertura:= 'tercero completo';
+          es_valido := True;
+        end
+      else
+        begin
+          gotoxy(30,18);
+          TextBackground(red);
+          writeln('COBERTURA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+          readkey();
+          NormVideo;
+        end;
+    end;
   until es_valido;
 end;
-
 end.
 

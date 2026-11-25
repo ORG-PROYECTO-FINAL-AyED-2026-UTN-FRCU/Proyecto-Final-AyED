@@ -162,7 +162,7 @@ if es_valido_dni = True then
     if pos = -1 then
       begin
         gotoxy(35,15);
-        writeln('Cliente no encontrado . Dar de alta');
+        writeln('CLIENTE NO ENCONTRADO. DAR DE ALTA');
         readkey();
       end
     else
@@ -171,7 +171,7 @@ if es_valido_dni = True then
         if aux.estado = False then
           begin
             gotoxy(35,15);
-            writeln('Estado del cliente: INACTIVO. Dar de alta');
+            writeln('ESTADO DEL CLIENTE: INACTIVO. DAR DE ALTA');
             readkey();
           end
         else
