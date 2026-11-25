@@ -5,9 +5,9 @@ unit listados;
 interface
 uses
   u_clientes,u_polizas,crt,ARCHIVO_POLIZAS,archivo_clientes,validaciones,unit_base_cola_dinamica,u_arbol;
-procedure menu_listados(var a:t_archivo_clientes; var ap:t_archivo_polizas;var arbol:T_PUNT_ARBOL_CLIENTE);
-Procedure mostrar_dato_listado_clientes(var A:t_archivo_clientes;var arbol:T_PUNT_ARBOL_CLIENTE);
-procedure Listado_clientes(var a:t_archivo_clientes; var reg:t_reg_clientes;var auxy:integer;var arbol:T_PUNT_ARBOL_CLIENTE);
+procedure menu_listados(var a:t_archivo_clientes; var ap:t_archivo_polizas;var arbol:T_PUNT_ARBOL);
+Procedure mostrar_dato_listado_clientes(var A:t_archivo_clientes;var arbol:T_PUNT_ARBOL);
+procedure Listado_clientes(var a:t_archivo_clientes; var reg:t_reg_clientes;var auxy:integer;var arbol:T_PUNT_ARBOL);
 
 
 implementation
@@ -32,7 +32,7 @@ begin
     gotoxy(115,2);
     writeln('Estado');
 end;
-procedure Listado_clientes(var a:t_archivo_clientes; var reg:t_reg_clientes;var auxy:integer;var arbol:T_PUNT_ARBOL_CLIENTE);
+procedure Listado_clientes(var a:t_archivo_clientes; var reg:t_reg_clientes;var auxy:integer;var arbol:T_PUNT_ARBOL);
 var
   pos,i:integer;
   cola1:t_cola;
@@ -93,7 +93,7 @@ begin
           end;
      end;
 end;
-Procedure mostrar_dato_listado_clientes(var a:t_archivo_clientes;var arbol:T_PUNT_ARBOL_CLIENTE);
+Procedure mostrar_dato_listado_clientes(var a:t_archivo_clientes;var arbol:T_PUNT_ARBOL);
 var
   auxy:integer;
   reg_clientes:t_reg_clientes;
@@ -228,7 +228,7 @@ begin
       readkey;
     end;
 end;
-procedure menu_listados(var a:t_archivo_clientes ; var ap:t_archivo_polizas;var arbol:T_PUNT_ARBOL_CLIENTE);
+procedure menu_listados(var a:t_archivo_clientes ; var ap:t_archivo_polizas;var arbol:T_PUNT_ARBOL);
 var res:string;
   vc:boolean;
 begin
