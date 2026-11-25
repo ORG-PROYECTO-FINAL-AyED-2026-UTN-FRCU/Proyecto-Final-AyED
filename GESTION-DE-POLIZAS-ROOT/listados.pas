@@ -203,6 +203,17 @@ begin
     gotoxy(100,3);
     write('Tipo de cobertura');
 end;
+procedure lista_poliza_vigente(r:t_reg_polizas ; x,y:integer);
+begin
+    gotoxy(x,y);
+    write('NUSMERO DE POLIZA: ',r.numero_poliza);
+    gotoxy(x,y+1);
+    write('TIPO DE COBERTURA: ',r.cobertura);
+    gotoxy(x,y+2);
+    write('DNI CONTRATANTE: ', r.DNI);
+    gotoxy(x,y+3);
+    write('NOMBRE DEL CONTRATANTE: ');
+end;
 procedure listado_de_polizas_vigentes (var a:t_archivo_polizas;var arbol_polizas:t_punt_arbol);
 var
   i,x,y:integer;
@@ -222,7 +233,7 @@ begin
           desencolar(cola1,dir);
           leer_dato_pol(a,dir,reg);
             begin
-              lista_poliza(reg,x,y);
+              lista_poliza_vigente(reg,x,y);
               x:=x+30;
               if x = 121 then
                 begin
