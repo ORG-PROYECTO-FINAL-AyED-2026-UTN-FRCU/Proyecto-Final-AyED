@@ -1,12 +1,13 @@
 unit listados;
+{$codepage UTF8}
 
 
 interface
 uses
-  u_clientes,u_polizas,crt,ARCHIVO_POLIZAS,archivo_clientes,validaciones;
-procedure menu_listados(var a:t_archivo_clientes; var ap:t_archivo_polizas);
-Procedure mostrar_dato_listado_clientes(var A:t_archivo_clientes);
-procedure Listado_clientes(var a:t_archivo_clientes; var reg:t_reg_clientes;var auxy:integer);
+  u_clientes,u_polizas,crt,ARCHIVO_POLIZAS,archivo_clientes,validaciones,unit_base_cola_dinamica,u_arbol;
+procedure menu_listados(var a:t_archivo_clientes; var ap:t_archivo_polizas;var arbol:T_PUNT_ARBOL_CLIENTE);
+Procedure mostrar_dato_listado_clientes(var A:t_archivo_clientes;var arbol:T_PUNT_ARBOL_CLIENTE);
+procedure Listado_clientes(var a:t_archivo_clientes; var reg:t_reg_clientes;var auxy:integer;var arbol:T_PUNT_ARBOL_CLIENTE);
 
 
 implementation
@@ -15,9 +16,9 @@ procedure encabezado1;
 begin
     clrscr;
     gotoxy(1,2);
-    write('Nombre');
-    gotoxy(16,2);
     write('Apellido');
+    gotoxy(16,2);
+    write('Nombre');
     gotoxy(30,2);
     write('Dni');
     gotoxy(40,2);
@@ -31,24 +32,29 @@ begin
     gotoxy(115,2);
     writeln('Estado');
 end;
-procedure Listado_clientes(var a:t_archivo_clientes; var reg:t_reg_clientes;var auxy:integer);
+procedure Listado_clientes(var a:t_archivo_clientes; var reg:t_reg_clientes;var auxy:integer;var arbol:T_PUNT_ARBOL_CLIENTE);
 var
   pos,i:integer;
+  cola1:t_cola;
+  dir:word;
 begin
  pos:=filesize(a);
  auxy:=3;
+ crear_cola(cola1);
+ inorden_listado_cliente(arbol,cola1);
  for i:=0 to (pos-1) do
      begin
+       desencolar(cola1,dir);
        write('-------------------------------------------------------------------------------------------------------------------------');
-      leer_dato(a,i,reg);
+      leer_dato(a,dir,reg);
       auxy:=auxy+2;
           begin
             with reg do
                       begin
                         gotoxy(1,auxy);
-                        write(nombres);
-                        gotoxy(17,auxy);
                         write(apellido);
+                        gotoxy(17,auxy);
+                        write(nombres);
                         gotoxy(28,auxy);
                         write(dni);
                         gotoxy(40,auxy);
@@ -87,14 +93,14 @@ begin
           end;
      end;
 end;
-Procedure mostrar_dato_listado_clientes(var a:t_archivo_clientes);
+Procedure mostrar_dato_listado_clientes(var a:t_archivo_clientes;var arbol:T_PUNT_ARBOL_CLIENTE);
 var
   auxy:integer;
   reg_clientes:t_reg_clientes;
 begin //PARTE FIJA
  encabezado1;
   begin  // PARTE VARIABLE
-        Listado_clientes(a,reg_clientes,auxy);
+        Listado_clientes(a,reg_clientes,auxy,arbol);
     readkey;
   end;
 end;
@@ -222,7 +228,7 @@ begin
       readkey;
     end;
 end;
-procedure menu_listados(var a:t_archivo_clientes ; var ap:t_archivo_polizas);
+procedure menu_listados(var a:t_archivo_clientes ; var ap:t_archivo_polizas;var arbol:T_PUNT_ARBOL_CLIENTE);
 var res:string;
   vc:boolean;
 begin
@@ -245,7 +251,7 @@ begin
          vc:=true;
      '1':
          begin
-              mostrar_dato_listado_clientes(a);
+              mostrar_dato_listado_clientes(a,arbol);
               vc:=true;
          end;
      '2':

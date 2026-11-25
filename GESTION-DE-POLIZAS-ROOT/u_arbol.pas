@@ -14,7 +14,7 @@ INFO:t_dato_arbol;
 SAI,SAD: T_PUNT_ARBOL_CLIENTE;
 END;
 PROCEDURE CREAR_ARBOL (VAR RAIZ:T_PUNT_ARBOL_CLIENTE);
-PROCEDURE AGREGAR (VAR RAIZ:T_PUNT_ARBOL_CLIENTE; X:T_DATO);
+PROCEDURE AGREGAR (VAR RAIZ:T_PUNT_ARBOL_CLIENTE; X:t_dato_arbol);
 FUNCTION ARBOL_VACIO (RAIZ:T_PUNT_ARBOL_CLIENTE): BOOLEAN;
 FUNCTION ARBOL_LLENO (RAIZ:T_PUNT_ARBOL_CLIENTE): BOOLEAN;
 procedure suprime (var raiz:T_PUNT_ARBOL_CLIENTE;x:t_dato);
@@ -110,7 +110,6 @@ procedure inorden_listado_cliente(var raiz:T_PUNT_ARBOL_CLIENTE; var cola:t_cola
                 encolar(cola,RAIZ^.INFO.pos_arch);
                 inorden_listado_cliente (RAIZ^.SAD,cola);
             end;
-
           end;
 
 procedure CARGAR_ARBOL(VAR RAIZ:T_PUNT_ARBOL_CLIENTE;var archivo:t_archivo_clientes);

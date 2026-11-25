@@ -3,16 +3,17 @@ unit menu;
 interface
   uses
     archivo_clientes,archivo_polizas, u_clientes,validaciones, menu_polizas,u_polizas, //, ARBOL, ESTADÍSTICAS
-    crt,sysutils,listados;
+    crt,sysutils,listados,u_arbol;
     //LISTADOS; //LLAMADA A TODAS LAS UNIT NECESARIAS
     procedure menu_principal;
 implementation
-procedure menu_Cliente_no_encontrado(var arch_clientes:t_archivo_clientes;dni1:string);
+procedure menu_Cliente_no_encontrado(var arch_clientes:t_archivo_clientes;dni1:string;var arbol:T_PUNT_ARBOL_CLIENTE);
 var
   registro_clientes:t_reg_clientes;
   VC:boolean;
   respuesta:char;
   pos:integer;
+  aux_arbol:t_dato_arbol;
 begin
   vc:=false;
   while vc=false do
@@ -33,7 +34,12 @@ begin
             pos:=filesize(arch_clientes);
             carga_registro(registro_clientes,dni1);
             if confirmar(registro_clientes) then
-            guardar_registro(arch_clientes,pos,registro_clientes);
+              begin
+                   guardar_registro(arch_clientes,pos,registro_clientes);
+                   aux_arbol.clave:=(registro_clientes.apellido+registro_clientes.nombres);
+                   aux_arbol.pos_arch:=pos;
+                   AGREGAR(arbol,aux_arbol);
+              end;
           end
         else
           begin
@@ -187,7 +193,7 @@ begin
       end;
     end;
 end;
-procedure menu_clientes (var arch_clientes:t_archivo_clientes);
+procedure menu_clientes (var arch_clientes:t_archivo_clientes;var arbol:T_PUNT_ARBOL_CLIENTE);
 var
   res:char;
   dni:string;
@@ -199,7 +205,7 @@ begin
     begin
       busqueda_dni(arch_clientes,dni,pos);
       if pos = -1 then
-        menu_Cliente_no_encontrado(arch_clientes,dni)
+        menu_Cliente_no_encontrado(arch_clientes,dni,arbol)
       else
         menu_cliente_encontrado(arch_clientes,dni,pos);
     end;
@@ -208,12 +214,15 @@ procedure menu_principal;
 var
   arch_clientes:t_archivo_clientes;
   arch_polizas:t_archivo_polizas;
+  arbol_cliente:T_PUNT_ARBOL_CLIENTE;
 // ARBOL_DNI, ARBOL_NOM:T_PUNT;
   opcion:char;
 
 begin
   abrir_crear(arch_clientes);
   abrir_crear_pol(arch_polizas);
+  CREAR_ARBOL(arbol_cliente);
+  CARGAR_ARBOL(arbol_cliente,arch_clientes);
 //GENERAR ARBOLES
 repeat
   clrscr;
@@ -233,9 +242,9 @@ repeat
   opcion:=readkey;
 
     case opcion of
-    '1': menu_clientes(arch_clientes);
+    '1': menu_clientes(arch_clientes,arbol_cliente);
     '2': menu_poliza(arch_polizas,arch_clientes);
-    '3': menu_listados(arch_clientes , arch_polizas);
+    '3': menu_listados(arch_clientes , arch_polizas,arbol_cliente);
 {    '3': LISTADOS (ARCH_CLIENTES, ARCH_POLIZAS, ARBOL_NOM);
     '4': ESTADÍSTICAS (ARCH_CLIENTES,ARCH_POLIZAS);}
     else
