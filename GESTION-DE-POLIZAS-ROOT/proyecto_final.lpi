@@ -47,6 +47,11 @@
         <Filename Value="u_arbol.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
+      <Unit>
+        <Filename Value="tablas_proyecto_final.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="TABLAS_PROYECTO_FINAL"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

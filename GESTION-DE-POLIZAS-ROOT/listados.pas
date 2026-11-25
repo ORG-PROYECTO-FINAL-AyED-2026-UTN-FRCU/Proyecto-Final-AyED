@@ -217,31 +217,34 @@ begin
   encabezado3;
   for i:=0 to filesize(a)-1 do
     begin
-      desencolar(cola1,dir);
-      leer_dato_pol(a,dir,reg);
+      if not(cola_vacia(cola1)) then
         begin
-          lista_poliza(reg,x,y);
-          x:=x+30;
-          if x = 121 then
+          desencolar(cola1,dir);
+          leer_dato_pol(a,dir,reg);
             begin
-              x:=1;
-              if y = 6 then
-                y:=20
-              else
-                y:=6;
+              lista_poliza(reg,x,y);
+              x:=x+30;
+              if x = 121 then
+                begin
+                  x:=1;
+                  if y = 6 then
+                    y:=20
+                  else
+                    y:=6;
+                end;
             end;
-        end;
-      if (i mod 7 = 0) and (i<>0) then
-        begin
-          gotoxy(38,30);
-          textcolor(red);
-          writeln('Para pasar a la siguiente pagina, toque un tecla');
-          textcolor(lightgray);
-          readkey;
-          clrscr;
-          encabezado3;
-          x:=1;
-          y:=6;
+          if (i mod 7 = 0) and (i<>0) then
+            begin
+              gotoxy(38,30);
+              textcolor(red);
+              writeln('Para pasar a la siguiente pagina, toque un tecla');
+              textcolor(lightgray);
+              readkey;
+              clrscr;
+              encabezado3;
+              x:=1;
+              y:=6;
+            end;
         end;
     end;
   readkey();
