@@ -5,16 +5,17 @@ uses
 const
   ruta_polizas='arch_polizas.dat';
 procedure menu_poliza (var arch_polizas:t_archivo_polizas;var arch_clientes:t_archivo_clientes;var arbol_poliza:T_PUNT_ARBOL);
-procedure menu_poliza_encontrado (var arch_polizas:t_archivo_polizas ; var pos:longint);
+procedure menu_poliza_encontrado (var arch_polizas:t_archivo_polizas ; var pos:longint;var arbol_polizas_activas:T_PUNT_ARBOL);
 procedure menu_poliza_no_encontrado(var arch_polizas:t_archivo_polizas;dni1:string;patente_1:string;var arbol_poliza:T_PUNT_ARBOL);
 implementation
 
-procedure menu_poliza_encontrado (var arch_polizas:t_archivo_polizas ; var pos:longint);
+procedure menu_poliza_encontrado (var arch_polizas:t_archivo_polizas ; var pos:longint;var arbol_polizas_activas:T_PUNT_ARBOL);
 var
   registro_polizas : t_reg_polizas;
   VC:boolean;
   respuesta:char;
   campo:string;
+  reg_arbol:T_DATO_ARBOL;
 begin
   campo:='';
   clrscr;
@@ -47,7 +48,12 @@ begin
       '1': begin
             vc:=True;
             if registro_polizas.estado = true then
-              registro_polizas.estado:=False
+              begin
+              registro_polizas.estado:=False;
+              reg_arbol.pos_arch:=pos;
+              reg_arbol.clave:=inttostr(registro_polizas.vigencia_desde.ano)+inttostr(registro_polizas.vigencia_desde.mes)+inttostr(registro_polizas.vigencia_desde.dia);
+              suprime(arbol_polizas_activas,reg_arbol);
+              end
             else
               registro_polizas.estado:=True;
             guardar_registro_pol(arch_polizas,pos,registro_polizas);
@@ -102,6 +108,7 @@ begin
             dato_arbol.clave:=inttostr(registro_polizas.vigencia_desde.ano)+inttostr(registro_polizas.vigencia_desde.mes)+inttostr(registro_polizas.vigencia_desde.dia);
             dato_arbol.pos_arch:=pos;
             carga_registro_pol(registro_polizas,dni1,patente_1,pos);
+            AGREGAR(arbol_poliza,dato_arbol);
             guardar_registro_pol(arch_polizas,pos,registro_polizas);
           end
         else
@@ -124,7 +131,7 @@ begin
   ingresar_validar_patente(patente);
   busqueda_patente(arch_polizas,patente,pos);
   if pos <> -1 then                                           {SEGUIR ACA}
-    menu_poliza_encontrado(arch_polizas,pos)
+    menu_poliza_encontrado(arch_polizas,pos,arbol_poliza)
   else
     menu_poliza_no_encontrado(arch_polizas,dni,patente,arbol_poliza);
 end;

@@ -7,13 +7,13 @@ interface
     //LISTADOS; //LLAMADA A TODAS LAS UNIT NECESARIAS
     procedure menu_principal;
 implementation
-procedure menu_Cliente_no_encontrado(var arch_clientes:t_archivo_clientes;dni1:string;var arbol:T_PUNT_ARBOL);
+procedure menu_Cliente_no_encontrado(var arch_clientes:t_archivo_clientes;dni1:string;var arbol,arbol_clientes_dni:T_PUNT_ARBOL);
 var
   registro_clientes:t_reg_clientes;
   VC:boolean;
   respuesta:char;
   pos:integer;
-  aux_arbol:t_dato_arbol;
+  aux_arbol,aux_arbol_dni:t_dato_arbol;
 begin
   vc:=false;
   while vc=false do
@@ -39,6 +39,9 @@ begin
                    aux_arbol.clave:=(registro_clientes.apellido+registro_clientes.nombres);
                    aux_arbol.pos_arch:=pos;
                    AGREGAR(arbol,aux_arbol);
+                   aux_arbol_dni.clave:=registro_clientes.dni;
+                   aux_arbol_dni.pos_arch:=pos;
+                   AGREGAR(arbol_clientes_dni,aux_arbol_dni);
               end;
           end
         else
@@ -91,7 +94,7 @@ begin
     end;
   until (valido);
 end;
-procedure modificar_datos (var arch_clientes:t_archivo_clientes ; campo:string ; var pos:longint);
+procedure modificar_datos (var arch_clientes:t_archivo_clientes ; campo:string ; var pos:word);
 var
   registro_clientes : t_reg_clientes;
   dato_modificado:shortstring;  // CAMBIE ESTO DE STRING--->> ShortString por compatibilidad de rangos en Strings acotados
@@ -130,7 +133,7 @@ begin
     end;
 
 end;
-procedure menu_cliente_encontrado (var arch_clientes:t_archivo_clientes ; dni1:string; var pos:longint);
+procedure menu_cliente_encontrado (var arch_clientes:t_archivo_clientes ; dni1:string; var pos:word);
 var
   registro_clientes : t_reg_clientes;
   VC:boolean;
@@ -193,21 +196,22 @@ begin
       end;
     end;
 end;
-procedure menu_clientes (var arch_clientes:t_archivo_clientes;var arbol:T_PUNT_ARBOL);
+procedure menu_clientes (var arch_clientes:t_archivo_clientes;var arbol,arbol_clientes_dni:T_PUNT_ARBOL);
 var
   res:char;
   dni:string;
-  es_valido : boolean;
-  pos:longint;
+  es_valido,enc : boolean;
+  pos:T_DATO_ARBOL;
 begin
   ingresar_dni_opciones(dni,es_valido,res);
   if (es_valido = True) and (res <> '0') then
     begin
-      busqueda_dni(arch_clientes,dni,pos);
-      if pos = -1 then
-        menu_Cliente_no_encontrado(arch_clientes,dni,arbol)
+      PREORDEN(arbol_clientes_dni,dni,enc,pos);
+      //busqueda_dni(arch_clientes,dni,pos);
+      if not(enc) then
+        menu_Cliente_no_encontrado(arch_clientes,dni,arbol,arbol_clientes_dni)
       else
-        menu_cliente_encontrado(arch_clientes,dni,pos);
+        menu_cliente_encontrado(arch_clientes,dni,pos.pos_arch);
     end;
 end;
 procedure menu_principal;
@@ -246,7 +250,7 @@ repeat
   opcion:=readkey;
 
     case opcion of
-    '1': menu_clientes(arch_clientes,arbol_clientes);
+    '1': menu_clientes(arch_clientes,arbol_clientes,arbol_clientes_dni);
     '2': menu_poliza(arch_polizas,arch_clientes,arbol_polizas_activas);
     '3': menu_listados(arch_clientes , arch_polizas,arbol_clientes_dni,arbol_polizas_activas);
 {    '3': LISTADOS (ARCH_CLIENTES, ARCH_POLIZAS, ARBOL_NOM);

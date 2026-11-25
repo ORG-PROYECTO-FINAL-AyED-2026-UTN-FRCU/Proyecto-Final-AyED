@@ -69,23 +69,29 @@ end;
 procedure suprime (var raiz:T_PUNT_ARBOL; x:t_dato);
 begin
 if raiz <> nil then
-if x.clave < raiz^.info.clave then
+if (x.clave < raiz^.info.clave) then
 suprime (raiz^.sai,x)
 else
-if x.clave > raiz^.info.clave then
+if (x.clave > raiz^.info.clave) then
 suprime (raiz^.sad,x)
 else
-if (raiz^.sai = nil) and (raiz^.sad = nil) then
-raiz:= nil
-else
-if (raiz^.sai = nil) then
-raiz:= raiz^.sad
-else
-if (raiz^.sad = nil) then
-raiz:= raiz^.sai
-else
-raiz^.info:= suprime_min (raiz^.sad)
+ if x.pos_arch <> raiz^.info.pos_arch then
+      suprime(raiz^.sad, x)         // misma fecha pero otra póliza: seguir buscando
+      else
+      begin
+          if (raiz^.sai = nil) and (raiz^.sad = nil) then
+          raiz:= nil
+          else
+          if (raiz^.sai = nil) then
+          raiz:= raiz^.sad
+          else
+          if (raiz^.sad = nil) then
+          raiz:= raiz^.sai
+          else
+          raiz^.info:= suprime_min (raiz^.sad)
+          end;
 end;
+
 PROCEDURE PREORDEN(VAR RAIZ:T_PUNT_ARBOL;BUSCADO:STRING; VAR ENC:BOOLEAN; VAR X:T_DATO);
 BEGIN
 IF (RAIZ = NIL) THEN ENC:= FALSE

@@ -141,19 +141,22 @@ begin
     gotoxy(x,y+9);
     write('CUOTA: $', r.valor_cuota:0:2);
 end;
-procedure mostrar_polizas(var a:t_archivo_polizas ; dni:string);
+procedure mostrar_polizas(var a:t_archivo_polizas ; dni:string; reg:t_reg_clientes);
 var
   x,y,tam,i:integer;
   dato:t_reg_polizas;
+  ctt:integer;
 begin
   x:=1;              // X e Y sera para ubicar el gotoxy al mostrar
   y:=6;
+  ctt:=0;
   tam:=filesize(a);
   for i:= 0 to tam-1 do
     begin
       leer_dato_pol(a,i,dato);
       if dato.dni = dni then
         begin
+        ctt:=ctt+1;
           lista_poliza(dato,x,y);
           x:=x+30;
           if x = 121 then
@@ -164,6 +167,17 @@ begin
               else
                 y:=6;
             end;
+        end;
+      if ctt>7 then
+        begin
+          ctt:=0;
+           gotoxy(38,30);
+              textcolor(red);
+              writeln('Para pasar a la siguiente pagina, toque un tecla');
+              textcolor(lightgray);
+              readkey;
+              clrscr;
+              encabezado2(reg);
         end;
     end;
   readkey;
@@ -184,7 +198,7 @@ begin
       if pos <> -1 then
         leer_dato(a,pos,dato);
       encabezado2(dato);
-      mostrar_polizas(ap,dni);
+      mostrar_polizas(ap,dni,dato);
     end;
 end;
 procedure encabezado3;
