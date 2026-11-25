@@ -342,27 +342,65 @@ begin
 end;
 
 procedure ingresar_marca (var marca:shortstring);
-var es_valido:boolean;
+var
+  es_valido:boolean;
+  res:char;
 begin
   repeat
     clrscr;
     gotoxy(35,10);
-    write('Marca: ');
-    readln(marca);
-    es_valido := Validar_String(marca);
-    if not es_valido then
+    write('Marca del vehiculo: ');
+    gotoxy(35,12);
+    write('1: Chevrolet');
+    gotoxy(35,13);
+    write('2: Ford');
+    gotoxy(35,14);
+    write('3: Fiat');
+    gotoxy(35,15);
+    write('4: Renault');
+    gotoxy(35,16);
+    write('5: Volkswagen');
+    res:=readkey;
+    case res of
+    '1':
       begin
-        gotoxy(35,12);
+        marca:='Chevrolet';
+        es_valido:=True;
+      end;
+    '2':
+      begin
+        marca:='Ford';
+        es_valido:=True;
+      end;
+    '3':
+      begin
+        marca:='Fiat';
+        es_valido:=True;
+      end;
+    '4':
+      begin
+        marca:='Renault';
+        es_valido:=True;
+      end;
+    '5':
+      begin
+        marca:='Volkswagen';
+        es_valido:=True;
+      end
+    else
+      begin
+        gotoxy(35,18);
         TextBackground(red);
-        writeln('MARCA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+        writeln('OPCION INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
         readkey();
         NormVideo;
       end;
+    end;
   until es_valido;
 end;
-
 procedure ingresar_modelo (var modelo:shortstring);
-var es_valido:boolean;
+var
+  es_valido:boolean;
 begin
   repeat
     clrscr;

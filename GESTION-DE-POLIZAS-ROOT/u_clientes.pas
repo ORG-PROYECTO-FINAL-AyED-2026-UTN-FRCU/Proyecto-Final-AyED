@@ -99,7 +99,7 @@ var
    i:byte;
 begin
    if opc_mostrar = 1 then
-     i:=21
+     i:=19
    else
      i:=11;
    repeat                                                                                                              // borra esa linea
@@ -128,9 +128,9 @@ var
    i:byte;
 begin
  if opc_mostrar = 1 then
-   i:=13
+   i:=11
  else
-   i:=11;
+   i:=9;
    repeat
      gotoxy(35,i);
      write('                                                                                                                                                    '); //limpia esa linea
@@ -161,9 +161,9 @@ var
  i:byte;
 begin
  if opc_mostrar = 1 then
-   i:=15
+   i:=13
  else
-   i:=13;
+   i:=11;
  repeat
    gotoxy(35, i);
    write('                                                                                                               ');
@@ -220,7 +220,7 @@ var
  i:byte;
 begin
  if opc_mostrar = 1 then
-   i:=20
+   i:=18
  else
    i:=12;
  repeat
@@ -251,7 +251,7 @@ var
 begin
  vc:=false;
  if opc_mostrar = 1 then
-   i:=17
+   i:=15
  else
    i:=11;
    case opc of
@@ -389,7 +389,7 @@ begin
       Ingresar_nombre(nombres);
       ingresar_direccion_calle(direccion.calle,1);
       Ingresar_direccion_nro(direccion.nro,1);
-      gotoxy(35,16);
+      gotoxy(35,14);
       writeln('Fecha nacimiento: ');
       ingresar_validar_fecha_completo(fecha_nacimiento,1,1);
       ingresar_validar_fecha_completo(fecha_nacimiento,2,1);
@@ -427,6 +427,7 @@ var dato_modificado:shortstring;
   dir_modificada:reg_direccion ;
   fecha_modificada:reg_fecha;
 begin
+   clrscr;
   campo_valido_confirmar(campo);
   clrscr;
    if campo <> '0' then
@@ -453,6 +454,8 @@ begin
     end;
       modificar_registro(Reg,campo,dato_modificado,fecha_modificada,dir_modificada);
     end;
+  clrscr;
+  mostrar_registro(reg);
 
 end;
 
@@ -462,46 +465,65 @@ procedure Modificar_Reg(var reg:t_reg_clientes);
             pos:string;
             campo:string;
           begin
-            campo_valido_confirmar(campo);
             modificar_reg_Confirmacion(reg,pos);
           end;
-
-
+procedure no_confirmar (var reg:t_reg_clientes ; var confirmar:boolean);
+var
+  resp:char;
+  vc:boolean;
+  campo:string;
+begin
+ vc:=false;
+repeat
+  gotoxy(50,22);
+  write('                                   ');
+  gotoxy(50,22);
+  Writeln('¿Desea Modificar datos?');
+  gotoxy(50,23);
+  write('                                   ');
+  gotoxy(50,23);
+  Writeln('1: Modificar');
+  gotoxy(50,24);
+  write('                                   ');
+  gotoxy(50,24);
+  Write('0: Salir');
+  Resp:=readkey;
+  Case Resp of
+  '1':begin
+        Modificar_Reg_confirmacion(Reg,campo);
+        vc:=true;
+        confirmar:=true;
+      end;
+  '0': vc:=true;
+  else
+    begin
+      writeln('OPCION SELECCIONADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR.');
+      readkey();
+    end;
+  end;
+until vc=true;
+end;
 Function Confirmar(var reg:t_reg_clientes):boolean;
 Var resp:char;
     vc:boolean;
 begin
    confirmar:=false;
-   writeln('¿Desea confirmar datos?');
-   writeln('1: SI');
-   writeln('0: NO') ;
-   readln(resp);
- repeat
- case resp of
+
+repeat
+  gotoxy(50,22);
+  writeln('¿Desea confirmar datos?');
+  gotoxy(50,23);
+  writeln('1: confirmar');
+  gotoxy(50,24);
+  writeln('0: no confirmar') ;
+  resp:=readkey;
+  case resp of
     '1':begin
-             vc:=true;
-             Confirmar:=true;
+          vc:=true;
+          Confirmar:=true;
         end;
     '0':Begin
-          Writeln('¿Desea Modificar datos?');
-          Writeln('1: Modificar');
-          Writeln('0: Salir');
-          Readln(Resp);
-          repeat
-          Case Resp of
-            '1':begin
-                     Modificar_Reg(Reg);
-                     vc:=true;
-                     confirmar:=true;
-                end;
-            '0': vc:=true;
-          else
-            begin
-              writeln('OPCION SELECCIONADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR.');
-              readkey();
-            end;
-          end;
-          until vc=true;
+          no_confirmar(reg,confirmar);
         end;
     else
         begin
