@@ -14,6 +14,7 @@ procedure campo_valido_pol(var campo:string);
 procedure ingresar_marca (var marca:shortstring);
 procedure ingresar_modelo (var modelo:shortstring);
 procedure ingresar_ano (var ano:CARDINAL);
+procedure ingresar_validar_fecha_completo_pol(var reg: reg_fecha1; opc: BYTE; opc_mostrar:byte);
 procedure ingresar_validar_patente(var patente:string);
 procedure ingresar_cobertura (var COBERTURA:shortstring);
 //procedure ingresar_poliza (var poliza:shortstring);
@@ -85,8 +86,12 @@ begin
       gotoxy(35,17);
       writeln('Cobertura: ', cobertura);
       gotoxy(35,18);
-      writeln('Valor de cuota: ', Valor_cuota:0:2);
+      WriteLn('Vigencia desde: ', vigencia_desde.dia,'/',vigencia_desde.mes,'/',vigencia_desde.ano);
       gotoxy(35,19);
+      WriteLn('Vigencia hasta: ', vigencia_hasta.dia,'/',vigencia_hasta.mes,'/',vigencia_hasta.ano);
+      gotoxy(35,20);
+      writeln('Valor de cuota: ', Valor_cuota:0:2);
+      gotoxy(35,21);
       if estado = true then
         writeln('Estado: ACTIVO')
       else
@@ -201,6 +206,15 @@ begin
       guardar_registro_pol(arch_polizas,pos,registro_polizas);
     end;
 end;
+
+// se precarga la fecha de vigencia hasta para 1 año despues.
+procedure ingreso_automatico_vig_hasta(var fecha_hasta,fecha_desde:reg_fecha1);
+begin
+     fecha_hasta.dia:= Fecha_desde.dia;
+     fecha_hasta.mes:= Fecha_desde.mes ;
+     fecha_hasta.ano:=Fecha_desde.ano +1; // se le suma 1 para que se venza en un año exacto
+end;
+
 procedure carga_registro_pol (var r:t_reg_polizas ; dni_1:string;Patente_1:string;pos:integer);
 begin
   with r do
@@ -218,6 +232,17 @@ begin
       readln(Suma_asegurada);}
       gotoxy(35,14);
       Ingresar_cobertura(cobertura);
+      gotoxy(35,15);
+      ingresar_validar_fecha_completo_pol(vigencia_desde,2,2);
+      gotoxy(35,16);
+      ingresar_validar_fecha_completo_pol(vigencia_desde,2,2);
+      gotoxy(35,17);
+      ingresar_validar_fecha_completo_pol(vigencia_desde,3,2);
+      ingreso_automatico_vig_hasta(vigencia_hasta,Vigencia_desde);  //se precarga esto
+      gotoxy(35,18);
+      {writeln('Valor de cuota: ', Valor_cuota:0:2);
+      gotoxy(35,18);}
+
       {writeln('Ingrese valor de cuota ');
       readln(Valor_cuota);}
       estado:=True;
@@ -245,6 +270,82 @@ begin
       end;
   until Validar_formato_patente(patente) or Validar_formato_patente_vieja(patente);
 end;
+
+//fecha ingresar validar
+procedure ingresar_validar_fecha_completo_pol(var reg: reg_fecha1; opc: BYTE; opc_mostrar:byte);
+var
+ vc:boolean;
+ i:byte;
+begin
+ vc:=false;
+ if opc_mostrar = 1 then
+   i:=17
+ else
+   i:=11;
+   case opc of
+     1:
+       begin
+         repeat
+           gotoxy(35,i);
+           write('                                                                                                       ');    //limpia esa linea
+           gotoxy(35,i);
+           write('Dia vigencia desde: ');
+           vc:=validar_rango_fecha(reg.dia, 1, 31);
+           if not vc then
+             begin
+               gotoxy(35,i+2);
+               TextBackground(red);
+               write('ERROR. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+               readkey();
+               normvideo;
+               gotoxy(35,i+2);
+               write('                                                   ');  //limpia la linea
+             end;
+         until vc=True;
+       end;
+     2:
+       begin
+         repeat
+           gotoxy(35,i+1);
+           write('                                                                                                         ');    //limpia esa linea
+           gotoxy(35,i+1);
+           write('Mes vigencia desde: ');
+           vc:=validar_rango_fecha(reg.mes, 1, 12);
+           if not vc then
+             begin
+               gotoxy(35,i+3);                                                             //validar_rango_fecha(reg.ano, 1900, 2049);
+               TextBackground(red);
+               write('ERROR. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+               readkey();
+               normvideo;
+               gotoxy(35,i+3);
+               write('                                                   ');  //limpia la linea
+             end;
+           until vc=True;
+         end;
+     3:
+       begin
+         repeat
+           gotoxy(35,i+2);
+           write('                                                                                                          ');    //limpia esa linea
+           gotoxy(35,i+2);
+           write('Año vigencia desde: ');
+           vc:=validar_rango_fecha(reg.ano, 1900, 2049);
+           if not vc then
+             begin
+               gotoxy(35,i+4);
+               TextBackground(red);
+               write('ERROR. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+               readkey();
+               normvideo;
+               gotoxy(35,i+4);
+               write('                                                   ');  //limpia la linea
+             end;
+           until vc=True;
+         end;
+   end;
+end;
+
 procedure ingresar_marca (var marca:shortstring);
 var es_valido:boolean;
 begin
@@ -271,7 +372,7 @@ begin
   repeat
     clrscr;
     gotoxy(35,10);
-    write('MODELO: ');
+    write('MODELO DEL VEHICULO: ');
     readln(modelo);
     es_valido := Validar_String(modelo);
     if not es_valido then
@@ -319,7 +420,7 @@ begin
   repeat
     clrscr;
     gotoxy(35,10);
-    write('COBERTURA: ');
+    write('TIPO DE COBERTURA: ');
     readln(cobertura);
     es_valido := Validar_String(cobertura);
     if not es_valido then
