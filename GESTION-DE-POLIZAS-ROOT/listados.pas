@@ -217,7 +217,7 @@ begin
   crear_cola(cola1);
   inorden_listado_cliente(arbol_polizas,cola1);
   encabezado3;
-  for i:=0 to filesize(a)-1 do
+  for i:=1 to filesize(a) do
     begin
       if not(cola_vacia(cola1)) then
         begin
@@ -239,7 +239,7 @@ begin
                     y:=4;
                 end;
             end;
-          if (i mod 19 = 0) and (i<>0) then
+          if (i mod 20 = 0) and (i<>0) then
             begin
               gotoxy(38,30);
               textcolor(red);
