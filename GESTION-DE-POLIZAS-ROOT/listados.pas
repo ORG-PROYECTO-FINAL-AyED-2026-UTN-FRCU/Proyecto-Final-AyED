@@ -177,12 +177,15 @@ var
   pos:integer;
   dato:t_reg_clientes;
 begin
-  ingresar_dni_opciones(dni,valido);
-  busqueda_dni(a,dni,pos);
-  if pos <> -1 then
-    leer_dato(a,pos,dato);
-  encabezado2(dato);
-  mostrar_polizas(ap,dni);
+  ingresar_dni_opciones(dni,valido,res);
+  if res <> '0' then
+    begin
+      busqueda_dni(a,dni,pos);
+      if pos <> -1 then
+        leer_dato(a,pos,dato);
+      encabezado2(dato);
+      mostrar_polizas(ap,dni);
+    end;
 end;
 procedure encabezado3;
 begin

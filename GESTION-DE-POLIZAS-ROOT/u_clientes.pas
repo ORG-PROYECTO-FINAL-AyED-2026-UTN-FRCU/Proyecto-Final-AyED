@@ -14,7 +14,7 @@ procedure Ingresar_nombre(var dato:shortstring);
 procedure ingresar_direccion_calle(var calle:shortstring;opc_mostrar:byte);
 procedure ingresar_direccion_nro(var nro: word;opc_mostrar:byte);
 procedure ingresar_dni (var dni:string; var es_valido:boolean);
-procedure ingresar_dni_opciones (var dni:string; var es_valido : boolean);
+procedure ingresar_dni_opciones (var dni:string; var es_valido : boolean ; var res:char);
   // ESTOS SON PROCEDIMIENTOS PROPIOS  DE LA UNIT DE GESTION DE CLIENTES, REALIZAN LAS FUNCIONES COMO TAL, "ABMC CLIENTES"
 procedure abrir_crear (var a:t_archivo_clientes);
 procedure leer_dato (var a:t_archivo_clientes ; pos:cardinal ; var dato:t_reg_clientes);
@@ -31,15 +31,13 @@ procedure modificar_reg_Confirmacion (var Reg: t_reg_clientes; campo: string);
 implementation
 
 //AQUI SE ENCUENTRAN LOS PROCEDIMIENTOS Y FUNCIONES QUE USAN VALIDACIONES PARA EL INGRESO DE DATOS. (1).
-procedure ingresar_dni_opciones (var dni:string; var es_valido : boolean);
-var
-  res:char;
+procedure ingresar_dni_opciones (var dni:string; var es_valido : boolean;var res:char);
 begin
     repeat
     clrscr;
-    gotoxy(35,10);
+    gotoxy(35,8);
     writeln('0: VOLVER');
-    gotoxy(35,11);
+    gotoxy(35,9);
     writeln('1: DNI');
     res:=readkey;
     if res = '1' then
@@ -60,7 +58,7 @@ end;
 procedure ingresar_dni (var dni:string; var es_valido:boolean);
    begin
      clrscr;
-     gotoxy(35,10);
+     gotoxy(35,8);
      write('DNI: ');
      readln(dni);
      es_valido:= ValidarDNI(dni);
@@ -77,19 +75,19 @@ end;
 procedure Ingresar_apellido(var dato:shortstring);
 begin
    repeat
-     gotoxy(35,11);
+     gotoxy(35,9);
      write('                                                                                                                   '); //limpia esa linea
-     gotoxy(35,11);
+     gotoxy(35,9);
      write('Ingrese apellido: ');
      readln(dato);
      if not validar_string(dato) then
        begin
            TextBackground(red);
-           gotoxy(35,13);
+           gotoxy(35,11);
            writeln('ENTRADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
            readkey();
            NormVideo;
-           gotoxy(35,13);
+           gotoxy(35,11);
            write('                                                                                                             '); //limpia esa linea
        end;
    until Validar_String(dato);
@@ -197,19 +195,19 @@ end;
 procedure Ingresar_nombre(var dato:shortstring);
 begin
    repeat
-     gotoxy(35,12);
+     gotoxy(35,10);
      write('                                                                                                                '); // borra esa linea
-     gotoxy(35,12);
+     gotoxy(35,10);
      write('Ingrese nombres: ');
      readln(dato);
      if not validar_string(dato) then
        begin
            TextBackground(red);
-           gotoxy(35,14);
+           gotoxy(35,12);
            writeln('ENTRADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
            readkey();
            NormVideo;
-           gotoxy(35,14);
+           gotoxy(35,12);
            write('                                                                    '); // borra esa linea
        end;
    until Validar_String(dato);
@@ -222,9 +220,9 @@ var
  i:byte;
 begin
  if opc_mostrar = 1 then
-   i:=20
+   i:=11
  else
-   i:=11;
+   i:=12;
  repeat
    gotoxy(35,i);
    write('                                                                         ');   // borra esa linea
@@ -473,11 +471,11 @@ Function Confirmar(var reg:t_reg_clientes):boolean;
 Var resp:char;
     vc:boolean;
 begin
- confirmar:=false;
- writeln('¿Desea confirmar datos?');
- writeln('1: SI');
- writeln('0: NO') ;
- readln(resp);
+   confirmar:=false;
+   writeln('¿Desea confirmar datos?');
+   writeln('1: SI');
+   writeln('0: NO') ;
+   readln(resp);
  repeat
  case resp of
     '1':begin

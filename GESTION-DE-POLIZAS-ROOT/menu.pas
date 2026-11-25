@@ -19,9 +19,9 @@ begin
   while vc=false do
   begin
     clrscr;
-    gotoxy(35,10);
+    gotoxy(35,8);
     writeln('0:SALIR');
-    gotoxy(35,11);
+    gotoxy(35,9);
     writeln('1:DAR DE ALTA');
     respuesta:=readkey;
     if respuesta='0' then
@@ -150,14 +150,14 @@ begin
   vc:=false;
   while vc=false do
     begin
-      gotoxy(35,10);
+      gotoxy(35,8);
       writeln('0: VOLVER');
-      gotoxy(35,11);
+      gotoxy(35,9);
       if registro_clientes.estado = true then
         writeln('1: DAR DE BAJA')
       else
         writeln('1: DAR DE ALTA');
-      gotoxy(35,12);
+      gotoxy(35,10);
       writeln('2: MODIFICAR');
       respuesta:=readkey;
       case respuesta of
@@ -200,8 +200,8 @@ var
   es_valido : boolean;
   pos:longint;
 begin
-  ingresar_dni_opciones(dni,es_valido);
-  if es_valido = True then
+  ingresar_dni_opciones(dni,es_valido,res);
+  if (es_valido = True) and (res <> '0') then
     begin
       busqueda_dni(arch_clientes,dni,pos);
       if pos = -1 then
@@ -229,19 +229,18 @@ begin
 //GENERAR ARBOLES
 repeat
   clrscr;
-  gotoxy(35,10);
+  gotoxy(35,8);
   writeln('1- GESTION DE CLIENTES ');
-  gotoxy(35,12);
+  gotoxy(35,10);
   writeln('2- GESTION DE POLIZAS ');
-  gotoxy(35,14);
+  gotoxy(35,12);
   writeln('3- LISTADOS ');
-  gotoxy(35,16);
+  gotoxy(35,14);
   writeln('4- ESTADISTICAS ');
-  gotoxy(35,18);
+  gotoxy(35,16);
   writeln('0- SALIR ');
-  gotoxy(35,20);
-  writeln('INGRESE OPCION: ');
-  gotoxy(50,20);
+  gotoxy(35,18);
+  write('INGRESE OPCION: ');
   opcion:=readkey;
 
     case opcion of
