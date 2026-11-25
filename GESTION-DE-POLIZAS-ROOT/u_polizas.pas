@@ -2,7 +2,7 @@ unit u_polizas;
 interface
 {$codepage UTF8}
 uses
-  Classes, SysUtils,ARCHIVO_POLIZAS,validaciones,crt;
+  Classes, SysUtils,ARCHIVO_POLIZAS,validaciones,crt,TABLAS_PROYECTO_FINAL;
 const
   ruta_polizas='arch_polizas.dat';
 procedure abrir_crear_pol (var a:t_archivo_polizas);

@@ -220,7 +220,7 @@ var
  i:byte;
 begin
  if opc_mostrar = 1 then
-   i:=11
+   i:=20
  else
    i:=12;
  repeat
