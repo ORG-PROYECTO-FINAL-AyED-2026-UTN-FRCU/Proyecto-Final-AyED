@@ -28,6 +28,7 @@ procedure modificar_registro_pol (var registro:t_reg_polizas; campo:string; dato
 procedure modificar_datos_pol(var arch_polizas:t_archivo_polizas ; campo:string ; var pos:longint);
 procedure carga_registro_pol (var r:t_reg_polizas ; dni_1:string;Patente_1:string;pos:integer);
 procedure busqueda_patente (var a: t_archivo_polizas; patente_buscada:string; var pos: longint);
+function calcular_cuota (marca,modelo:shortstring; ano:cardinal; cobertura:shortstring):real;
 implementation
 Procedure abrir_crear_pol(var a:t_archivo_polizas);
 begin
@@ -70,6 +71,46 @@ begin
       i := i + 1;
   end;
 end;
+// SE TRADUCE MARCA MODELO Y TIPO COBERTURA PARA  EL TIPO DE DATO QUE MANEJA LA MATRIZ
+function calcular_cuota (marca,modelo:shortstring; ano:cardinal; cobertura:shortstring):real;
+var
+  M:T_MATRIZ;
+  VP:T_VECTOR_PORCENTAJE;
+  ma:T_MARCA;
+  mo:T_MODELO;
+  ts:T_TIPO_SEGURO;
+begin
+  CARGAR(M);
+  CARGA_PORCENTAJE(VP);
+  case marca of
+    'Chevrolet':  ma:=CHEVROLET;
+    'Ford':       ma:=FORD;
+    'Fiat':       ma:=FIAT;
+    'Renault':    ma:=RENAULT;
+    'Volkswagen': ma:=VW;
+  end;
+  case modelo of
+    'CORSA':  mo:=CORSA;
+    'SPIN':   mo:=SPIN;
+    'FIESTA': mo:=FIESTA;
+    'FOCUS':  mo:=FOCUS;
+    'KA':     mo:=KA;
+    'SPACIO': mo:=SPACIO;
+    'KWID':   mo:=KWID;
+    'VENTO':  mo:=VENTO;
+    'GOLF':   mo:=GOLF;
+  end;
+  case cobertura of
+    'responsabilidad civil':           ts:=RESP_CIVIL;
+    'incendio y robo total':           ts:=IRT;
+    'incendio y robo total y parcial': ts:=IRTPDT;
+    'tercero completo':                ts:=TERCERO;
+    'todo riesgo':                     ts:=TODORIESGO;
+  end;
+  calcular_cuota:=M[ma,mo,ano] * (VALOR_BASE_PORCENTAJE/100 + VP[ts]);
+end;
+
+
 procedure mostrar_registro_pol (r:t_reg_polizas);
 begin
   with r do
@@ -114,20 +155,18 @@ begin
     gotoxy(35,12);
     writeln('0: Salir');
     gotoxy(35,13);
-    writeln('1: Marca');
+    writeln('1: Marca y modelo');
     gotoxy(35,14);
-    writeln('2: Modelo');
+    writeln('2: Año del vehiculo');
     gotoxy(35,15);
-    writeln('3: Año del vehiculo');
+    writeln('3: Suma asegurada');
     gotoxy(35,16);
-    writeln('4: Suma Asegurada');
+    writeln('4: Cobertura');
     gotoxy(35,17);
-    writeln('5: Cobertura');
+    writeln('5: Vloar de la cuota');
     gotoxy(35,18);
-    writeln('6: Valor de cuota');
+    writeln('6: fecha vigencia desde');
     gotoxy(35,19);
-    writeln('7: fecha vigencia desde');
-    gotoxy(35,20);
     campo:=readkey;
     case lowercase(campo) of
     '1', '2', '3', '4', '5', '6', '7', '8', '0': valido:=True;
@@ -158,7 +197,7 @@ begin
     readln(s);
 
     val(s, num, cod);
-    es_valido := (cod = 0) and (length(s) = 4) and (num >= 1920) and (num <= 2026);
+    es_valido := (cod = 0) and (length(s) = 4) and (num >= 2020) and (num <= 2026);
 
     if es_valido then
       ano := cardinal(num)
@@ -248,6 +287,8 @@ begin
           end;
     end;
       modificar_registro_pol(registro_polizas,campo,dato_modificado,dato_modificado2,dato_modificado_cardinal,dato_modificado_real,dato_modificado_fecha_desde,dato_modificado_fecha_hasta);
+      with registro_polizas do
+           valor_cuota:=calcular_cuota(marca,modelo,ano_vehiculo,cobertura);
       guardar_registro_pol(arch_polizas,pos,registro_polizas);
     end;
 end;
@@ -265,14 +306,13 @@ begin
       {write('Ingrese suma asegurada ');  {La suma asegurada y valor de cuota se tiene que sacar con un calculo pero por las dudas las dejamos por ahora}
       readln(Suma_asegurada);}
       Ingresar_cobertura(cobertura);
+      valor_cuota:=calcular_cuota(marca,modelo,ano_vehiculo,cobertura);
       clrscr;
       ingresar_validar_fecha_completo_pol(vigencia_desde,1,2);
       ingresar_validar_fecha_completo_pol(vigencia_desde,2,2);
       ingresar_validar_fecha_completo_pol(vigencia_desde,3,2);
       ingreso_automatico_vig_hasta(vigencia_hasta,Vigencia_desde);  //se precarga esto
-      {writeln('Valor de cuota: ', Valor_cuota:0:2);}
-      {writeln('Ingrese valor de cuota ');
-      readln(Valor_cuota);}
+
       estado:=True;
      end;
     end;
@@ -636,27 +676,27 @@ begin
     case res of
       '1':
         begin
-          cobertura:= 'todo riesgo';
+          cobertura:= 'TR';
           es_valido:=True;
         end;
       '2':
         begin
-          cobertura:= 'responsabilidad civil';
+          cobertura:= 'RC';
           es_valido:=True;
         end;
       '3':
         begin
-          cobertura:= 'incendio y robo total';
+          cobertura:= 'IRT';
           es_valido := True;
         end;
       '4':
         begin
-          cobertura:= 'incendio y robo total y parcial';
+          cobertura:= 'IRTP';
           es_valido := True;
         end;
       '5':
         begin
-          cobertura:= 'tercero completo';
+          cobertura:= 'TC';
           es_valido := True;
         end
       else
