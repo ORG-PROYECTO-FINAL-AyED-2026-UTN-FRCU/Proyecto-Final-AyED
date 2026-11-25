@@ -11,16 +11,20 @@ procedure guardar_registro_pol (var a:t_archivo_polizas ; pos:cardinal ; registr
 procedure mostrar_registro_pol (r:t_reg_polizas);
 procedure campo_valido_pol(var campo:string);
 //ingresar validar
-procedure ingresar_marca (var marca:shortstring);
-procedure ingresar_modelo (var modelo:shortstring);
-procedure ingresar_ano (var ano:CARDINAL);
+procedure menu_chevy(var modelo:shortstring);
+procedure menu_ford(var modelo:shortstring);
+procedure menu_fiat(var modelo:shortstring);
+procedure menu_renault(var modelo:shortstring);
+procedure menu_vw(var modelo:shortstring);
+procedure ingresar_marca_modelo(var marca,modelo:shortstring);
+procedure ingresar_ano (var ano:cardinal );
 procedure ingreso_automatico_vig_hasta(var fecha_hasta,fecha_desde:reg_fecha1);
 procedure ingresar_validar_fecha_completo_pol(var reg: reg_fecha1; opc: BYTE; opc_mostrar:byte);
 procedure ingresar_validar_patente(var patente:string);
 procedure ingresar_cobertura (var COBERTURA:shortstring);
 //procedure ingresar_poliza (var poliza:shortstring);
 //fin ingresar validar
-procedure modificar_registro_pol (var registro:t_reg_polizas; campo:string; dato_modificado:string;dato_modificado_cardinal:cardinal;dato_modificado_real:real;dato_modificado_fecha_desde,dato_modificado_fecha_hasta:reg_fecha1);
+procedure modificar_registro_pol (var registro:t_reg_polizas; campo:string; dato_modificado,dato_modificado2:string;dato_modificado_cardinal:cardinal;dato_modificado_real:real;dato_modificado_fecha_desde,dato_modificado_fecha_hasta:reg_fecha1);
 procedure modificar_datos_pol(var arch_polizas:t_archivo_polizas ; campo:string ; var pos:longint);
 procedure carga_registro_pol (var r:t_reg_polizas ; dni_1:string;Patente_1:string;pos:integer);
 procedure busqueda_patente (var a: t_archivo_polizas; patente_buscada:string; var pos: longint);
@@ -140,20 +144,49 @@ begin
   until (valido);
 end;
 
+ procedure ingresar_ano (var ano: cardinal);
+var
+  es_valido: boolean;
+  s: shortstring;
+  cod: integer;
+  num: longint;
+begin
+  repeat
+    clrscr;
+    gotoxy(35, 10);
+    write('Año del vehiculo: ');
+    readln(s);
 
+    val(s, num, cod);
+    es_valido := (cod = 0) and (length(s) = 4) and (num >= 1920) and (num <= 2026);
 
-procedure modificar_registro_pol (var registro:t_reg_polizas; campo:string; dato_modificado:string;dato_modificado_cardinal:cardinal;dato_modificado_real:real;dato_modificado_fecha_desde,dato_modificado_fecha_hasta:reg_fecha1);
+    if es_valido then
+      ano := cardinal(num)
+    else
+      begin
+        gotoxy(35, 12);
+        textbackground(red);
+        writeln('AÑO INVALIDO. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+        readkey();
+        normvideo;
+      end;
+  until es_valido;
+end;
+
+procedure modificar_registro_pol (var registro:t_reg_polizas; campo:string; dato_modificado,dato_modificado2:string;dato_modificado_cardinal:cardinal;dato_modificado_real:real;dato_modificado_fecha_desde,dato_modificado_fecha_hasta:reg_fecha1);
 begin
   with registro do
     begin
       case campo of
-      '1': marca:=dato_modificado;
-      '2': modelo:=dato_modificado;
-      '3': ano_vehiculo:=dato_modificado_cardinal;
-      '4': suma_asegurada:=dato_modificado_real;
-      '5': cobertura:=dato_modificado;
-      '6': valor_cuota:=dato_modificado_real;
-      '7':begin
+      '1':begin
+               marca:=dato_modificado;
+               modelo:=dato_modificado2;
+           end;
+      '2': ano_vehiculo:=dato_modificado_cardinal;
+      '3': suma_asegurada:=dato_modificado_real;
+      '4': cobertura:=dato_modificado;
+      '5': valor_cuota:=dato_modificado_real;
+      '6':begin
                vigencia_desde:=dato_modificado_fecha_desde;
                vigencia_hasta:=dato_modificado_fecha_hasta;
           end;
@@ -173,7 +206,7 @@ end;
 procedure modificar_datos_pol(var arch_polizas:t_archivo_polizas ; campo:string ; var pos:longint);
 var
   registro_polizas : t_reg_polizas;
-  dato_modificado:shortstring;
+  dato_modificado,dato_modificado2:shortstring;
   dato_modificado_cardinal:cardinal;
   dato_modificado_Real:real;
   dato_modificado_fecha_hasta,dato_modificado_fecha_desde:reg_fecha1;
@@ -184,41 +217,37 @@ begin
   if campo <> '0' then
     begin
     case campo of
-    '1': begin          //marca
+    '1': begin          //marca  y modelo
           gotoxy(35,10);
-          ingresar_marca(dato_modificado);
+          ingresar_marca_modelo(dato_modificado,dato_modificado2);
          end;
-    '2':begin    //modelo
-          gotoxy(35,10);
-          ingresar_Modelo(dato_Modificado);
-        end;
-    '3': begin         //ano_vehiculo
+    '2': begin         //ano_vehiculo
            clrscr;
            gotoxy(35,10);
            ingresar_ano(dato_modificado_cardinal);
          end;
-   { '4':begin       //suma asegurada
+   { '3':begin       //suma asegurada
           gotoxy(35,10);
           write('Ingrese la nueva suma asegurada ');
           readln(dato_Modificado_real);
         end;          } // ES CON LA TABLA
-    '5':begin     //cobertura
+    '4':begin     //cobertura
           gotoxy(35,10);
           Ingresar_cobertura(dato_Modificado);
         end;
-    {'6':begin     //VALOR CUOTA
+    {'5':begin     //VALOR CUOTA
           gotoxy(35,10);
           write('Ingrese valor de cuota ');
           readln(dato_Modificado_real);
         end;    } // ES CON TABLA
-    '7': begin    //fecha desde
+    '6': begin    //fecha desde
             ingresar_validar_fecha_completo_pol(dato_modificado_fecha_desde,1,2);
             ingresar_validar_fecha_completo_pol(dato_modificado_fecha_desde,2,2);
             ingresar_validar_fecha_completo_pol(dato_modificado_fecha_desde,3,2);
             ingreso_automatico_vig_hasta(dato_modificado_fecha_hasta,dato_modificado_fecha_desde);  //modificar la fecha de vigencia desde implica modificar la vigencia hasta
           end;
     end;
-      modificar_registro_pol(registro_polizas,campo,dato_modificado,dato_modificado_cardinal,dato_modificado_real,dato_modificado_fecha_desde,dato_modificado_fecha_hasta);
+      modificar_registro_pol(registro_polizas,campo,dato_modificado,dato_modificado2,dato_modificado_cardinal,dato_modificado_real,dato_modificado_fecha_desde,dato_modificado_fecha_hasta);
       guardar_registro_pol(arch_polizas,pos,registro_polizas);
     end;
 end;
@@ -231,8 +260,7 @@ begin
       dni:=dni_1;
       patente:=patente_1;
       numero_poliza:=pos+1;
-      ingresar_marca(marca);
-      ingresar_modelo(modelo);
+      ingresar_marca_modelo(marca,modelo);
       ingresar_ano(ano_vehiculo);
       {write('Ingrese suma asegurada ');  {La suma asegurada y valor de cuota se tiene que sacar con un calculo pero por las dudas las dejamos por ahora}
       readln(Suma_asegurada);}
@@ -341,7 +369,185 @@ begin
    end;
 end;
 
-procedure ingresar_marca (var marca:shortstring);
+procedure menu_chevy(var modelo:shortstring);
+var
+  es_valido:boolean;
+  res:char;
+begin
+  repeat
+    clrscr;
+    gotoxy(35,10);
+    write('Modelo del vehiculo (marca CHEVROLET): ');
+    gotoxy(35,12);
+    write('1: CORSA');
+    gotoxy(35,13);
+    write('2: SPIN');
+    res:=readkey;
+    case res of
+    '1':
+      begin
+        modelo:='CORSA';
+        es_valido:=True;
+      end;
+    '2':
+      begin
+        modelo:='SPIN';
+        es_valido:=True;
+      end
+    else
+      begin
+        gotoxy(35,18);
+        TextBackground(red);
+        writeln('OPCION INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+        readkey();
+        NormVideo;
+      end;
+    end;
+  until es_valido;
+end;
+
+procedure menu_ford(var modelo:shortstring);
+var
+  es_valido:boolean;
+  res:char;
+begin
+  repeat
+    clrscr;
+    gotoxy(35,10);
+    write('Modelo del vehiculo (marca FORD): ');
+    gotoxy(35,12);
+    write('1: FIESTA');
+    gotoxy(35,13);
+    write('2: FOCUS');
+    gotoxy(35,14);
+    write('3: KA');
+    res:=readkey;
+    case res of
+    '1':
+      begin
+        modelo:='FIESTA';
+        es_valido:=True;
+      end;
+    '2':
+      begin
+        modelo:='FOCUS';
+        es_valido:=True;
+      end;
+    '3':
+      begin
+        modelo:='KA';
+        es_valido:=True;
+      end
+    else
+      begin
+        gotoxy(35,18);
+        TextBackground(red);
+        writeln('OPCION INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+        readkey();
+        NormVideo;
+      end;
+    end;
+  until es_valido;
+end;
+
+procedure menu_fiat(var modelo:shortstring);
+var
+  es_valido:boolean;
+  res:char;
+begin
+  repeat
+    clrscr;
+    gotoxy(35,10);
+    write('Modelo del vehiculo (marca FIAT): ');
+    gotoxy(35,12);
+    write('1: SPACIO');
+    res:=readkey;
+    case res of
+    '1':
+      begin
+        modelo:='SPACIO';
+        es_valido:=True;
+      end
+    else
+      begin
+        gotoxy(35,18);
+        TextBackground(red);
+        writeln('OPCION INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+        readkey();
+        NormVideo;
+      end;
+    end;
+  until es_valido;
+end;
+
+procedure menu_renault(var modelo:shortstring);
+var
+  es_valido:boolean;
+  res:char;
+begin
+  repeat
+    clrscr;
+    gotoxy(35,10);
+    write('Modelo del vehiculo (marca RENAULT): ');
+    gotoxy(35,12);
+    write('1: KWID');
+    res:=readkey;
+    case res of
+    '1':
+      begin
+        modelo:='KWID';
+        es_valido:=True;
+      end
+    else
+      begin
+        gotoxy(35,18);
+        TextBackground(red);
+        writeln('OPCION INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+        readkey();
+        NormVideo;
+      end;
+    end;
+  until es_valido;
+end;
+
+procedure menu_vw(var modelo:shortstring);
+var
+  es_valido:boolean;
+  res:char;
+begin
+  repeat
+    clrscr;
+    gotoxy(35,10);
+    write('Modelo del vehiculo (marca VOLKSWAGEN): ');
+    gotoxy(35,12);
+    write('1: VENTO');
+    gotoxy(35,13);
+    write('2: GOLF');
+    res:=readkey;
+    case res of
+    '1':
+      begin
+        modelo:='VENTO';
+        es_valido:=True;
+      end;
+    '2':
+      begin
+        modelo:='GOLF';
+        es_valido:=True;
+      end
+    else
+      begin
+        gotoxy(35,18);
+        TextBackground(red);
+        writeln('OPCION INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+        readkey();
+        NormVideo;
+      end;
+    end;
+  until es_valido;
+end;
+
+procedure ingresar_marca_modelo (var marca,modelo:shortstring);
 var
   es_valido:boolean;
   res:char;
@@ -366,79 +572,32 @@ begin
       begin
         marca:='Chevrolet';
         es_valido:=True;
+        menu_chevy(modelo);
       end;
     '2':
       begin
         marca:='Ford';
         es_valido:=True;
+        menu_ford(modelo);
       end;
     '3':
       begin
         marca:='Fiat';
         es_valido:=True;
+        menu_fiat(modelo);
       end;
     '4':
       begin
         marca:='Renault';
         es_valido:=True;
+        menu_renault(modelo);
       end;
     '5':
       begin
         marca:='Volkswagen';
         es_valido:=True;
-      end
-    else
-      begin
-        gotoxy(35,18);
-        TextBackground(red);
-        writeln('OPCION INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
-        readkey();
-        NormVideo;
-      end;
-    end;
-  until es_valido;
-end;
+        menu_vw(modelo);
 
-procedure ingresar_marca (var modelo:string;var marca:shortstring);
-var
-  es_valido:boolean;
-  res:char;
-begin
-  repeat
-    clrscr;
-    gotoxy(35,10);
-    write('Modelo del vehiculo: ');
-    case marca of
-    'Chevrolet': ingresar_modelo(1);
-    'Ford': ingresar_modelo(1);
-    'Fiat': ingresar_modelo(1);
-    'Renault': ingresar_modelo(1);
-    'Volkswagen':ingresar_modelo(1);
-    case res of
-    '1':
-      begin
-        marca:='Chevrolet';
-        es_valido:=True;
-      end;
-    '2':
-      begin
-        marca:='Ford';
-        es_valido:=True;
-      end;
-    '3':
-      begin
-        marca:='Fiat';
-        es_valido:=True;
-      end;
-    '4':
-      begin
-        marca:='Renault';
-        es_valido:=True;
-      end;
-    '5':
-      begin
-        marca:='Volkswagen';
-        es_valido:=True;
       end
     else
       begin
@@ -453,54 +612,6 @@ begin
 end;
 
 
-procedure ingresar_modelo (var modelo:shortstring);
-var
-  es_valido:boolean;
-begin
-  repeat
-    clrscr;
-    gotoxy(35,10);
-    write('Modelo del vehiculo: ');
-    readln(modelo);
-    es_valido := Validar_String(modelo);
-    if not es_valido then
-      begin
-        gotoxy(35,12);
-        TextBackground(red);
-        writeln('MODELO INVALIDO. PULSE UNA TECLA PARA VOLVER A INGRESAR');
-        readkey();
-        NormVideo;
-      end;
-  until es_valido;
-end;
-procedure ingresar_ano (var ano: cardinal);
-var
-  es_valido: boolean;
-  s: shortstring;
-  cod: integer;
-  num: longint;
-begin
-  repeat
-    clrscr;
-    gotoxy(35, 10);
-    write('Año del vehiculo: ');
-    readln(s);
-
-    val(s, num, cod);
-    es_valido := (cod = 0) and (length(s) = 4) and (num >= 1920) and (num <= 2026);
-
-    if es_valido then
-      ano := cardinal(num)
-    else
-      begin
-        gotoxy(35, 12);
-        textbackground(red);
-        writeln('AÑO INVALIDO. PULSE UNA TECLA PARA VOLVER A INGRESAR');
-        readkey();
-        normvideo;
-      end;
-  until es_valido;
-end;
 procedure ingresar_cobertura (var cobertura:shortstring);
 var
   es_valido:boolean;
