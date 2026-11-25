@@ -190,18 +190,9 @@ end;
 procedure encabezado3;
 begin
     clrscr;
-    gotoxy(54,1);
-    write('--- POLIZAS ACTIVAS ---');
-    gotoxy(1,3);
-    write('Fecha vigencia desde');
-    gotoxy(32,3);
-    write('Numero de poliza');
-    gotoxy(60,3);
-    write('Contratante');
-    gotoxy(82,3);
-    write('Patente');
-    gotoxy(100,3);
-    write('Tipo de cobertura');
+    gotoxy(46,2);
+    writeln('--- POLIZAS VIGENTES ---');
+    write('------------------------------------------------------------------------------------------------------------------------')
 end;
 procedure lista_poliza_vigente(r:t_reg_polizas ; x,y:integer);
 begin
@@ -222,7 +213,7 @@ var
   reg:t_reg_polizas;
 begin
    x:=1;              // X e Y sera para ubicar el gotoxy al mostrar
-   y:=6;
+   y:=4;
   crear_cola(cola1);
   inorden_listado_cliente(arbol_polizas,cola1);
   encabezado3;
@@ -238,13 +229,17 @@ begin
               if x = 121 then
                 begin
                   x:=1;
-                  if y = 6 then
-                    y:=20
+                  if y < 34 then
+                    begin
+                      y:=y+5;
+                      gotoxy(1,y-1);
+                      write('------------------------------------------------------------------------------------------------------------------------')
+                    end
                   else
-                    y:=6;
+                    y:=4;
                 end;
             end;
-          if (i mod 7 = 0) and (i<>0) then
+          if (i mod 19 = 0) and (i<>0) then
             begin
               gotoxy(38,30);
               textcolor(red);
@@ -257,6 +252,7 @@ begin
               y:=6;
             end;
         end;
+      readkey;
     end;
   readkey();
 end;
