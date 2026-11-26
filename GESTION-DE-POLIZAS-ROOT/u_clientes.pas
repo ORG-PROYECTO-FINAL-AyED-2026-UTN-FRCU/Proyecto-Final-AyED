@@ -527,6 +527,7 @@ repeat
         end;
     '0':Begin
           no_confirmar(reg,confirmar);
+          vc:=true;
         end;
     else
         begin
