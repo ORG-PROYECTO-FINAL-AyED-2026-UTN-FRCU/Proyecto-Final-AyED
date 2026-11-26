@@ -95,7 +95,7 @@ begin
     'FIESTA': mo:=FIESTA;
     'FOCUS':  mo:=FOCUS;
     'KA':     mo:=KA;
-    'SPACIO': mo:=SPACIO;
+    'SPAZIO': mo:=SPAZIO;
     'KWID':   mo:=KWID;
     'VENTO':  mo:=VENTO;
     'GOLF':   mo:=GOLF;
@@ -169,7 +169,7 @@ begin
     gotoxy(35,19);
     campo:=readkey;
     case lowercase(campo) of
-    '1', '2', '3', '4', '5', '6', '7', '8', '0': valido:=True;
+    '1', '2', '3', '4', '5', '6', '0': valido:=True;
     else
       begin
         textbackground(red);
@@ -190,6 +190,7 @@ var
   cod: integer;
   num: longint;
 begin
+  es_valido:=false;
   repeat
     clrscr;
     gotoxy(35, 10);
@@ -414,6 +415,7 @@ var
   es_valido:boolean;
   res:char;
 begin
+  es_valido:=false;
   repeat
     clrscr;
     gotoxy(35,10);
@@ -451,6 +453,7 @@ var
   es_valido:boolean;
   res:char;
 begin
+  es_valido:=false;
   repeat
     clrscr;
     gotoxy(35,10);
@@ -495,17 +498,18 @@ var
   es_valido:boolean;
   res:char;
 begin
+  es_valido:=false;
   repeat
     clrscr;
     gotoxy(35,10);
     write('Modelo del vehiculo (marca FIAT): ');
     gotoxy(35,12);
-    write('1: SPACIO');
+    write('1: SPAZIO');
     res:=readkey;
     case res of
     '1':
       begin
-        modelo:='SPACIO';
+        modelo:='SPAZIO';
         es_valido:=True;
       end
     else
@@ -525,6 +529,7 @@ var
   es_valido:boolean;
   res:char;
 begin
+  es_valido:=false;
   repeat
     clrscr;
     gotoxy(35,10);
@@ -555,6 +560,7 @@ var
   es_valido:boolean;
   res:char;
 begin
+  es_valido:=false;
   repeat
     clrscr;
     gotoxy(35,10);
@@ -592,6 +598,7 @@ var
   es_valido:boolean;
   res:char;
 begin
+  es_valido:=false;
   repeat
     clrscr;
     gotoxy(35,10);
