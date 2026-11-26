@@ -3,4 +3,23 @@ DNI 57255539
 NOMBRE: Santiago
 APELLIDO: Rameau
 DIRECCION: J.P Varela 972
+PATENTE 1: AAA000
+PATENTE 2: AA000AA
+
+DNI: 1234567
+nombre y apellido: Santiago Gareis
+Calle: Mitre
+Fecha nac: 02/11/2005
+PATENTE 1: BB111BB
+PATENTE 2: BBB111
+
+DNI: 7654321
+apellido y nombre: Luis Alberto Suarez
+Patente: ABC012
+
+DNI: 45453232
+PATENTE: VVV999 / NN999NN
+
 -----------
+
+
