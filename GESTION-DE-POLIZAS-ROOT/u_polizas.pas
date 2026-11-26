@@ -129,7 +129,7 @@ begin
       gotoxy(35,15);
       writeln('Patente: ', patente);
       gotoxy(35,16);
-      writeln('Suma asegurada: ', Suma_asegurada:0:2);
+      writeln('Suma asegurada: $', Suma_asegurada:0:2);
       gotoxy(35,17);
       writeln('Cobertura: ', cobertura);
       gotoxy(35,18);
@@ -137,12 +137,22 @@ begin
       gotoxy(35,19);
       WriteLn('Vigencia hasta: ', vigencia_hasta.dia,'/',vigencia_hasta.mes,'/',vigencia_hasta.ano);
       gotoxy(35,20);
-      writeln('Valor de cuota: ', Valor_cuota:0:2);
+      writeln('Valor de cuota: $', Valor_cuota:0:2);
       gotoxy(35,21);
       if estado = true then
-        writeln('Estado: ACTIVO')
+         begin
+              write('Estado: ');
+              textcolor(green);
+              writeln('ACTIVO');
+           textcolor(lightgray);
+         end
       else
-        writeln('Estado: INACTIVO');
+          begin
+               write('Estado: ');
+               textcolor(red);
+               writeln('INACTIVO');
+               textcolor(lightgray);
+          end;
     end;
 end;
 procedure campo_valido_pol(var campo:string);
