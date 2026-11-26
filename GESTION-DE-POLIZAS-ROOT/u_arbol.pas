@@ -22,6 +22,7 @@ PROCEDURE INORDEN(VAR RAIZ:T_PUNT_ARBOL);
 PROCEDURE PREORDEN(VAR RAIZ:T_PUNT_ARBOL;BUSCADO:STRING; VAR ENC:BOOLEAN; VAR X:T_DATO);
 procedure CARGAR_ARBOL_CLIENTES(VAR RAIZ:T_PUNT_ARBOL;var archivo:t_archivo_clientes);
 procedure CARGAR_ARBOL_POLIZAS_3(VAR RAIZ:T_PUNT_ARBOL;var archivo_polizas:t_archivo_polizas);
+procedure CARGAR_ARBOL_POLIZAS_PATENTE(VAR RAIZ:T_PUNT_ARBOL;var archivo_polizas:t_archivo_polizas);
 procedure inorden_listado_polizas_3(var raiz:T_PUNT_ARBOL; var cola:t_cola);
 procedure inorden_listado_cliente(var raiz:T_PUNT_ARBOL; var cola:t_cola);
 procedure CARGAR_ARBOL_CLIENTES_DNI(VAR RAIZ:T_PUNT_ARBOL;var archivo:t_archivo_clientes);
@@ -170,6 +171,23 @@ procedure CARGAR_ARBOL_CLIENTES_DNI(VAR RAIZ:T_PUNT_ARBOL;var archivo:t_archivo_
                     AGREGAR(raiz,dato_arbol);
                   end;
             end;
+procedure CARGAR_ARBOL_POLIZAS_PATENTE(VAR RAIZ:T_PUNT_ARBOL;var archivo_polizas:t_archivo_polizas);
+          var
+                  i:integer;
+                  tam:integer;
+                  dato_salida:t_reg_polizas;
+                  dato_arbol:t_dato_arbol;
+                  begin
+                  CREAR_ARBOL(raiz);
+                    tam:=filesize(archivo_polizas);
+                    for i:=0 to tam-1 do
+                        begin
+                          leer_dato_pol(archivo_polizas,i,dato_salida);
+                          dato_arbol.clave:=dato_salida.patente;
+                          dato_arbol.pos_arch:=i;
+                          AGREGAR(raiz,dato_arbol);
+                        end;
+                  end;
 
 procedure CARGAR_ARBOL_CLIENTES(VAR RAIZ:T_PUNT_ARBOL;var archivo:t_archivo_clientes);
           var

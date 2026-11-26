@@ -5,7 +5,7 @@ unit listados;
 interface
 uses
   u_clientes,u_polizas,crt,ARCHIVO_POLIZAS,archivo_clientes,validaciones,unit_base_cola_dinamica,u_arbol;
-procedure menu_listados(var a:t_archivo_clientes; var ap:t_archivo_polizas;var arbol_clientes,arbol_polizas:T_PUNT_ARBOL);
+procedure menu_listados(var a:t_archivo_clientes ; var ap:t_archivo_polizas;var arbol_clientes,arbol_polizas,arbol_polizas_patente:T_PUNT_ARBOL);
 Procedure mostrar_dato_listado_clientes(var A:t_archivo_clientes;var arbol:T_PUNT_ARBOL);
 procedure Listado_clientes(var a:t_archivo_clientes; var reg:t_reg_clientes;var auxy:integer;var arbol:T_PUNT_ARBOL);
 procedure listado_de_polizas_vigentes (var a:t_archivo_polizas;var ac:t_archivo_clientes;var arbol_polizas,arbol_clientes:t_punt_arbol);
@@ -298,7 +298,7 @@ begin
       readkey;
     end;
 end;
-procedure menu_listados(var a:t_archivo_clientes ; var ap:t_archivo_polizas;var arbol_clientes,arbol_polizas:T_PUNT_ARBOL);
+procedure menu_listados(var a:t_archivo_clientes ; var ap:t_archivo_polizas;var arbol_clientes,arbol_polizas,arbol_polizas_patente:T_PUNT_ARBOL);
 var res:string;
   vc:boolean;
 begin

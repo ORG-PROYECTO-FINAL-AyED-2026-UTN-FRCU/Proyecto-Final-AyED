@@ -229,7 +229,7 @@ procedure menu_principal;
 var
   arch_clientes:t_archivo_clientes;
   arch_polizas:t_archivo_polizas;
-  arbol_clientes,arbol_polizas_activas,arbol_clientes_dni:T_PUNT_ARBOL;
+  arbol_clientes,arbol_polizas_activas,arbol_clientes_dni,arbol_polizas_patente:T_PUNT_ARBOL;
 // ARBOL_DNI, ARBOL_NOM:T_PUNT;
   opcion:char;
 
@@ -237,12 +237,15 @@ begin
   abrir_crear(arch_clientes);
   abrir_crear_pol(arch_polizas);
 
-  CREAR_ARBOL(arbol_clientes);
-  CREAR_ARBOL(arbol_polizas_activas);
-  CREAR_ARBOL(arbol_clientes_dni);
+  CREAR_ARBOL(arbol_clientes);                           // arbol 1: ordena por apynom, arbol 2:ordena por fecha de vigencia desde y filtra polizas activas;
+  CREAR_ARBOL(arbol_polizas_activas);                    //arbol 3: ordena por dni;
+  CREAR_ARBOL(arbol_clientes_dni);                       // arbol 4: ordena por patente, para el listado 4;
+  CREAR_ARBOL(arbol_polizas_patente);
+
   CARGAR_ARBOL_POLIZAS_3(arbol_polizas_activas,arch_polizas);
   CARGAR_ARBOL_CLIENTES(arbol_clientes,arch_clientes);
   CARGAR_ARBOL_CLIENTES_DNI(arbol_clientes_dni,arch_clientes);
+  CARGAR_ARBOL_POLIZAS_PATENTE(arbol_polizas_patente,arch_polizas);
 //GENERAR ARBOLES
 repeat
   clrscr;
@@ -263,7 +266,7 @@ repeat
     case opcion of
     '1': menu_clientes(arch_clientes,arbol_clientes,arbol_clientes_dni);
     '2': menu_poliza(arch_polizas,arch_clientes,arbol_polizas_activas);
-    '3': menu_listados(arch_clientes , arch_polizas,arbol_clientes_dni,arbol_polizas_activas);
+    '3': menu_listados(arch_clientes , arch_polizas,arbol_clientes_dni,arbol_polizas_activas,arbol_polizas_patente);
 {    '3': LISTADOS (ARCH_CLIENTES, ARCH_POLIZAS, ARBOL_NOM);
     '4': ESTADÍSTICAS (ARCH_CLIENTES,ARCH_POLIZAS);}
     else
