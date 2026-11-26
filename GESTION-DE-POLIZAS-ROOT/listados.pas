@@ -213,7 +213,7 @@ begin
     gotoxy(x,y);
     write('FECHA DE VIGENCIA DESDE: ',r.vigencia_desde.dia,'/',r.vigencia_desde.mes,'/',r.vigencia_desde.ano);
     gotoxy(x,y+1);
-    write('NUSMERO DE POLIZA: ',r.numero_poliza);
+    write('NUMERO DE POLIZA: ',r.numero_poliza);
     gotoxy(x,y+2);
     write('NOMBRE DEL CONTRATANTE: ',nombre,' ',apellido);
     gotoxy(x,y+3);
@@ -237,7 +237,7 @@ begin
    x:=1;              // X e Y sera para ubicar el gotoxy al mostrar
    y:=4;
   crear_cola(cola1);
-  inorden_listado_cliente(arbol_polizas,cola1);
+  inorden_listado_cliente(arbol_polizas,cola1);  // DESCAGRA EL ARBOL EN UNA COLA( YA ORDENADO ), PARA DESPUES BUSCAR DE A UN DATO CON EL FOR, Y POSTERIORMENTE MOSTRARLO;
   encabezado3;
   for i:=1 to filesize(a) do
     begin
@@ -245,7 +245,7 @@ begin
         begin
           desencolar(cola1,dir);
           leer_dato_pol(a,dir,reg);
-          PREORDEN(arbol_clientes,reg.dni,enc,dato_arbol_cliente);
+          PREORDEN(arbol_clientes,reg.dni,enc,dato_arbol_cliente);       // BUSCAMOS EL DATO FALTANTE (APYNOM) EN EL REG_CLIENTES;
           leer_dato(ac,dato_arbol_cliente.pos_arch,aux_reg_clientes);
           nombre:=aux_reg_clientes.nombres;
           apellido:=aux_reg_clientes.apellido;
@@ -281,19 +281,22 @@ begin
     end;
   readkey();
 end;
-procedure consulta_patente(var a:t_archivo_polizas);
+procedure consulta_patente(var a:t_archivo_polizas; var arbol_polizas_patente:T_PUNT_ARBOL);
 var
   patente:string;
   pos:integer;
   r:t_reg_polizas;
+  enc:boolean;
+  dato_arbol:T_DATO_ARBOL;
 begin
   clrscr;
   ingresar_validar_patente(patente);
-  busqueda_patente(a,patente,pos);
+  PREORDEN(arbol_polizas_patente,patente,enc,dato_arbol);
+  //busqueda_patente(a,patente,pos);                                            //busqueda vieja
   clrscr;
-  if pos <> -1 then
+  if enc then
     begin
-      leer_dato_pol(a,pos,r);
+      leer_dato_pol(a,dato_arbol.pos_arch,r);
       mostrar_registro_pol(r);
       readkey;
     end;
@@ -336,7 +339,7 @@ begin
          end;
      '4':
          begin
-           consulta_patente(ap);
+           consulta_patente(ap,arbol_polizas_patente);
            vc:=True;
          end
      else

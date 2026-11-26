@@ -265,7 +265,7 @@ repeat
 
     case opcion of
     '1': menu_clientes(arch_clientes,arbol_clientes,arbol_clientes_dni);
-    '2': menu_poliza(arch_polizas,arch_clientes,arbol_polizas_activas);
+    '2': menu_poliza(arch_polizas,arch_clientes,arbol_polizas_activas,arbol_polizas_patente);
     '3': menu_listados(arch_clientes , arch_polizas,arbol_clientes_dni,arbol_polizas_activas,arbol_polizas_patente);
 {    '3': LISTADOS (ARCH_CLIENTES, ARCH_POLIZAS, ARBOL_NOM);
     '4': ESTADÍSTICAS (ARCH_CLIENTES,ARCH_POLIZAS);}
