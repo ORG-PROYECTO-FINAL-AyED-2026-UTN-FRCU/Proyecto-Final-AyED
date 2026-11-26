@@ -137,7 +137,7 @@ begin
     gotoxy(x,y+7);
     write('VIGENCIA HASTA: ', r.vigencia_hasta.dia, '/',r.vigencia_hasta.mes, '/',r.vigencia_hasta.ano);
     gotoxy(x,y+8);
-    write('VALOR VEHICULO: $');
+    write('VALOR VEHICULO: $', r.suma_asegurada:0:2);
     gotoxy(x,y+9);
     write('CUOTA: $', r.valor_cuota:0:2);
 end;

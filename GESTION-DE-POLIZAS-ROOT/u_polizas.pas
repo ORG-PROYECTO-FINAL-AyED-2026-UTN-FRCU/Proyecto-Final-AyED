@@ -28,7 +28,7 @@ procedure modificar_registro_pol (var registro:t_reg_polizas; campo:string; dato
 procedure modificar_datos_pol(var arch_polizas:t_archivo_polizas ; campo:string ; var pos:longint);
 procedure carga_registro_pol (var r:t_reg_polizas ; dni_1:string;Patente_1:string;pos:integer);
 procedure busqueda_patente (var a: t_archivo_polizas; patente_buscada:string; var pos: longint);
-function calcular_cuota (marca,modelo:shortstring; ano:cardinal; cobertura:shortstring):real;
+procedure calcular_valores_pol (var r:t_reg_polizas);
 implementation
 Procedure abrir_crear_pol(var a:t_archivo_polizas);
 begin
@@ -71,8 +71,8 @@ begin
       i := i + 1;
   end;
 end;
-// SE TRADUCE MARCA MODELO Y TIPO COBERTURA PARA  EL TIPO DE DATO QUE MANEJA LA MATRIZ
-function calcular_cuota (marca,modelo:shortstring; ano:cardinal; cobertura:shortstring):real;
+// TRADUCE MARCA, MODELO Y COBERTURA A LOS TIPOS DE LA TABLA Y CALCULA SUMA ASEGURADA Y CUOTA
+procedure calcular_valores_pol (var r:t_reg_polizas);
 var
   M:T_MATRIZ;
   VP:T_VECTOR_PORCENTAJE;
@@ -82,14 +82,14 @@ var
 begin
   CARGAR(M);
   CARGA_PORCENTAJE(VP);
-  case marca of
+  case r.marca of
     'Chevrolet':  ma:=CHEVROLET;
     'Ford':       ma:=FORD;
     'Fiat':       ma:=FIAT;
     'Renault':    ma:=RENAULT;
     'Volkswagen': ma:=VW;
   end;
-  case modelo of
+  case r.modelo of
     'CORSA':  mo:=CORSA;
     'SPIN':   mo:=SPIN;
     'FIESTA': mo:=FIESTA;
@@ -100,14 +100,15 @@ begin
     'VENTO':  mo:=VENTO;
     'GOLF':   mo:=GOLF;
   end;
-  case cobertura of
-    'responsabilidad civil':           ts:=RESP_CIVIL;
-    'incendio y robo total':           ts:=IRT;
-    'incendio y robo total y parcial': ts:=IRTPDT;
-    'tercero completo':                ts:=TERCERO;
-    'todo riesgo':                     ts:=TODORIESGO;
+  case r.cobertura of
+    'RC':   ts:=RESP_CIVIL;
+    'IRT':  ts:=IRT;
+    'IRTP': ts:=IRTPDT;
+    'TC':   ts:=TERCERO;
+    'TR':   ts:=TODORIESGO;
   end;
-  calcular_cuota:=M[ma,mo,ano] * (VALOR_BASE_PORCENTAJE/100 + VP[ts]);
+  r.suma_asegurada:=M[ma,mo,r.ano_vehiculo];
+  r.valor_cuota:=r.suma_asegurada * (VALOR_BASE_PORCENTAJE/100 + VP[ts]);
 end;
 
 
@@ -159,15 +160,13 @@ begin
     gotoxy(35,14);
     writeln('2: Año del vehiculo');
     gotoxy(35,15);
-    writeln('3: Suma asegurada');
+    writeln('3: Cobertura');
     gotoxy(35,16);
-    writeln('4: Cobertura');
+    writeln('4: Fecha Vigencia Desde');
     gotoxy(35,17);
-    writeln('5: Fecha Vigencia Desde');
-    gotoxy(35,18);
     campo:=readkey;
     case lowercase(campo) of
-    '1', '2', '3', '4', '5', '0': valido:=True;
+    '1', '2', '3', '4', '0': valido:=True;
     else
       begin
         textbackground(red);
@@ -221,9 +220,8 @@ begin
                modelo:=dato_modificado2;
            end;
       '2': ano_vehiculo:=dato_modificado_cardinal;
-      '3': suma_asegurada:=dato_modificado_real;
-      '4': cobertura:=dato_modificado;
-      '5':begin
+      '3': cobertura:=dato_modificado;
+      '4':begin
                vigencia_desde:=dato_modificado_fecha_desde;
                vigencia_hasta:=dato_modificado_fecha_hasta;
           end;
@@ -263,16 +261,11 @@ begin
            gotoxy(35,10);
            ingresar_ano(dato_modificado_cardinal);
          end;
-   { '3':begin       //suma asegurada
-          gotoxy(35,10);
-          write('Ingrese la nueva suma asegurada ');
-          readln(dato_Modificado_real);
-        end;          } // ES CON LA TABLA
-    '4':begin     //cobertura
+    '3':begin     //cobertura
           gotoxy(35,10);
           Ingresar_cobertura(dato_Modificado);
         end;
-    '5': begin    //fecha desde
+    '4': begin    //fecha desde
             ingresar_validar_fecha_completo_pol(dato_modificado_fecha_desde,1,2);
             ingresar_validar_fecha_completo_pol(dato_modificado_fecha_desde,2,2);
             ingresar_validar_fecha_completo_pol(dato_modificado_fecha_desde,3,2);
@@ -280,8 +273,7 @@ begin
           end;
     end;
       modificar_registro_pol(registro_polizas,campo,dato_modificado,dato_modificado2,dato_modificado_cardinal,dato_modificado_real,dato_modificado_fecha_desde,dato_modificado_fecha_hasta);
-      with registro_polizas do
-           valor_cuota:=calcular_cuota(marca,modelo,ano_vehiculo,cobertura);
+      calcular_valores_pol(registro_polizas);      //SE RECALCULA VALOR DE CUOTA Y SUMA ASEGURADA
       guardar_registro_pol(arch_polizas,pos,registro_polizas);
     end;
 end;
@@ -296,10 +288,8 @@ begin
       numero_poliza:=pos+1;
       ingresar_marca_modelo(marca,modelo);
       ingresar_ano(ano_vehiculo);
-      {write('Ingrese suma asegurada ');  {La suma asegurada y valor de cuota se tiene que sacar con un calculo pero por las dudas las dejamos por ahora}
-      readln(Suma_asegurada);}
       Ingresar_cobertura(cobertura);
-      valor_cuota:=calcular_cuota(marca,modelo,ano_vehiculo,cobertura);
+      calcular_valores_pol(r);  //suma asegurada y valor de cuota se calculan aca
       clrscr;
       ingresar_validar_fecha_completo_pol(vigencia_desde,1,2);
       ingresar_validar_fecha_completo_pol(vigencia_desde,2,2);
