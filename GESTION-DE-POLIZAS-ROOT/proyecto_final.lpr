@@ -1,5 +1,5 @@
 program proyecto_final;
-uses menu, TABLAS_PROYECTO_FINAL;
+uses menu;
 begin
   menu_principal;
 end.

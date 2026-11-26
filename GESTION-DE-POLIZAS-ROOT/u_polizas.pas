@@ -305,7 +305,6 @@ begin
       ingresar_validar_fecha_completo_pol(vigencia_desde,2,2);
       ingresar_validar_fecha_completo_pol(vigencia_desde,3,2);
       ingreso_automatico_vig_hasta(vigencia_hasta,Vigencia_desde);  //se precarga esto
-
       estado:=True;
      end;
     end;
