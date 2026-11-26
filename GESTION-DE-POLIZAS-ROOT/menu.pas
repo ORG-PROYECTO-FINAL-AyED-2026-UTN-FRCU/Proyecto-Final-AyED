@@ -170,12 +170,23 @@ begin
            end;
       '1': begin
             vc:=True;
-            if registro_clientes.estado = true then
-              registro_clientes.estado:=False
-            else
-              registro_clientes.estado:=True;
-            guardar_registro(arch_clientes,pos,registro_clientes);
             clrscr;
+            textcolor(green);
+            gotoxy(36,14);
+            if registro_clientes.estado = true then
+              begin
+              registro_clientes.estado:=False;
+              writeln('CLIENTE DADO DE BAJA CORRECTAMENTE');
+              readkey;
+              end
+            else
+              begin
+                registro_clientes.estado:=True;
+                writeln('CLIENTE DADO DE ALTA CORRECTAMENTE');
+                readkey;
+              end;
+            normvideo;
+            guardar_registro(arch_clientes,pos,registro_clientes);
            end;
       '2': begin
              vc:=true;
