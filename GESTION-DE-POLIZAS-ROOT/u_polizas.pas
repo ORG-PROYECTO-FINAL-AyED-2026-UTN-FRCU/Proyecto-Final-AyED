@@ -163,13 +163,11 @@ begin
     gotoxy(35,16);
     writeln('4: Cobertura');
     gotoxy(35,17);
-    writeln('5: Vloar de la cuota');
+    writeln('5: Fecha Vigencia Desde');
     gotoxy(35,18);
-    writeln('6: fecha vigencia desde');
-    gotoxy(35,19);
     campo:=readkey;
     case lowercase(campo) of
-    '1', '2', '3', '4', '5', '6', '0': valido:=True;
+    '1', '2', '3', '4', '5', '0': valido:=True;
     else
       begin
         textbackground(red);
@@ -225,8 +223,7 @@ begin
       '2': ano_vehiculo:=dato_modificado_cardinal;
       '3': suma_asegurada:=dato_modificado_real;
       '4': cobertura:=dato_modificado;
-      '5': valor_cuota:=dato_modificado_real;
-      '6':begin
+      '5':begin
                vigencia_desde:=dato_modificado_fecha_desde;
                vigencia_hasta:=dato_modificado_fecha_hasta;
           end;
@@ -275,12 +272,7 @@ begin
           gotoxy(35,10);
           Ingresar_cobertura(dato_Modificado);
         end;
-    {'5':begin     //VALOR CUOTA
-          gotoxy(35,10);
-          write('Ingrese valor de cuota ');
-          readln(dato_Modificado_real);
-        end;    } // ES CON TABLA
-    '6': begin    //fecha desde
+    '5': begin    //fecha desde
             ingresar_validar_fecha_completo_pol(dato_modificado_fecha_desde,1,2);
             ingresar_validar_fecha_completo_pol(dato_modificado_fecha_desde,2,2);
             ingresar_validar_fecha_completo_pol(dato_modificado_fecha_desde,3,2);
