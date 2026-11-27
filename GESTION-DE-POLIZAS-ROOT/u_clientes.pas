@@ -396,7 +396,9 @@ var
   fecha_modificada:reg_fecha;
   reg_modificado:reg_fecha;
   dir_modificada:reg_direccion;
+  vc2:string;
 begin
+ repeat
   campo_valido(campo);
   leer_dato(arch_clientes,pos,registro_clientes);
   clrscr;
@@ -427,6 +429,16 @@ begin
       guardar_registro(arch_clientes,pos,registro_clientes);
     end;
   mensaje_datos_modificados;
+  mostrar_registro(registro_clientes);
+   gotoxy(42,25);
+  writeln('Desea moficiar mas datos');
+  gotoxy(44,26);
+  writeln('1:MODIFICAR');
+  gotoxy(44,27);
+  writeln('0: Salir');
+  vc2:=readkey;
+  clrscr;
+ until vc2='0' ;
 
 end;
 //---------------- HASTA ACA LAS FUNCIONES DED INGRESO DE DATOS SEGUROS ------------------------
