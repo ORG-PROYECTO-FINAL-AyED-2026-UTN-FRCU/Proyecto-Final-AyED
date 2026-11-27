@@ -28,6 +28,7 @@ procedure modificar_datos (var arch_clientes:t_archivo_clientes ; campo:string ;
 procedure mensaje_continuar_menu;
 procedure mensaje_opcion_invalida;
 procedure mensaje_datos_modificados;
+procedure mensaje_poliza_no_encontrada;
 Function Confirmar(var reg:t_reg_clientes):boolean;
 procedure Modificar_Reg(var reg:t_reg_clientes);
 procedure modificar_reg_Confirmacion (var Reg: t_reg_clientes; campo: string);
@@ -38,6 +39,16 @@ begin
   textbackground(green);
   gotoxy(35,16);
   write('DATOS MODIFICADOS CORRECTAMENTE. PULSE UNA TECLA PARA CONTINUAR');
+  readkey;
+  normvideo;
+  clrscr;
+end;
+procedure mensaje_poliza_no_encontrada;
+begin
+  clrscr;
+  textbackground(green);
+  gotoxy(35,16);
+  write('LA POLIZA INGRESADA NO SE ENCUENTRA EN EL SISTEMA');
   readkey;
   normvideo;
   clrscr;

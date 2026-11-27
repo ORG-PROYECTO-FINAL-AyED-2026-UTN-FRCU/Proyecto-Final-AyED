@@ -4,7 +4,7 @@ unit listados;
 
 interface
 uses
-  u_clientes,u_polizas,crt,ARCHIVO_POLIZAS,archivo_clientes,validaciones,unit_base_cola_dinamica,u_arbol;
+  u_clientes,u_polizas,crt,ARCHIVO_POLIZAS,archivo_clientes,validaciones,unit_base_cola_dinamica,u_arbol,SysUtils;
 procedure menu_listados(var a:t_archivo_clientes ; var ap:t_archivo_polizas;var arbol_clientes,arbol_polizas,arbol_polizas_patente:T_PUNT_ARBOL);
 Procedure mostrar_dato_listado_clientes(var A:t_archivo_clientes;var arbol:T_PUNT_ARBOL);
 procedure Listado_clientes(var a:t_archivo_clientes; var reg:t_reg_clientes;var auxy:integer;var arbol:T_PUNT_ARBOL);
@@ -182,6 +182,53 @@ begin
     end;
   readkey;
 end;
+procedure mostrar_registro_pol_apynom (r:t_reg_polizas;nombre,apellido:string);
+begin
+  with r do
+    begin
+      gotoxy(40,10);
+      writeln('Poliza: ', numero_poliza);
+      gotoxy(40,11);
+      writeln('DNI: ', dni);
+      gotoxy(40,12);
+      writeln('Nombre: ', Nombre);
+      gotoxy(40,13);
+      writeln('Apellido: ', apellido);
+      gotoxy(40,14);
+      writeln('Marca: ', marca);
+      gotoxy(40,15);
+      writeln('Modelo: ', modelo);
+      gotoxy(40,16);
+      writeln('Año del vehiculo: ', Ano_Vehiculo);
+      gotoxy(40,17);
+      writeln('Patente: ', patente);
+      gotoxy(40,18);
+      writeln('Suma asegurada: $', Suma_asegurada:0:2);
+      gotoxy(40,19);
+      writeln('Cobertura: ', cobertura);
+      gotoxy(40,20);
+      WriteLn('Vigencia desde: ', vigencia_desde.dia,'/',vigencia_desde.mes,'/',vigencia_desde.ano);
+      gotoxy(40,21);
+      WriteLn('Vigencia hasta: ', vigencia_hasta.dia,'/',vigencia_hasta.mes,'/',vigencia_hasta.ano);
+      gotoxy(40,22);
+      writeln('Valor de cuota: $', Valor_cuota:0:2);
+      gotoxy(40,23);
+      if estado = true then
+         begin
+              write('Estado: ');
+              textcolor(green);
+              writeln('ACTIVO');
+           textcolor(lightgray);
+         end
+      else
+          begin
+               write('Estado: ');
+               textcolor(red);
+               writeln('INACTIVO');
+               textcolor(lightgray);
+          end;
+    end;
+end;
 //Listado de Polizas de un contratante/cliente
 procedure Listado_de_Polizas_de_un_contratante(var a:t_archivo_clientes ; var ap:t_archivo_polizas);
 var
@@ -301,6 +348,40 @@ begin
       readkey;
     end;
 end;
+procedure consulta_poliza(var ap:t_archivo_polizas ;var a:t_archivo_clientes);
+          var
+            poliza:string;
+            pos,poliza_int:integer;
+            enc:boolean;
+            reg_poliza:t_reg_polizas;
+            reg_clientes:t_reg_clientes;
+            nombre,apellido:string;
+              begin
+                ingresar_validar_poliza(poliza);
+                poliza_int:=StrToInt(poliza);
+                if (poliza_int<=filesize(ap)+1) then
+                  begin
+                    busqueda_poliza(ap,poliza_int,pos,enc);
+                    if (enc) then
+                      begin
+                        leer_dato_pol(ap,pos,reg_poliza);
+                        busqueda_dni(a,reg_poliza.dni,pos);  //misma variable pos que la busqueda anterior, no se si esta bien, creo que si;
+                        leer_dato(a,pos,reg_clientes);
+                        nombre:=reg_clientes.nombres;
+                        apellido:=reg_clientes.apellido;
+                        clrscr;
+                        mostrar_registro_pol_apynom(reg_poliza,nombre,apellido);
+                        readkey
+                      end
+                    else
+                      begin
+                        mensaje_poliza_no_encontrada;
+                      end;
+                  end
+                else
+                mensaje_poliza_no_encontrada
+end;
+
 procedure menu_listados(var a:t_archivo_clientes ; var ap:t_archivo_polizas;var arbol_clientes,arbol_polizas,arbol_polizas_patente:T_PUNT_ARBOL);
 var res:string;
   vc:boolean;
@@ -318,6 +399,8 @@ begin
      writeln('3: LISTADO DE POLIZAS VIGENTES');
      gotoxy(35,18);
      writeln('4: CONSULTA POR PATENTE');
+     gotoxy(35,20);
+     writeln('5: CONSULTA POR POLIZA');
      res:=readkey;
      case res of
      '0':
@@ -341,6 +424,11 @@ begin
          begin
            consulta_patente(ap,arbol_polizas_patente);
            vc:=True;
+         end;
+     '5':
+         begin
+          consulta_poliza(ap,a);
+          vc:=true;
          end
      else
        mensaje_opcion_invalida;

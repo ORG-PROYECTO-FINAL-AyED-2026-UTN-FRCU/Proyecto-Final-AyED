@@ -21,6 +21,7 @@ procedure ingresar_ano (var ano:cardinal );
 procedure ingreso_automatico_vig_hasta(var fecha_hasta,fecha_desde:reg_fecha1);
 procedure ingresar_validar_fecha_completo_pol(var reg: reg_fecha1; opc: BYTE; opc_mostrar:byte);
 procedure ingresar_validar_patente(var patente:string);
+procedure ingresar_validar_poliza(var poliza:string);
 procedure ingresar_cobertura (var COBERTURA:shortstring);
 //procedure ingresar_poliza (var poliza:shortstring);
 //fin ingresar validar
@@ -28,6 +29,7 @@ procedure modificar_registro_pol (var registro:t_reg_polizas; campo:string; dato
 procedure modificar_datos_pol(var arch_polizas:t_archivo_polizas ; campo:string ; var pos:longint);
 procedure carga_registro_pol (var r:t_reg_polizas ; dni_1:string;Patente_1:string;pos:integer);
 procedure busqueda_patente (var a: t_archivo_polizas; patente_buscada:string; var pos: longint);
+procedure busqueda_poliza (var a: t_archivo_polizas; poliza:integer; var pos: longint;var enc:boolean);
 procedure calcular_valores_pol (var r:t_reg_polizas);
 implementation
 Procedure abrir_crear_pol(var a:t_archivo_polizas);
@@ -63,6 +65,27 @@ begin
   begin
     leer_dato_pol(a, i, leido);
     if leido.patente = patente_buscada then
+    begin
+      encontrado := true;
+      pos := i;
+    end
+    else
+      i := i + 1;
+  end;
+end;
+procedure busqueda_poliza (var a: t_archivo_polizas; poliza:integer; var pos: longint;var enc:boolean);
+var
+  i: cardinal;
+  encontrado: boolean;
+  leido: t_reg_polizas;
+begin
+  encontrado := false;
+  i := 0;
+  pos := -1;
+  while (i < filesize(a)) and not encontrado do
+  begin
+    leer_dato_pol(a, i, leido);
+    if leido.numero_poliza = poliza then
     begin
       encontrado := true;
       pos := i;
@@ -328,7 +351,34 @@ begin
       end;
   until Validar_formato_patente(patente) or Validar_formato_patente_vieja(patente);
 end;
-
+procedure ingresar_validar_poliza(var poliza:string);
+var
+  control:boolean;
+  i:integer;
+begin
+  repeat
+    control:=true;
+    clrscr;
+    gotoxy(35,10);
+    write('Ingrese un numero de poliza: ');
+    readln(poliza);
+    for i := 1 to length(poliza) do
+        begin
+         if not (poliza[i] in ['1'..'9']) then
+           begin
+            control := false;
+           end;
+         end;
+         if not(control) then
+           begin
+              TextBackground(red);
+              gotoxy(35,12);
+              writeln('PATENTE INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+              readkey();
+              NormVideo;
+           end;
+  until control=true;
+end;
 //fecha ingresar validar
 procedure ingresar_validar_fecha_completo_pol(var reg: reg_fecha1; opc: BYTE; opc_mostrar:byte);
 var
