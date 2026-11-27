@@ -343,15 +343,7 @@ begin
            vc:=True;
          end
      else
-         begin
-           clrscr;
-           gotoxy(35,10);
-           TextBackground(red);
-           writeln('OPCION INVALIDA. PRESIONE UNA TECLA PARA VOLVER A INGRESAR');
-           readkey();
-           NormVideo;
-           clrscr;
-         end;
+       mensaje_opcion_invalida;
      end;
    until vc=true;
 end;

@@ -25,11 +25,42 @@ procedure carga_registro (var r:t_reg_clientes ; dni_1:string);
 procedure busqueda_dni (var a:t_archivo_clientes ; buscado : string; var pos:longint);
 procedure modificar_datos (var arch_clientes:t_archivo_clientes ; campo:string ; var pos:word);
 //otros
+procedure mensaje_continuar_menu;
+procedure mensaje_opcion_invalida;
+procedure mensaje_datos_modificados;
 Function Confirmar(var reg:t_reg_clientes):boolean;
 procedure Modificar_Reg(var reg:t_reg_clientes);
 procedure modificar_reg_Confirmacion (var Reg: t_reg_clientes; campo: string);
 implementation
-
+procedure mensaje_datos_modificados;
+begin
+  clrscr;
+  textbackground(green);
+  gotoxy(35,16);
+  write('DATOS MODIFICADOS CORRECTAMENTE. PULSE UNA TECLA PARA CONTINUAR');
+  readkey;
+  normvideo;
+  clrscr;
+end;
+procedure mensaje_opcion_invalida;
+begin
+  clrscr;
+  gotoxy(35,10);
+  textbackground(red);
+  writeln('OPCION SELECCIONADA INVALIDA. PULSE UNA TECLA PARA VOLVER.');
+  readkey();
+  normVideo;
+  CLRSCR;
+end;
+procedure mensaje_continuar_menu;
+  begin
+    clrscr;
+    textbackground(Blue);
+    gotoxy(35,10);
+    writeln('PRESIONE UNA TECLA PARA MOSTRAR NUEVAMENTE EL MENU');
+    readkey;
+    normvideo;
+  end;
 //AQUI SE ENCUENTRAN LOS PROCEDIMIENTOS Y FUNCIONES QUE USAN VALIDACIONES PARA EL INGRESO DE DATOS. (1).
 procedure ingresar_dni_opciones (var dni:string; var es_valido : boolean;var res:char);
 begin
@@ -41,7 +72,9 @@ begin
     writeln('1: DNI');
     res:=readkey;
     if res = '1' then
-      ingresar_dni(dni,es_valido)
+     repeat
+        ingresar_dni(dni,es_valido);
+     until es_valido = True
     else
       if res <> '0' then
         begin
@@ -393,6 +426,7 @@ begin
       modificar_registro(registro_clientes,campo,dato_modificado,fecha_modificada,dir_modificada);
       guardar_registro(arch_clientes,pos,registro_clientes);
     end;
+  mensaje_datos_modificados;
 
 end;
 //---------------- HASTA ACA LAS FUNCIONES DED INGRESO DE DATOS SEGUROS ------------------------
@@ -435,21 +469,21 @@ procedure mostrar_registro (r:t_reg_clientes); //llama primero el leer_dato y ds
 begin
   with r do
     begin
-      gotoxy(35,10);
+      gotoxy(35,8);
       writeln('DNI: ', dni);
-      gotoxy(35,11);
+      gotoxy(35,9);
       writeln('Apellido: ',apellido);
-      gotoxy(35,12);
+      gotoxy(35,10);
       writeln('Nombres: ', nombres);
-      gotoxy(35,13);
+      gotoxy(35,11);
       writeln('Direccion: ', direccion.calle, ' ', direccion.nro);
-      gotoxy(35,14);
+      gotoxy(35,12);
       writeln('Fecha nacimiento: ',fecha_nacimiento.dia, '/',fecha_nacimiento.mes, '/', fecha_nacimiento.ano);
-      gotoxy(35,15);
+      gotoxy(35,13);
       writeln('Celular: ', celular);
-      gotoxy(35,16);
+      gotoxy(35,14);
       writeln('Direccion e-mail: ', email);
-      gotoxy(35,17);
+      gotoxy(35,15);
       if estado = true then
         writeln('Estado: ACTIVO')
       else
@@ -558,11 +592,11 @@ repeat
   gotoxy(50,23);
   write('                                   ');
   gotoxy(50,23);
-  Writeln('1: Modificar');
+  Writeln('0: Salir');
   gotoxy(50,24);
   write('                                   ');
   gotoxy(50,24);
-  Write('0: Salir');
+  Write('1: Modificar');
   Resp:=readkey;
   Case Resp of
   '1':begin
@@ -600,6 +634,11 @@ repeat
     '1':begin
           vc:=true;
           Confirmar:=true;
+          textbackground(green);
+          gotoxy(36,26);
+          write('DATOS CARGADOS CORRECTAMENTE. PULSE UNA TECLA PARA CONTINUAR') ;
+          readkey;
+          normvideo;
         end;
     '0':Begin
           no_confirmar(reg,confirmar);

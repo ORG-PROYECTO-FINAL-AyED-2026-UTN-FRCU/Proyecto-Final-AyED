@@ -8,7 +8,6 @@ procedure menu_poliza (var arch_polizas:t_archivo_polizas;var arch_clientes:t_ar
 procedure menu_poliza_encontrado (var arch_polizas:t_archivo_polizas ; var pos:longint;var arbol_polizas_activas:T_PUNT_ARBOL);
 procedure menu_poliza_no_encontrado(var arch_polizas:t_archivo_polizas;dni1:string;patente_1:string;var arbol_poliza,arbol_poliza_patente:T_PUNT_ARBOL);
 implementation
-
 procedure menu_poliza_encontrado (var arch_polizas:t_archivo_polizas ; var pos:longint;var arbol_polizas_activas:T_PUNT_ARBOL);
 var
   registro_polizas : t_reg_polizas;
@@ -21,15 +20,15 @@ begin
   clrscr;
   leer_dato_pol(arch_polizas,pos,registro_polizas);
   mostrar_registro_pol(registro_polizas);
+  textbackground(Blue);
+  gotoxy(35,23);
+  write('PULSE UNA TECLA PARA CONTINUAR');
+  readkey();
+  normVideo;
+  clrscr;
   vc:=false;
   while vc=false do
     begin
-      textbackground(Blue);
-      gotoxy(35,23);
-      write('PULSE UNA TECLA PARA CONTINUAR');
-      readkey();
-      normVideo;
-      clrscr;
       gotoxy(35,10);
       writeln('0: VOLVER');
       gotoxy(35,11);
@@ -63,18 +62,10 @@ begin
              vc:=true;
              clrscr;
              modificar_datos_pol(arch_polizas,campo,pos);
-             clrscr;
+             mensaje_datos_modificados
            end;
       else
-        begin
-           clrscr;
-           gotoxy(40,10);
-           textbackground(red);
-          writeln('OPCION SELECCIONADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR.');
-          readkey();
-          normVideo;
-          CLRSCR;
-        end;
+        mensaje_opcion_invalida;
       end;
     end;
 end;
@@ -115,14 +106,7 @@ begin
             guardar_registro_pol(arch_polizas,pos,registro_polizas);
           end
         else
-          begin
-            clrscr;
-            TextBackground(red);
-            gotoxy(34,10);
-            writeln('OPCION SELECCIONADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
-            readkey();
-            NormVideo;
-          end;
+          mensaje_opcion_invalida;
   end;
 end;
 
@@ -130,11 +114,25 @@ procedure menu_patente(var arch_polizas:t_archivo_polizas; dni:string; pos:longi
 var
   patente:string;
   es_valido:boolean;
+  aux:t_reg_polizas;
 begin
   ingresar_validar_patente(patente);
   busqueda_patente(arch_polizas,patente,pos);
-  if pos <> -1 then                                           {SEGUIR ACA}
-    menu_poliza_encontrado(arch_polizas,pos,arbol_poliza)
+  if pos <> -1 then
+    begin
+      leer_dato_pol(arch_polizas,pos,aux);
+      if aux.dni = dni then
+        menu_poliza_encontrado(arch_polizas,pos,arbol_poliza)
+      else
+        begin
+          textbackground(red);
+          gotoxy(34,16);
+          write('La patente ingresada anteriormente ya se encuentra registrada con otro DNI');
+          readkey;
+          normvideo;
+          clrscr;
+        end;
+    end
   else
     menu_poliza_no_encontrado(arch_polizas,dni,patente,arbol_poliza,arbol_poliza_patente);
 end;
@@ -148,27 +146,7 @@ var
   pos:longint;
   aux:t_reg_clientes;
 begin
-  repeat
-    clrscr;
-    gotoxy(35,10);
-    writeln('0: VOLVER');
-    gotoxy(35,11);
-    writeln('1: DNI');
-    res:=readkey;
-    if res = '1' then
-      ingresar_dni(dni,es_valido_dni)
-    else
-      if res <> '0' then
-        begin
-          clrscr;
-          gotoxy(35,10);
-          TextBackground(red);
-          writeln('OPCION INVALIDA. PRESIONE UNA TECLA PARA VOLVER A INGRESAR');
-          readkey();
-          NormVideo;
-          clrscr;
-        end;
-  until (es_valido_dni = true) or (res = '0');
+ingresar_dni_opciones(dni,es_valido_dni,res);
 if es_valido_dni = True then
   begin
     busqueda_dni(arch_clientes,dni,pos);

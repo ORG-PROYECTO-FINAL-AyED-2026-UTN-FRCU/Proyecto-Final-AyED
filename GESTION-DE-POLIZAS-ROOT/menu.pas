@@ -45,14 +45,7 @@ begin
               end;
           end
         else
-          begin
-            clrscr;
-            TextBackground(red);
-            gotoxy(35,10);
-            writeln('OPCION SELECCIONADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
-            readkey();
-            NormVideo;
-          end;
+          mensaje_opcion_invalida;
   end;
 end;
 procedure menu_cliente_encontrado (var arch_clientes:t_archivo_clientes ; dni1:string; var pos:word);
@@ -79,11 +72,13 @@ begin
       writeln('0: VOLVER');
       gotoxy(35,9);
       if registro_clientes.estado = true then
-        writeln('1: DAR DE BAJA')
+        begin
+          writeln('1: DAR DE BAJA');
+          gotoxy(35,10);
+          writeln('2: MODIFICAR');
+        end
       else
         writeln('1: DAR DE ALTA');
-      gotoxy(35,10);
-      writeln('2: MODIFICAR');
       respuesta:=readkey;
       case respuesta of
       '0': begin
@@ -93,18 +88,18 @@ begin
       '1': begin
             vc:=True;
             clrscr;
-            textcolor(green);
-            gotoxy(36,14);
+            textbackground(green);
+            gotoxy(30,14);
             if registro_clientes.estado = true then
               begin
               registro_clientes.estado:=False;
-              writeln('CLIENTE DADO DE BAJA CORRECTAMENTE');
+              writeln('CLIENTE DADO DE BAJA CORRECTAMENTE. PULSE UNA TECLA PARA CONTINUAR');
               readkey;
               end
             else
               begin
                 registro_clientes.estado:=True;
-                writeln('CLIENTE DADO DE ALTA CORRECTAMENTE');
+                writeln('CLIENTE DADO DE ALTA CORRECTAMENTE. PULSE UNA TECLA PARA CONTINUAR');
                 readkey;
               end;
             normvideo;
@@ -114,18 +109,9 @@ begin
              vc:=true;
              clrscr;
              modificar_datos(arch_clientes,campo,pos);
-             clrscr;
            end;
       else
-        begin
-           clrscr;
-           gotoxy(35,10);
-           textbackground(red);
-          writeln('OPCION SELECCIONADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR.');
-          readkey();
-          normVideo;
-          CLRSCR;
-        end;
+        mensaje_opcion_invalida;
       end;
     end;
 end;
@@ -136,11 +122,11 @@ var
   es_valido,enc : boolean;
   pos:T_DATO_ARBOL;
 begin
-  ingresar_dni_opciones(dni,es_valido,res);
+    ingresar_dni_opciones(dni,es_valido,res);
   if (es_valido = True) and (res <> '0') then
     begin
       PREORDEN(arbol_clientes_dni,dni,enc,pos);
-      //busqueda_dni(arch_clientes,dni,pos);
+      //busqueda_dni(arch_clientes,dni,pos);    //abria q borrar el procedimiento
       if not(enc) then
         menu_Cliente_no_encontrado(arch_clientes,dni,arbol,arbol_clientes_dni)
       else
@@ -186,22 +172,14 @@ repeat
   opcion:=readkey;
 
     case opcion of
+    '0': ;
     '1': menu_clientes(arch_clientes,arbol_clientes,arbol_clientes_dni);
     '2': menu_poliza(arch_polizas,arch_clientes,arbol_polizas_activas,arbol_polizas_patente);
     '3': menu_listados(arch_clientes , arch_polizas,arbol_clientes_dni,arbol_polizas_activas,arbol_polizas_patente);
     //'4': ESTADÍSTICAS (ARCH_CLIENTES,ARCH_POLIZAS);}
     else
-      writeln('ERROR, OPCION INVALIDA');
+      mensaje_opcion_invalida;
     end;
-     if opcion<>'0' then
-      begin
-        clrscr;
-        textbackground(Blue);
-        gotoxy(35,10);
-        writeln('PRESIONE UNA TECLA PARA MOSTRAR NUEVAMENTE EL MENU');
-        readkey;
-        normvideo;
-      end;
 until opcion = '0';
 end;
 end.

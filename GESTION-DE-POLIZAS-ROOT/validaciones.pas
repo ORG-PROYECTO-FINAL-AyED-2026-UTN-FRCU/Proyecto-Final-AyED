@@ -1,6 +1,5 @@
 unit validaciones;
 {$mode ObjFPC}{$H+} {$codepage UTF8}
-
 interface
   uses crt,sysutils,archivo_clientes, archivo_polizas;
   function validar_formato_cardinal(s: string; var num: cardinal): boolean;
@@ -16,10 +15,6 @@ interface
   function Validar_formato_patente_vieja (patente:String):boolean;
 
 implementation
-
-
-
-
 //VALIDACIONES  DE RANGO DE FECHA, DIA Y MES, QUE CUMPLAN RANGOS ESTIPULADOS
 //ESTAS VALIDACIONES NO INVOLUCRAN ANTI-CRASH POR DATO INGRESADO DE TIPO INVALIDO, EJEMPLO SI SE INGRESA UN STRING.
 function validar_rango_fecha(var dato: word; min, max: word): boolean;
