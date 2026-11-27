@@ -346,7 +346,9 @@ begin
       leer_dato_pol(a,dato_arbol.pos_arch,r);
       mostrar_registro_pol(r);
       readkey;
-    end;
+    end
+  else
+  mensaje_patente_no_encontrada;
 end;
 procedure consulta_poliza(var ap:t_archivo_polizas ;var a:t_archivo_clientes);
           var
@@ -359,7 +361,7 @@ procedure consulta_poliza(var ap:t_archivo_polizas ;var a:t_archivo_clientes);
               begin
                 ingresar_validar_poliza(poliza);
                 poliza_int:=StrToInt(poliza);
-                if (poliza_int<=filesize(ap)+1) then
+                if (poliza_int<=filesize(ap)) then
                   begin
                     busqueda_poliza(ap,poliza_int,pos,enc);
                     if (enc) then

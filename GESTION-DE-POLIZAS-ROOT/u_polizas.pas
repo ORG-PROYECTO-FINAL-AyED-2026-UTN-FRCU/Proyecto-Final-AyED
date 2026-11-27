@@ -31,6 +31,8 @@ procedure carga_registro_pol (var r:t_reg_polizas ; dni_1:string;Patente_1:strin
 procedure busqueda_patente (var a: t_archivo_polizas; patente_buscada:string; var pos: longint);
 procedure busqueda_poliza (var a: t_archivo_polizas; poliza:integer; var pos: longint;var enc:boolean);
 procedure calcular_valores_pol (var r:t_reg_polizas);
+procedure mensaje_poliza_no_encontrada;
+procedure mensaje_patente_no_encontrada;
 implementation
 Procedure abrir_crear_pol(var a:t_archivo_polizas);
 begin
@@ -93,6 +95,26 @@ begin
     else
       i := i + 1;
   end;
+end;
+procedure mensaje_poliza_no_encontrada;
+begin
+  clrscr;
+  textbackground(green);
+  gotoxy(35,16);
+  write('LA POLIZA INGRESADA NO SE ENCUENTRA EN EL SISTEMA');
+  readkey;
+  normvideo;
+  clrscr;
+end;
+procedure mensaje_patente_no_encontrada;
+begin
+  clrscr;
+  textbackground(green);
+  gotoxy(35,16);
+  write('LA PATENTE INGRESADA NO SE ENCUENTRA EN EL SISTEMA');
+  readkey;
+  normvideo;
+  clrscr;
 end;
 // TRADUCE MARCA, MODELO Y COBERTURA A LOS TIPOS DE LA TABLA Y CALCULA SUMA ASEGURADA Y CUOTA
 procedure calcular_valores_pol (var r:t_reg_polizas);
