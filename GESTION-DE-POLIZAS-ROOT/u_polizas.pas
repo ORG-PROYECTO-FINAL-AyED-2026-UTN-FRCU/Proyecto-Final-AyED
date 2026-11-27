@@ -395,7 +395,7 @@ begin
            begin
               TextBackground(red);
               gotoxy(35,12);
-              writeln('PATENTE INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
+              writeln('POLIZA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR');
               readkey();
               NormVideo;
            end;
