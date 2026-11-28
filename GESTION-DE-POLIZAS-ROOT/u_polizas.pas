@@ -271,8 +271,8 @@ begin
     begin
       case campo of
       '1':begin
-               marca:=dato_modificado;
-               modelo:=dato_modificado2;
+            marca:=dato_modificado;
+            modelo:=dato_modificado2;
            end;
       '2': ano_vehiculo:=dato_modificado_cardinal;
       '3': cobertura:=dato_modificado;
@@ -721,7 +721,6 @@ begin
   until es_valido;
 end;
 
-
 procedure ingresar_cobertura (var cobertura:shortstring);
 var
   es_valido:boolean;
@@ -780,5 +779,92 @@ begin
     end;
   until es_valido;
 end;
+
+
+
+
+     //esto me falta seguir e implementar. Fede
+
+
+{procedure no_confirmar_pol (var a:t_archivo_polizas;var vc:boolean; pos:integer);
+var
+  resp:char;
+  campo:string;
+  vc_aux:Boolean;
+begin
+ vc_aux:=false;
+repeat
+  gotoxy(50,22);
+  write('                                   ');
+  gotoxy(50,22);
+  Writeln('¿Desea Modificar datos?');
+  gotoxy(50,23);
+  write('                                   ');
+  gotoxy(50,23);
+  Writeln('0: Salir');
+  gotoxy(50,24);
+  write('                                   ');
+  gotoxy(50,24);
+  Write('1: Modificar');
+  Resp:=readkey;
+  Case Resp of
+  '0': begin
+         vc_aux:=true;
+         vc:=true;
+       end;
+  '1':begin
+        campo_valido_pol(campo);
+        modificar_datos_pol(a,campo,pos);
+        vc_aux:=True;
+      end;
+  else
+    begin
+      gotoxy(36,26);
+      writeln('OPCION SELECCIONADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR.');
+      readkey();
+      gotoxy(36,26);
+      write('                                                                             ');
+    end;
+  end;
+until vc_aux =true;
+end;
+Function Confirmar_pol(var a:t_archivo_polizas; pos:integer):boolean;
+Var resp:char;
+    vc:boolean;
+begin
+   confirmar_pol:=false;
+   vc:=false;
+repeat
+  gotoxy(50,22);
+  writeln('¿Desea confirmar datos?');
+  gotoxy(50,23);
+  writeln('0: no confirmar');
+  gotoxy(50,24);
+  write('1: confirmar') ;
+  resp:=readkey;
+  case resp of
+    '0':Begin
+          no_confirmar_pol(a,vc,pos);
+        end;
+    '1':begin
+          vc:=true;
+          Confirmar_pol:=true;
+          textbackground(green);
+          gotoxy(36,26);
+          write('DATOS CARGADOS CORRECTAMENTE. PULSE UNA TECLA PARA CONTINUAR') ;
+          readkey;
+          normvideo;
+        end;
+    else
+        begin
+          gotoxy(36,26);
+          writeln('OPCION SELECCIONADA INVALIDA. PULSE UNA TECLA PARA VOLVER A INGRESAR.');
+          readkey();
+          gotoxy(36,26);
+          writeln('                                                                        ');
+        end;
+  end;
+until vc;
+end;     }
 end.
 

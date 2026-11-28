@@ -29,7 +29,6 @@ procedure mensaje_continuar_menu;
 procedure mensaje_opcion_invalida;
 procedure mensaje_datos_modificados;
 Function Confirmar(var reg:t_reg_clientes):boolean;
-procedure Modificar_Reg(var reg:t_reg_clientes);
 procedure modificar_reg_Confirmacion (var Reg: t_reg_clientes; campo: string);
 implementation
 procedure mensaje_datos_modificados;
@@ -430,11 +429,11 @@ begin
     end;
   mensaje_datos_modificados;
   mostrar_registro(registro_clientes);
-   gotoxy(42,25);
+   gotoxy(42,20);
   writeln('Desea moficiar mas datos');
-  gotoxy(44,26);
+  gotoxy(44,21);
   writeln('1:MODIFICAR');
-  gotoxy(44,27);
+  gotoxy(44,22);
   writeln('0: Salir');
   vc2:=readkey;
   clrscr;
@@ -520,7 +519,7 @@ begin
       Ingresar_mail(email,1);
       estado:=True;
      end;
-    end;
+  end;
 procedure busqueda_dni (var a:t_archivo_clientes ; buscado : string; var pos:longint);
 var
   i: cardinal;
@@ -542,8 +541,6 @@ begin
   else
     pos:=-1;
 end;
-
-
 procedure modificar_reg_Confirmacion (var Reg: t_reg_clientes; campo: string);
 var dato_modificado:shortstring;
   dir_modificada:reg_direccion ;
@@ -580,22 +577,13 @@ begin
   mostrar_registro(reg);
 
 end;
-
-
-procedure Modificar_Reg(var reg:t_reg_clientes);
-          var
-            pos:string;
-            campo:string;
-          begin
-            modificar_reg_Confirmacion(reg,pos);
-          end;
-procedure no_confirmar (var reg:t_reg_clientes ; var confirmar:boolean);
+procedure no_confirmar (var reg:t_reg_clientes;var vc:boolean);
 var
   resp:char;
-  vc:boolean;
   campo:string;
+  vc_aux:Boolean;
 begin
- vc:=false;
+ vc_aux:=false;
 repeat
   gotoxy(50,22);
   write('                                   ');
@@ -611,12 +599,14 @@ repeat
   Write('1: Modificar');
   Resp:=readkey;
   Case Resp of
+  '0': begin
+         vc_aux:=true;
+         vc:=true;
+       end;
   '1':begin
         Modificar_Reg_confirmacion(Reg,campo);
-        vc:=true;
-        confirmar:=true;
+        vc_aux:=True;
       end;
-  '0': vc:=true;
   else
     begin
       gotoxy(36,26);
@@ -626,23 +616,26 @@ repeat
       write('                                                                             ');
     end;
   end;
-until vc=true;
+until vc_aux =true;
 end;
 Function Confirmar(var reg:t_reg_clientes):boolean;
 Var resp:char;
     vc:boolean;
 begin
    confirmar:=false;
-
+   vc:=false;
 repeat
   gotoxy(50,22);
   writeln('¿Desea confirmar datos?');
   gotoxy(50,23);
-  writeln('1: confirmar');
+  writeln('0: no confirmar');
   gotoxy(50,24);
-  write('0: no confirmar') ;
+  write('1: confirmar') ;
   resp:=readkey;
   case resp of
+    '0':Begin
+          no_confirmar(reg,vc);
+        end;
     '1':begin
           vc:=true;
           Confirmar:=true;
@@ -652,10 +645,6 @@ repeat
           readkey;
           normvideo;
         end;
-    '0':Begin
-          no_confirmar(reg,confirmar);
-          vc:=true;
-        end;
     else
         begin
           gotoxy(36,26);
@@ -664,8 +653,8 @@ repeat
           gotoxy(36,26);
           writeln('                                                                        ');
         end;
-        end;
- until vc;
+  end;
+until vc;
 end;
 
 
